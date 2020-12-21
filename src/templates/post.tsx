@@ -1,107 +1,26 @@
 import { format } from 'date-fns';
-import { graphql, Link } from 'gatsby';
-import Img, { FluidObject } from 'gatsby-image';
+import { Link, graphql } from 'gatsby';
+import Img from 'gatsby-image';
 import * as _ from 'lodash';
 import { lighten, setLightness } from 'polished';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Footer } from '../components/Footer';
+import { AuthorList } from '../components/author/AuthorList';
+import { Footer } from '../components/footer/Footer';
 import SiteNav, { SiteNavMain } from '../components/header/SiteNav';
-import PostContent from '../components/PostContent';
-import { ReadNext } from '../components/ReadNext';
+import { Wrapper } from '../components/layout/Wrapper';
+import PostContent from '../components/post/PostContent';
+import { ReadNext } from '../components/post/ReadNext';
 import { Subscribe } from '../components/subscribe/Subscribe';
-import { Wrapper } from '../components/Wrapper';
 import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
-import { inner, outer, SiteMain } from '../styles/shared';
-import config from '../website-config';
-import { AuthorList } from '../components/AuthorList';
-
-export interface Author {
-  id: string;
-  bio: string;
-  avatar: {
-    children: Array<{
-      fluid: FluidObject;
-    }>;
-  };
-}
-
-interface PageTemplateProps {
-  location: Location;
-  data: {
-    logo: {
-      childImageSharp: {
-        fixed: any;
-      };
-    };
-    markdownRemark: {
-      html: string;
-      htmlAst: any;
-      excerpt: string;
-      timeToRead: string;
-      frontmatter: {
-        title: string;
-        date: string;
-        userDate: string;
-        image: {
-          childImageSharp: {
-            fluid: any;
-          };
-        };
-        excerpt: string;
-        tags: string[];
-        author: Author[];
-      };
-    };
-    relatedPosts: {
-      totalCount: number;
-      edges: Array<{
-        node: {
-          timeToRead: number;
-          frontmatter: {
-            title: string;
-            date: string;
-          };
-          fields: {
-            slug: string;
-          };
-        };
-      }>;
-    };
-  };
-  pageContext: {
-    prev: PageContext;
-    next: PageContext;
-  };
-}
-
-export interface PageContext {
-  excerpt: string;
-  timeToRead: number;
-  fields: {
-    slug: string;
-  };
-  frontmatter: {
-    image: {
-      childImageSharp: {
-        fluid: FluidObject;
-      };
-    };
-    excerpt: string;
-    title: string;
-    date: string;
-    draft?: boolean;
-    tags: string[];
-    author: Author[];
-  };
-}
-
-const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
+import { SiteMain, inner, outer } from '../styles/shared';
+import { Seo } from '../components/layout/Seo';
+cd
+const PageTemplate = ({ data, pageContext }) => {
   const post = data.markdownRemark;
   let width = '';
   let height = '';
@@ -118,60 +37,10 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
 
   return (
     <IndexLayout className="post-template">
-      <Helmet>
-        <html lang={config.lang} />
-        <title>{post.frontmatter.title}</title>
-
-        <meta name="description" content={post.frontmatter.excerpt || post.excerpt} />
-        <meta property="og:site_name" content={config.title} />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.frontmatter.title} />
-        <meta property="og:description" content={post.frontmatter.excerpt || post.excerpt} />
-        <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {post.frontmatter.image?.childImageSharp && (
-          <meta
-            property="og:image"
-            content={`${config.siteUrl}${post.frontmatter.image.childImageSharp.fluid.src}`}
-          />
-        )}
-        <meta property="article:published_time" content={post.frontmatter.date} />
-        {/* not sure if modified time possible */}
-        {/* <meta property="article:modified_time" content="2018-08-20T15:12:00.000Z" /> */}
-        {post.frontmatter.tags && (
-          <meta property="article:tag" content={post.frontmatter.tags[0]} />
-        )}
-
-        {config.facebook && <meta property="article:publisher" content={config.facebook} />}
-        {config.facebook && <meta property="article:author" content={config.facebook} />}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.frontmatter.title} />
-        <meta name="twitter:description" content={post.frontmatter.excerpt || post.excerpt} />
-        <meta name="twitter:url" content={config.siteUrl + location.pathname} />
-        {post.frontmatter.image?.childImageSharp && (
-          <meta
-            name="twitter:image"
-            content={`${config.siteUrl}${post.frontmatter.image.childImageSharp.fluid.src}`}
-          />
-        )}
-        <meta name="twitter:label1" content="Written by" />
-        <meta name="twitter:data1" content={post.frontmatter.author[0].id} />
-        <meta name="twitter:label2" content="Filed under" />
-        {post.frontmatter.tags && <meta name="twitter:data2" content={post.frontmatter.tags[0]} />}
-        {config.twitter && (
-          <meta
-            name="twitter:site"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
-          />
-        )}
-        {config.twitter && (
-          <meta
-            name="twitter:creator"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
-          />
-        )}
-        {width && <meta property="og:image:width" content={width} />}
-        {height && <meta property="og:image:height" content={height} />}
-      </Helmet>
+      <Seo
+        seoTitle={}
+        seoDescription={}
+      />
       <Wrapper css={PostTemplate}>
         <header className="site-header">
           <div css={[outer, SiteNavMain]}>
@@ -250,6 +119,85 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
   );
 };
 
+// POST QUERY
+export const query = graphql`
+  query($slug: String, $primaryTag: String)
+  {
+    allContentfulPost(
+      filter: { slug: { eq: $slug } }
+    ) {
+      edges {
+        node {
+          slug
+          title
+          date(formatString: "MMM DD YYYY")
+          excerpt
+          tags {
+            ... on ContentfulTag {
+              tagName
+            }
+          }
+          body {
+            childMarkdownRemark {
+              html
+              timeToRead
+            }
+          }
+          author {
+            name
+            social
+            subtitle
+            personal_info {
+              childMarkdownRemark {
+                html
+              }
+            }
+            avatar {
+              fluid(maxWidth: 480) {
+                aspectRatio
+                base64
+                sizes
+                src
+                srcSet
+              }
+            }
+          }
+          hero {
+            fluid(maxWidth: 3720) {
+              aspectRatio
+              base64
+              sizes
+              src
+              srcSet
+            }
+          }
+        }
+      }
+    }
+    relatedPosts: allContentfulPost(
+      filter: { frontmatter: { tags: { in: [$primaryTag] }, draft: { ne: true } } }
+      limit: 5
+      sort: { fields: [frontmatter___date], order: DESC }
+    ) {
+      totalCount
+      edges {
+        node {
+          id
+          timeToRead
+          excerpt
+          frontmatter {
+            title
+            date
+          }
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+// styling goes here
 const PostTemplate = css`
   .site-main {
     margin-top: 64px;
@@ -433,72 +381,6 @@ const PostFullImage = styled.figure`
   @media (max-width: 500px) {
     margin-bottom: 4vw;
     height: 350px;
-  }
-`;
-
-export const query = graphql`
-  query($slug: String, $primaryTag: String) {
-    logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
-      childImageSharp {
-        fixed {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      html
-      htmlAst
-      excerpt
-      timeToRead
-      frontmatter {
-        title
-        userDate: date(formatString: "D MMMM YYYY")
-        date
-        tags
-        excerpt
-        image {
-          childImageSharp {
-            fluid(maxWidth: 3720) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
-        author {
-          id
-          bio
-          avatar {
-            children {
-              ... on ImageSharp {
-                fluid(quality: 100, srcSetBreakpoints: [40, 80, 120]) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    relatedPosts: allMarkdownRemark(
-      filter: { frontmatter: { tags: { in: [$primaryTag] }, draft: { ne: true } } }
-      limit: 5
-      sort: { fields: [frontmatter___date], order: DESC }
-    ) {
-      totalCount
-      edges {
-        node {
-          id
-          timeToRead
-          excerpt
-          frontmatter {
-            title
-            date
-          }
-          fields {
-            slug
-          }
-        }
-      }
-    }
   }
 `;
 

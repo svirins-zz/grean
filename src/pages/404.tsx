@@ -1,15 +1,15 @@
-import { graphql, Link } from 'gatsby';
+import { Link, graphql } from 'gatsby';
 import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import SiteNav from '../components/header/SiteNav';
-import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
+import { Wrapper } from '../components/layout/Wrapper';
+import { PostCard } from '../components/post/PostCard';
 import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
-import { inner, outer, PostFeed, SiteHeader, SiteNavMain } from '../styles/shared';
+import { PostFeed, SiteHeader, SiteNavMain, inner, outer } from '../styles/shared';
 import { PageContext } from '../templates/post';
 
 interface NotFoundTemplateProps {

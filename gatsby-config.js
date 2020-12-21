@@ -5,12 +5,18 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby IAM',
+    title: 'Gatsby Addict',
     description: 'Gatsby + TypeScript + Tailwind CSS + Emotion = IAM',
     author: 'dr. Grean',
     siteURL: 'https://addict.cf',
     lang: 'ru',
     keywords: ['Addiction', 'Therapy', 'Recovery', 'Blog'],
+    coverImage: 'src/assets/img/hero.jpg',
+    logo: 'src/assets/svg/eye.svg',
+    facebook: '',
+    twitter: '',
+    showSubscribe: true,
+    footer: 'is based on Gatsby Casper',
   },
   flags: {
     PRESERVE_WEBPACK_CACHE: true,
@@ -18,6 +24,13 @@ module.exports = {
   plugins: [
     'gatsby-plugin-netlify',
     'gatsby-plugin-sitemap',
+    'gatsby-plugin-resolve-src',
+    {
+      resolve: 'gatsby-plugin-typegen',
+      options: {
+        outputPath: 'src/@types/__generated__/gatsby-types.d.ts',
+      },
+    },
     {
       resolve: 'gatsby-plugin-webfonts',
       options: {

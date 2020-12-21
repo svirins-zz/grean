@@ -5,6 +5,9 @@
 # Build directory
 public/
 
+# old shit
+old/
+
 # Gatsby cache
 .cache/
 

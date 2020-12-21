@@ -1,94 +1,40 @@
 import { graphql } from 'gatsby';
 import { FixedObject } from 'gatsby-image';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 
 import { css } from '@emotion/react';
 
-import { Footer } from '../components/Footer';
+import { Footer } from '../components/footer/Footer';
+import Pagination from '../components/post/Pagination';
+import { PostCard } from '../components/post/PostCard';
 import SiteNav from '../components/header/SiteNav';
-import Pagination from '../components/Pagination';
-import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
+import { Wrapper } from '../components/layout/Wrapper';
 import IndexLayout from '../layouts';
 import {
-  inner,
-  outer,
   PostFeed,
   Posts,
   SiteDescription,
   SiteHeader,
   SiteHeaderContent,
+  SiteHeaderStyles,
   SiteMain,
   SiteTitle,
-  SiteHeaderStyles,
+  inner,
+  outer,
 } from '../styles/shared';
-import config from '../website-config';
-import { PageContext } from './post';
+import { Seo } from '../components/layout/Seo';
 
-export interface IndexProps {
-  pageContext: {
-    currentPage: number;
-    numPages: number;
-  };
-  data: {
-    logo: {
-      childImageSharp: {
-        fixed: FixedObject;
-      };
-    };
-    header: {
-      childImageSharp: {
-        fixed: FixedObject;
-      };
-    };
-    allMarkdownRemark: {
-      edges: Array<{
-        node: PageContext;
-      }>;
-    };
-  };
-}
 
-const IndexPage: React.FC<IndexProps> = props => {
+
+const IndexPage: React.FC = props => {
   const { width, height } = props.data.header.childImageSharp.fixed;
 
   return (
     <IndexLayout css={HomePosts}>
-      <Helmet>
-        <html lang={config.lang} />
-        <title>{config.title}</title>
-        <meta name="description" content={config.description} />
-        <meta property="og:site_name" content={config.title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={config.title} />
-        <meta property="og:description" content={config.description} />
-        <meta property="og:url" content={config.siteUrl} />
-        <meta
-          property="og:image"
-          content={`${config.siteUrl}${props.data.header.childImageSharp.fixed.src}`}
-        />
-        {config.facebook && <meta property="article:publisher" content={config.facebook} />}
-        {config.googleSiteVerification && (
-          <meta name="google-site-verification" content={config.googleSiteVerification} />
-        )}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={config.title} />
-        <meta name="twitter:description" content={config.description} />
-        <meta name="twitter:url" content={config.siteUrl} />
-        <meta
-          name="twitter:image"
-          content={`${config.siteUrl}${props.data.header.childImageSharp.fixed.src}`}
-        />
-        {config.twitter && (
-          <meta
-            name="twitter:site"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
-          />
-        )}
-        <meta property="og:image:width" content={width.toString()} />
-        <meta property="og:image:height" content={height.toString()} />
-      </Helmet>
+      <Seo
+        seoTitle={}
+        seoDescription={}
+      />
       <Wrapper>
         <div
           css={[outer, SiteHeader, SiteHeaderStyles]}
@@ -209,6 +155,59 @@ export const pageQuery = graphql`
     }
   }
 `;
+
+// ALLPOSTQUERY
+{
+  allContentfulPost(limit: 100, sort: {fields: date, order: ASC}) {
+    edges {
+      node {
+        slug
+        title
+        date(formatString: "MMM DD YYYY")
+        excerpt
+        tags {
+          ... on ContentfulTag {
+            tagName
+          }
+        }
+        body {
+          childMarkdownRemark {
+            html
+            timeToRead
+          }
+        }
+        author {
+          name
+          social
+          subtitle
+          personal_info {
+            childMarkdownRemark {
+              html
+            }
+          }
+          avatar {
+            fluid(maxWidth: 480) {
+              aspectRatio
+              base64
+              sizes
+              src
+              srcSet
+            }
+          }
+        }
+        hero {
+          fluid(maxWidth: 3720) {
+            aspectRatio
+            base64
+            sizes
+            src
+            srcSet
+          }
+        }
+      }
+    }
+  }
+}
 
 const HomePosts = css`
   @media (min-width: 795px) {

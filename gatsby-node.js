@@ -1,180 +1,99 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-var-requires */
 const path = require('path');
 const _ = require('lodash');
+const POSTS_PER_PAGE = 6;
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions;
-
-  // Sometimes, optional fields tend to get not picked up by the GraphQL
-  // interpreter if not a single content uses it. Therefore, we're putting them
-  // through `createNodeField` so that the fields still exist and GraphQL won't
-  // trip up. An empty string is still required in replacement to `null`.
-  // eslint-disable-next-line default-case
-  switch (node.internal.type) {
-    case 'MarkdownRemark': {
-      const { permalink, layout, primaryTag } = node.frontmatter;
-      const { relativePath } = getNode(node.parent);
-
-      let slug = permalink;
-
-      if (!slug) {
-        slug = `/${relativePath.replace('.md', '')}/`;
-      }
-
-      // Used to generate URL to view this content.
-      createNodeField({
-        node,
-        name: 'slug',
-        value: slug || '',
-      });
-
-      // Used to determine a page layout.
-      createNodeField({
-        node,
-        name: 'layout',
-        value: layout || '',
-      });
-
-      createNodeField({
-        node,
-        name: 'primaryTag',
-        value: primaryTag || '',
-      });
-    }
-  }
-};
-
-exports.createPages = async ({ graphql, actions }) => {
+exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
-
-  const result = await graphql(`
-    {
-      allMarkdownRemark(
-        limit: 2000
-        sort: { fields: [frontmatter___date], order: ASC }
-        filter: { frontmatter: { draft: { ne: true } } }
-      ) {
-        edges {
-          node {
-            excerpt
-            timeToRead
-            frontmatter {
-              title
-              tags
-              date
-              draft
-              excerpt
-              image {
-                childImageSharp {
-                  fluid(maxWidth: 3720) {
-                    aspectRatio
-                    base64
-                    sizes
-                    src
-                    srcSet
-                  }
-                }
-              }
-              author {
-                id
-                bio
-                avatar {
-                  children {
-                    ... on ImageSharp {
-                      fluid(quality: 100) {
-                        aspectRatio
-                        base64
-                        sizes
-                        src
-                        srcSet
-                      }
-                    }
-                  }
-                }
-              }
-            }
-            fields {
-              layout
-              slug
+  const postsResult = await graphql(`
+  {
+    allContentfulPost(limit: 100, sort: {fields: date, order: ASC}) {
+      edges {
+        node {
+          slug
+          tags {
+            ... on ContentfulTag {
+              tagName
             }
           }
-        }
-      }
-      allAuthorYaml {
-        edges {
-          node {
-            id
+          author {
+            slug
           }
         }
       }
     }
-  `);
-
-  if (result.errors) {
-    console.error(result.errors);
-    throw new Error(result.errors);
+  }
+`);
+  const authorsResult = await graphql(`
+  {
+    allContentfulAuthor {
+      edges {
+        node {        
+          slug
+        }
+      }
+    }
+  }  
+`);
+  const tagsResult = await graphql(`
+  {
+    allContentfulTag {
+      edges {
+        node {
+          slug
+        }
+      }
+    }
+  }
+`);
+  // Handle errors
+  if (postsResult.errors || authorsResult.errors || tagsResult.errors) {
+    reporter.panicOnBuild('Error while running GraphQL query.');
+    return;
   }
 
-  // Create post pages
-  const posts = result.data.allMarkdownRemark.edges;
-
+  const posts = postsResult.data.allContentfulPost.edges;
   // Create paginated index
-  // TODO: new pagination
-  const postsPerPage = 1000;
-  const numPages = Math.ceil(posts.length / postsPerPage);
+  const indexTemplate = path.resolve('./src/templates/index.tsx');
+  const numPages = Math.ceil(posts.length / POSTS_PER_PAGE);
 
   Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
       path: i === 0 ? '/' : `/${i + 1}`,
-      component: path.resolve('./src/templates/index.tsx'),
+      component: indexTemplate,
       context: {
-        limit: postsPerPage,
-        skip: i * postsPerPage,
+        limit: POSTS_PER_PAGE,
+        skip: i * POSTS_PER_PAGE,
         numPages,
         currentPage: i + 1,
       },
     });
   });
 
-  posts.forEach(({ node }, index) => {
-    const { slug, layout } = node.fields;
+  // post creatipon logic
+
+  const postTemplate = path.resolve('./src/templates/post.tsx');
+  posts.forEach(({ post }, index) => {
     const prev = index === 0 ? null : posts[index - 1].node;
     const next = index === posts.length - 1 ? null : posts[index + 1].node;
-
     createPage({
-      path: slug,
-      // This will automatically resolve the template to a corresponding
-      // `layout` frontmatter in the Markdown.
-      //
-      // Feel free to set any `layout` as you'd like in the frontmatter, as
-      // long as the corresponding template file exists in src/templates.
-      // If no template is set, it will fall back to the default `post`
-      // template.
-      //
-      // Note that the template has to exist first, or else the build will fail.
-      component: path.resolve(`./src/templates/${layout || 'post'}.tsx`),
+      path: `/${post.slug}/`,
+      component: postTemplate,
       context: {
-        // Data passed to context is available in page queries as GraphQL variables.
-        slug,
         prev,
         next,
-        primaryTag: node.frontmatter.tags ? node.frontmatter.tags[0] : '',
+        slug: post.slug,
+        primaryTag: post.tags ? post.tags[0].tagName : '',
       },
     });
   });
 
-  // Create tag pages
+  // tag creation logic
+  const tags = tagsResult.data.allContentfulTag.edges;
   const tagTemplate = path.resolve('./src/templates/tags.tsx');
-  const tags = _.uniq(
-    _.flatten(
-      result.data.allMarkdownRemark.edges.map(edge => {
-        return _.castArray(_.get(edge, 'node.frontmatter.tags', []));
-      }),
-    ),
-  );
-  tags.forEach(tag => {
+  tags.forEach(({ tag }) => {
     createPage({
-      path: `/tags/${_.kebabCase(tag)}/`,
+      path: `/tags/${tag.slug}/`,
       component: tagTemplate,
       context: {
         tag,
@@ -184,12 +103,13 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Create author pages
   const authorTemplate = path.resolve('./src/templates/author.tsx');
-  result.data.allAuthorYaml.edges.forEach(edge => {
+  const authors = authorsResult.data.allContentfulAuthor.edges;
+  authors.edges.forEach(({ author }) => {
     createPage({
-      path: `/author/${_.kebabCase(edge.node.id)}/`,
+      path: `/author/${author.slug}/`,
       component: authorTemplate,
       context: {
-        author: edge.node.id,
+        author: author.slug,
       },
     });
   });

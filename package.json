@@ -1,27 +1,26 @@
-
-  {
-    "name": "addict.cf",
-    "version": "0.2.0",
-    "description": "will be done later",
-    "keywords": [
-      "gatsby",
-      "blog",
-      "addiction"
-    ],
-    "author": {
-      "email": "svirins@gmail.com",
-      "name": "Dzmitry Sviryn",
-      "twitter": "@svirins"
-    },
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/svirins/addict"
-    },
-    "bugs": {
-      "url": "git+https://github.com/svirins/addict/issues"
-    },
-    "license": "MIT",
-    "private": false,
+{
+  "name": "addict.cf",
+  "version": "0.2.0",
+  "description": "will be done later",
+  "keywords": [
+    "gatsby",
+    "blog",
+    "addiction"
+  ],
+  "author": {
+    "email": "svirins@gmail.com",
+    "name": "Dzmitry Sviryn",
+    "twitter": "@svirins"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svirins/addict"
+  },
+  "bugs": {
+    "url": "git+https://github.com/svirins/addict/issues"
+  },
+  "license": "MIT",
+  "private": false,
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop --log-pages",
@@ -50,8 +49,10 @@
     "gatsby-plugin-netlify": "^2.8.0",
     "gatsby-plugin-postcss": "3.4.0",
     "gatsby-plugin-react-helmet": "3.7.0",
+    "gatsby-plugin-resolve-src": "^2.1.0",
     "gatsby-plugin-sharp": "2.11.1",
     "gatsby-plugin-sitemap": "2.9.0",
+    "gatsby-plugin-typegen": "^2.2.2",
     "gatsby-plugin-typescript": "2.9.0",
     "gatsby-plugin-webfonts": "^1.1.3",
     "gatsby-remark-abbr": "2.0.0",

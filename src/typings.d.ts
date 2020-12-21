@@ -23,3 +23,7 @@ declare module 'rehype-react' {
   }
   export default RehypeReact;
 }
+
+declare module '*.png';
+declare module '*.svg';
+declare module '*.jpg';

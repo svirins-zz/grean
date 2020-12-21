@@ -3,21 +3,21 @@ import { Helmet } from 'react-helmet';
 
 import { css } from '@emotion/react';
 
-import { Footer } from '../components/Footer';
+import { Footer } from '../components/footer/Footer';
 import SiteNav from '../components/header/SiteNav';
-import { PostFullContent } from '../components/PostContent';
-import { Wrapper } from '../components/Wrapper';
+import { Wrapper } from '../components/layout/Wrapper';
+import { PostFullContent } from '../components/post/PostContent';
 import IndexLayout from '../layouts';
+import { colors } from '../styles/colors';
 import {
-  inner,
-  outer,
   SiteArchiveHeader,
   SiteHeader,
   SiteMain,
   SiteNavMain,
+  inner,
+  outer,
 } from '../styles/shared';
 import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
-import { colors } from '../styles/colors';
 
 const PageTemplate = css`
   .site-main {

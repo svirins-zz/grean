@@ -1,59 +1,28 @@
 import { graphql } from 'gatsby';
 import React from 'react';
-import { FluidObject } from 'gatsby-image';
 
-import { Footer } from '../components/Footer';
+import { Footer } from '../components/footer/Footer';
 import SiteNav from '../components/header/SiteNav';
-import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
+import { Seo } from '../components/layout/Seo';
+import { Wrapper } from '../components/layout/Wrapper';
+import { PostCard } from '../components/post/PostCard';
 import IndexLayout from '../layouts';
 import {
-  inner,
-  outer,
   PostFeed,
+  ResponsiveHeaderBackground,
+  SiteArchiveHeader,
   SiteDescription,
   SiteHeader,
+  SiteHeaderBackground,
   SiteHeaderContent,
   SiteMain,
-  SiteTitle,
   SiteNavMain,
-  SiteArchiveHeader,
-  ResponsiveHeaderBackground,
-  SiteHeaderBackground,
+  SiteTitle,
+  inner,
+  outer,
 } from '../styles/shared';
-import { PageContext } from './post';
-import { Helmet } from 'react-helmet';
-import config from '../website-config';
 
-interface TagTemplateProps {
-  location: Location;
-  pageContext: {
-    tag: string;
-  };
-  data: {
-    allTagYaml: {
-      edges: Array<{
-        node: {
-          id: string;
-          description: string;
-          image?: {
-            childImageSharp: {
-              fluid: FluidObject;
-            };
-          };
-        };
-      }>;
-    };
-    allMarkdownRemark: {
-      totalCount: number;
-      edges: Array<{
-        node: PageContext;
-      }>;
-    };
-  };
-}
-
-const Tags = ({ pageContext, data, location }: TagTemplateProps) => {
+const Tags = ({ pageContext, data }) => {
   const tag = pageContext.tag ? pageContext.tag : '';
   const { edges, totalCount } = data.allMarkdownRemark;
   const tagData = data.allTagYaml.edges.find(
@@ -62,27 +31,10 @@ const Tags = ({ pageContext, data, location }: TagTemplateProps) => {
 
   return (
     <IndexLayout>
-      <Helmet>
-        <html lang={config.lang} />
-        <title>
-          {tag} - {config.title}
-        </title>
-        <meta name="description" content={tagData?.node ? tagData.node.description : ''} />
-        <meta property="og:site_name" content={config.title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${tag} - ${config.title}`} />
-        <meta property="og:url" content={config.siteUrl + location.pathname} />
-        {config.facebook && <meta property="article:publisher" content={config.facebook} />}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${tag} - ${config.title}`} />
-        <meta name="twitter:url" content={config.siteUrl + location.pathname} />
-        {config.twitter && (
-          <meta
-            name="twitter:site"
-            content={`@${config.twitter.split('https://twitter.com/')[1]}`}
-          />
-        )}
-      </Helmet>
+      <Seo
+        seoTitle={}
+        seoDescription={}
+      />
       <Wrapper>
         <header
           className="site-archive-header"
@@ -130,6 +82,33 @@ const Tags = ({ pageContext, data, location }: TagTemplateProps) => {
 };
 
 export default Tags;
+
+// TAGS QUERY
+const tagsResult = await graphql(`
+{
+  allContentfulTag {
+    edges {
+      node {
+        tagName
+        slug
+        description {
+          raw
+        }
+        image {
+          fluid(maxWidth: 720) {
+            aspectRatio
+            base64
+            sizes
+            src
+            srcSet
+          }
+        }
+      }
+    }
+  }
+}
+`);
+
 
 export const pageQuery = graphql`
   query($tag: String) {
