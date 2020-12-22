@@ -1,11 +1,9 @@
 import { lighten, saturate } from 'polished';
 import React from 'react';
-import styled from '@emotion/styled';
+import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
-
-import { colors } from '../../styles/colors';
-import config from '../../website-config';
+import styled from '@emotion/styled';
 
 export const SubscribeForm: React.FC = () => {
   return (

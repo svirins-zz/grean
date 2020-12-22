@@ -3,12 +3,12 @@ import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Footer } from 'components/footer';
+import { SiteNav } from 'components/header';
+import { Seo, Wrapper } from 'components/layout';
+import { PostCard } from 'components/post';
 
-import { Footer } from '../components/footer/Footer';
-import SiteNav from '../components/header/SiteNav';
-import { Wrapper } from '../components/layout/Wrapper';
-import { PostCard } from '../components/post/PostCard';
-import IndexLayout from '../layouts';
+import { IndexLayout } from 'layouts';
 import {
   AuthorProfileImage,
   PostFeed,
@@ -22,10 +22,10 @@ import {
   SiteTitle,
   inner,
   outer,
-} from '../styles/shared';
-import { Seo } from '../components/layout/Seo';
+} from 'styles/shared';
+import { AuthorTemplateProps } from '@types';
 
-const Author = ({ data }) => {
+const Author = ({ data }): AuthorTemplateProps => {
   const author = data.authorYaml;
 
   const edges = data.allMarkdownRemark.edges.filter(edge => {
@@ -49,6 +49,8 @@ const Author = ({ data }) => {
       <Seo
         seoTitle={}
         seoDescription={}
+        imageSrc={}
+
       />
       <Wrapper>
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>

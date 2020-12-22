@@ -1,37 +1,11 @@
+import { PostCard, ReadNextCard } from 'components/post';
 import { lighten } from 'polished';
 import React from 'react';
+import { colors } from 'styles/colors';
+import { inner, outer } from 'styles/shared';
 
 import styled from '@emotion/styled';
-
-import { colors } from '../../styles/colors';
-import { inner, outer } from '../../styles/shared';
-import { PageContext } from '../../templates/post';
-import { ReadNextCard } from '../ReadNextCard';
-import { PostCard } from './PostCard';
-
-interface ReadNextProps {
-  tags: string[];
-  currentPageSlug: string;
-  relatedPosts: {
-    totalCount: number;
-    edges: Array<{
-      node: {
-        timeToRead: number;
-        frontmatter: {
-          date: string;
-          title: string;
-        };
-        fields: {
-          slug: string;
-        };
-      };
-    }>;
-  };
-  pageContext: {
-    prev: PageContext;
-    next: PageContext;
-  };
-}
+import { ReadNextProps } from '@types';
 
 export const ReadNext = ({ relatedPosts, currentPageSlug, tags, pageContext }: ReadNextProps) => {
   const showRelatedPosts = relatedPosts.totalCount > 1;

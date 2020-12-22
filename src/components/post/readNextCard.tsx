@@ -1,31 +1,12 @@
-import { Link } from 'gatsby';
-import React from 'react';
-import { lighten } from 'polished';
-import styled from '@emotion/styled';
-import * as _ from 'lodash';
-
-import { colors } from '../styles/colors';
 import { format } from 'date-fns';
+import { Link } from 'gatsby';
+import * as _ from 'lodash';
+import { lighten } from 'polished';
+import React from 'react';
+import { colors } from 'styles/colors';
 
-export interface ReadNextProps {
-  tags: string[];
-  currentPageSlug: string;
-  relatedPosts: {
-    totalCount: number;
-    edges: Array<{
-      node: {
-        timeToRead: number;
-        frontmatter: {
-          title: string;
-          date: string;
-        };
-        fields: {
-          slug: string;
-        };
-      };
-    }>;
-  };
-}
+import styled from '@emotion/styled';
+import { ReadNextProps } from '@types';
 
 export const ReadNextCard: React.FC<ReadNextProps> = props => {
   // filter out current post and limit to 3 related posts

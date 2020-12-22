@@ -1,20 +1,14 @@
+import { AuthorProfileImage } from 'components/post';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 import * as _ from 'lodash';
 import { lighten } from 'polished';
 import React, { useState } from 'react';
+import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
-
-import { colors } from '../styles/colors';
-import { Author } from '../templates/post';
-import { AuthorProfileImage } from './PostCard';
 import styled from '@emotion/styled';
-
-interface AuthorListItemProps {
-  tooltip: 'small' | 'large';
-  author: Author;
-}
+import { AuthorListItemProps } from '@types';
 
 export const AuthorListItem: React.FC<AuthorListItemProps> = props => {
   const [hovered, setHover] = useState(false);

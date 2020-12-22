@@ -8,19 +8,18 @@ import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { AuthorList } from '../components/author/AuthorList';
-import { Footer } from '../components/footer/Footer';
-import SiteNav, { SiteNavMain } from '../components/header/SiteNav';
-import { Wrapper } from '../components/layout/Wrapper';
-import PostContent from '../components/post/PostContent';
-import { ReadNext } from '../components/post/ReadNext';
-import { Subscribe } from '../components/subscribe/Subscribe';
-import IndexLayout from '../layouts';
-import { colors } from '../styles/colors';
-import { SiteMain, inner, outer } from '../styles/shared';
-import { Seo } from '../components/layout/Seo';
-cd
-const PageTemplate = ({ data, pageContext }) => {
+import { AuthorList } from 'components/author';
+import { Footer } from 'components/footer';
+import { SiteNavMain, SiteNav } from 'components/header';
+import { Wrapper, Seo } from 'components/layout';
+import { ReadNext, PostContent } from 'components/post';
+import { Subscribe } from 'components/subscribe';
+import { IndexLayout } from 'layouts';
+import { colors } from 'styles/colors';
+import { SiteMain, inner, outer } from 'styles/shared';
+import { PageTemplateProps } from '@types';
+
+const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
   const post = data.markdownRemark;
   let width = '';
   let height = '';
@@ -40,6 +39,7 @@ const PageTemplate = ({ data, pageContext }) => {
       <Seo
         seoTitle={}
         seoDescription={}
+        imageSrc={}
       />
       <Wrapper css={PostTemplate}>
         <header className="site-header">

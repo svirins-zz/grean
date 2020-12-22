@@ -1,16 +1,14 @@
+import { SiteNav } from 'components/header';
+import { Wrapper } from 'components/layout';
+import { PostCard } from 'components/post';
 import { Link, graphql } from 'gatsby';
+import { IndexLayout } from 'layouts';
 import React from 'react';
+import { colors } from 'styles/colors';
+import { PostFeed, SiteHeader, SiteNavMain, inner, outer } from 'styles/shared';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import SiteNav from '../components/header/SiteNav';
-import { Wrapper } from '../components/layout/Wrapper';
-import { PostCard } from '../components/post/PostCard';
-import IndexLayout from '../layouts';
-import { colors } from '../styles/colors';
-import { PostFeed, SiteHeader, SiteNavMain, inner, outer } from '../styles/shared';
-import { PageContext } from '../templates/post';
 
 interface NotFoundTemplateProps {
   data: {

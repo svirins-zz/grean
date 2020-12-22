@@ -1,10 +1,8 @@
-import { graphql, StaticQuery } from 'gatsby';
+import { StaticQuery, graphql } from 'gatsby';
 import { FixedObject } from 'gatsby-image';
 import React from 'react';
 
 import { css } from '@emotion/react';
-
-import config from '../../website-config';
 
 interface SiteNavLogoProps {
   logo?: {
@@ -14,11 +12,11 @@ interface SiteNavLogoProps {
   };
 }
 
-const SubscribeLogo = () => (
+export const SubscribeLogo = () => (
   <StaticQuery
     query={graphql`
       query SubscribeOverlayLogo {
-        logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
+        logo: file(relativePath: { eq: "img/hero.png" }) {
           childImageSharp {
             # Specify the image processing specifications right in the query.
             # Makes it trivial to update as your page's design changes.

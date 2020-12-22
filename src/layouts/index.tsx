@@ -1,18 +1,14 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { Global, css } from '@emotion/react';
-import { lighten } from 'polished';
-
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore
-import favicon from '../../src/favicon.ico';
-import { colors } from '../styles/colors';
+import favicon from '/src/svg/favicon.svg';
+import { lighten } from 'polished';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { colors } from 'styles/colors';
 
-interface IndexProps {
-  className?: string;
-}
+import { Global, css } from '@emotion/react';
 
-const IndexLayout: React.FC<IndexProps> = props => {
+export const IndexLayout: React.FC<IndexProps> = props => {
   return (
     <div className={props.className}>
       <Helmet>
@@ -499,4 +495,3 @@ const IndexLayout: React.FC<IndexProps> = props => {
   );
 };
 
-export default IndexLayout;

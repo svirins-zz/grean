@@ -1,14 +1,9 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
+import { AuthorListProps } from '@types';
 
-import { Author } from '../templates/post';
-import { AuthorListItem } from './AuthorListItem';
-
-interface AuthorListProps {
-  tooltip: 'small' | 'large';
-  authors: Author[];
-}
+import { AuthorListItem } from './authorListItem';
 
 export const AuthorList: React.FC<AuthorListProps> = props => (
   <AuthorListUl className="author-list">

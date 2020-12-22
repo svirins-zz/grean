@@ -1,23 +1,14 @@
+import { Footer } from 'components/footer';
+import { SiteNav } from 'components/header';
+import { Seo, Wrapper } from 'components/layout';
+import { PostFullContent } from 'components/post';
+import { IndexLayout } from 'layouts';
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { colors } from 'styles/colors';
+import { SiteArchiveHeader, SiteHeader, SiteMain, SiteNavMain, inner, outer } from 'styles/shared';
+import { NoImage, PostFull, PostFullHeader, PostFullTitle } from 'templates/post';
 
 import { css } from '@emotion/react';
-
-import { Footer } from '../components/footer/Footer';
-import SiteNav from '../components/header/SiteNav';
-import { Wrapper } from '../components/layout/Wrapper';
-import { PostFullContent } from '../components/post/PostContent';
-import IndexLayout from '../layouts';
-import { colors } from '../styles/colors';
-import {
-  SiteArchiveHeader,
-  SiteHeader,
-  SiteMain,
-  SiteNavMain,
-  inner,
-  outer,
-} from '../styles/shared';
-import { NoImage, PostFull, PostFullHeader, PostFullTitle } from '../templates/post';
 
 const PageTemplate = css`
   .site-main {
@@ -36,9 +27,9 @@ const PageTemplate = css`
 
 const About: React.FC = () => (
   <IndexLayout>
-    <Helmet>
+    <Seo>
       <title>About</title>
-    </Helmet>
+    </Seo>
     <Wrapper css={PageTemplate}>
       <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
         <div css={[outer, SiteNavMain]}>
@@ -57,7 +48,8 @@ const About: React.FC = () => (
             <PostFullContent className="post-full-content">
               <div className="post-content">
                 <h5>
-                  A starter template for Gatsby <br /> GitHub: <a href="https://github.com/scttcper/gatsby-casper">scttcper/gatsby-casper</a>
+                  A starter template for Gatsby <br /> GitHub:{' '}
+                  <a href="https://github.com/scttcper/gatsby-casper">scttcper/gatsby-casper</a>
                 </h5>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc commodo finibus leo,

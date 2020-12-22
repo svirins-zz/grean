@@ -1,10 +1,10 @@
 import React from 'react';
+import { colors } from 'styles/colors';
+
 import styled from '@emotion/styled';
 
-import { colors } from '../../styles/colors';
-import config from '../../website-config';
-import { SubscribeForm } from './SubscribeForm';
-import SubscribeLogo from './SubscribeLogo';
+import { SubscribeForm } from './subscribeForm';
+import { SubscribeLogo } from './subscribeLogo';
 
 interface SubscribeState {
   isOpen: boolean;

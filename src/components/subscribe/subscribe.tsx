@@ -1,10 +1,11 @@
 import { lighten } from 'polished';
 import React from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import { colors } from 'styles/colors';
 
-import { colors } from '../../styles/colors';
-import { SubscribeForm } from './SubscribeForm';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
+import { SubscribeForm } from './subscribeForm';
 
 export interface SubscribeProps {
   title: string;

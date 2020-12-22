@@ -1,43 +1,31 @@
 import { Link } from 'gatsby';
 import { setLightness } from 'polished';
 import React from 'react';
+import { colors } from 'styles/colors';
+import { inner, outer } from 'styles/shared';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { colors } from '../../styles/colors';
-import { inner, outer } from '../../styles/shared';
-import config from '../website-config';
 
 export const Footer: React.FC = () => {
   return (
     <footer css={[outer, SiteFooter]}>
       <div css={[inner, SiteFooterContent]}>
         <section className="copyright">
-          <Link to="/">{config.title}</Link> &copy; {new Date().getFullYear()}{' '}
-          {config.footer && (
-            <Link to="/">
-              | {config.title} {config.footer}
-            </Link>
-          )}
+          <Link to="/">Copyright</Link> &copy; {new Date().getFullYear()}{' '}
+          <Link to="/">| Addict.cf title</Link>
         </section>
         <SiteFooterNav>
           <Link to="/">Latest Posts</Link>
-          {config.facebook && (
-            <a href={config.facebook} target="_blank" rel="noopener noreferrer">
-              Facebook
-            </a>
-          )}
-          {config.twitter && (
-            <a href={config.twitter} target="_blank" rel="noopener noreferrer">
-              Twitter
-            </a>
-          )}
-
-          <a href="https://github.com/scttcper/gatsby-casper" target="_blank" rel="noopener noreferrer">
-            Casper
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            Facebook
           </a>
-
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            Twitter
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            Svirins
+          </a>
           <a href="/rss.xml">RSS</a>
         </SiteFooterNav>
       </div>
@@ -101,4 +89,3 @@ const SiteFooterNav = styled.nav`
     }
   }
 `;
-

@@ -1,4 +1,6 @@
-export const MENU_ITEMS = [
+import { MenuItem } from '../@types';
+
+export const MENU_ITEMS: MenuItem[] = [
   {
     name: 'Main',
     link: '/',

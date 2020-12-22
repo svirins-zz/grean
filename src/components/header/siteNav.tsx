@@ -23,7 +23,7 @@ interface SiteNavState {
   showTitle: boolean;
 }
 
-class SiteNav extends React.Component<SiteNavProps, SiteNavState> {
+export class SiteNav extends React.Component<SiteNavProps, SiteNavState> {
   subscribe = React.createRef<SubscribeModal>();
   titleRef = React.createRef<HTMLSpanElement>();
   lastScrollY = 0;
@@ -314,4 +314,3 @@ const HideNav = css`
   }
 `;
 
-export default SiteNav;

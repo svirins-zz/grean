@@ -1,12 +1,11 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 
-import { Footer } from '../components/footer/Footer';
-import SiteNav from '../components/header/SiteNav';
-import { Seo } from '../components/layout/Seo';
-import { Wrapper } from '../components/layout/Wrapper';
-import { PostCard } from '../components/post/PostCard';
-import IndexLayout from '../layouts';
+import { Footer } from 'components/footer';
+import { SiteNav } from 'components/header';
+import { Wrapper, Seo } from 'components/layout';
+import { PostCard } from 'components/post';
+import { IndexLayout } from 'layouts';
 import {
   PostFeed,
   ResponsiveHeaderBackground,
@@ -20,9 +19,10 @@ import {
   SiteTitle,
   inner,
   outer,
-} from '../styles/shared';
+} from 'styles/shared';
+import { TagTemplateProps } from '@types';
 
-const Tags = ({ pageContext, data }) => {
+const Tags = ({ pageContext, data }): TagTemplateProps => {
   const tag = pageContext.tag ? pageContext.tag : '';
   const { edges, totalCount } = data.allMarkdownRemark;
   const tagData = data.allTagYaml.edges.find(
@@ -34,6 +34,7 @@ const Tags = ({ pageContext, data }) => {
       <Seo
         seoTitle={}
         seoDescription={}
+        imageSrc={}
       />
       <Wrapper>
         <header

@@ -1,9 +1,9 @@
 import { lighten } from 'polished';
 import React from 'react';
-import styled from '@emotion/styled';
 import RehypeReact from 'rehype-react';
+import { colors } from 'styles/colors';
 
-import { colors } from '../styles/colors';
+import styled from '@emotion/styled';
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
@@ -20,7 +20,7 @@ export interface PostContentProps {
   htmlAst: any;
 }
 
-const PostContent: React.FC<PostContentProps> = ({ htmlAst }) => {
+export const PostContent: React.FC<PostContentProps> = ({ htmlAst }) => {
   return (
     <PostFullContent className="post-full-content">
       {/* TODO: this will apply the class when rehype-react is published https://github.com/rhysd/rehype-react/pull/11 */}
@@ -675,4 +675,3 @@ export const PostFullContent = styled.section`
   /* End Syntax Highlighting */
 `;
 
-export default PostContent;

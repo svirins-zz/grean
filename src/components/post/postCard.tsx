@@ -1,21 +1,15 @@
+import { AuthorList } from 'components/author';
 import { format } from 'date-fns';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 import _ from 'lodash';
 import { lighten } from 'polished';
 import React from 'react';
+import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { colors } from '../../styles/colors';
-import { PageContext } from '../../templates/post';
-import { AuthorList } from './AuthorList';
-
-export interface PostCardProps {
-  post: PageContext;
-  large?: boolean;
-}
+import { PostCardProps } from '@types';
 
 export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
   const date = new Date(post.frontmatter.date);

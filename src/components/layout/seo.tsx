@@ -1,16 +1,19 @@
+import { myContext } from 'context';
 import { graphql, useStaticQuery } from 'gatsby';
 import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet';
 
-import { myContext } from '../../context';
+import { useLocation } from '@reach/router';
 
 // add detailed seo props
 export const Seo = ({
   seoTitle,
   seoDescription,
+  imageSrc,
 }: {
   seoTitle: string;
   seoDescription: string;
+  imageSrc: any;
 }): JSX.Element => {
   const { site } = useStaticQuery(
     graphql`
@@ -22,12 +25,14 @@ export const Seo = ({
             author
             lang
             keywords
+            siteUrl
           }
         }
       }
     `,
   );
   const context = useContext(myContext);
+  const { pathname } = useLocation();
 
   const classDarkMode = context.darkMode?.isDark ? 'dark' : '';
   // TODO: check if add class to html tag works
@@ -60,6 +65,22 @@ export const Seo = ({
           content: 'website',
         },
         {
+          name: 'og:image',
+          content: imageSrc,
+        },
+        {
+          name: 'og:image:height',
+          content: 640,
+        },
+        {
+          name: 'og:image:width',
+          content: 480,
+        },
+        {
+          name: 'og:url',
+          content: `site.siteMetadata.siteUrl${pathname}`,
+        },
+        {
           name: 'twitter:card',
           content: 'summary',
         },
@@ -79,6 +100,3 @@ export const Seo = ({
     />
   );
 };
-
-
-

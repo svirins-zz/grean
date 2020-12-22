@@ -1,15 +1,13 @@
 import { graphql } from 'gatsby';
-import { FixedObject } from 'gatsby-image';
 import React from 'react';
 
 import { css } from '@emotion/react';
 
-import { Footer } from '../components/footer/Footer';
-import Pagination from '../components/post/Pagination';
-import { PostCard } from '../components/post/PostCard';
-import SiteNav from '../components/header/SiteNav';
-import { Wrapper } from '../components/layout/Wrapper';
-import IndexLayout from '../layouts';
+import { Footer } from 'components/footer';
+import { PostCard, Pagination } from 'components/post';
+import { SiteNav } from 'components/header';
+import { Wrapper, Seo } from 'components/layout';
+import { IndexLayout } from 'layouts';
 import {
   PostFeed,
   Posts,
@@ -21,12 +19,12 @@ import {
   SiteTitle,
   inner,
   outer,
-} from '../styles/shared';
-import { Seo } from '../components/layout/Seo';
+} from 'styles/shared';
+import { IndexProps } from '@types';
 
 
 
-const IndexPage: React.FC = props => {
+const IndexPage: React.FC<IndexProps> = props => {
   const { width, height } = props.data.header.childImageSharp.fixed;
 
   return (
@@ -34,6 +32,8 @@ const IndexPage: React.FC = props => {
       <Seo
         seoTitle={}
         seoDescription={}
+        imageSrc={}
+
       />
       <Wrapper>
         <div
