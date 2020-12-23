@@ -1,11 +1,10 @@
-import { graphql } from 'gatsby';
-import React from 'react';
-
 import { Footer } from 'components/footer';
 import { SiteNav } from 'components/header';
-import { Wrapper, Seo } from 'components/layout';
+import { Seo, Wrapper } from 'components/layout';
 import { PostCard } from 'components/post';
+import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
+import React from 'react';
 import {
   PostFeed,
   ResponsiveHeaderBackground,
@@ -20,21 +19,18 @@ import {
   inner,
   outer,
 } from 'styles/shared';
+
 import { TagTemplateProps } from '@types';
 
-const Tags = ({ pageContext, data }): TagTemplateProps => {
-  const tag = pageContext.tag ? pageContext.tag : '';
-  const { edges, totalCount } = data.allMarkdownRemark;
-  const tagData = data.allTagYaml.edges.find(
-    n => n.node.id.toLowerCase() === tag.toLowerCase(),
-  );
-
+const Tags = ({ data }: TagTemplateProps): JSX.Element => {
+  const { edges, totalCount } = data.allContentfulPost;
+  const tagData = data.allContentfulTag.edges[0].node;
   return (
     <IndexLayout>
       <Seo
-        seoTitle={}
-        seoDescription={}
-        imageSrc={}
+        seoTitle={tagData.tagName}
+        seoDescription={tagData.description?.raw}
+        imageSrc={tagData.image?.fixed.src}
       />
       <Wrapper>
         <header
@@ -43,26 +39,22 @@ const Tags = ({ pageContext, data }): TagTemplateProps => {
         >
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav isHome={false} />
+              <SiteNav />
             </div>
           </div>
           <ResponsiveHeaderBackground
             css={[outer, SiteHeaderBackground]}
-            backgroundImage={tagData?.node?.image?.childImageSharp?.fluid?.src}
+            backgroundImage={tagData.image?.fluid.src}
             className="site-header-background"
           >
             <SiteHeaderContent css={inner} className="site-header-content">
-              <SiteTitle className="site-title">{tag}</SiteTitle>
+              <SiteTitle className="site-title">{tagData.tagName}</SiteTitle>
               <SiteDescription className="site-description">
-                {tagData?.node.description ? (
-                  tagData.node.description
-                ) : (
-                  <>
-                    A collection of {totalCount > 1 && `${totalCount} posts`}
-                    {totalCount === 1 && '1 post'}
-                    {totalCount === 0 && 'No posts'}
-                  </>
-                )}
+                {tagData.description}
+                {' '} A collection of {' '}
+                {totalCount > 1 && `${totalCount} posts`}
+                {totalCount === 1 && '1 post'}
+                {totalCount === 0 && 'No posts'}
               </SiteDescription>
             </SiteHeaderContent>
           </ResponsiveHeaderBackground>
@@ -71,7 +63,7 @@ const Tags = ({ pageContext, data }): TagTemplateProps => {
           <div css={inner}>
             <div css={[PostFeed]}>
               {edges.map(({ node }) => (
-                <PostCard key={node.fields.slug} post={node} />
+                <PostCard key={node.slug} post={node} />
               ))}
             </div>
           </div>
@@ -85,91 +77,67 @@ const Tags = ({ pageContext, data }): TagTemplateProps => {
 export default Tags;
 
 // TAGS QUERY
-const tagsResult = await graphql(`
-{
-  allContentfulTag {
-    edges {
-      node {
-        tagName
-        slug
-        description {
-          raw
-        }
-        image {
-          fluid(maxWidth: 720) {
-            aspectRatio
-            base64
-            sizes
-            src
-            srcSet
-          }
-        }
-      }
-    }
-  }
-}
-`);
-
-
 export const pageQuery = graphql`
   query($tag: String) {
-    allTagYaml {
+    allContentfulTag(
+      filter: {slug: {eq: $tag}} 
+      ) {
       edges {
         node {
-          id
-          description
+          slug
+          tagName
+          description {
+            raw
+          }
           image {
-            childImageSharp {
-              fluid(maxWidth: 3720) {
-                ...GatsbyImageSharpFluid
-              }
+            fluid(maxWidth: 800) {
+              ...GatsbyContentfulFluid_withWebp
+            }
+            fixed {
+              src
             }
           }
         }
       }
     }
-    allMarkdownRemark(
-      limit: 2000
-      sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { in: [$tag] }, draft: { ne: true } } }
-    ) {
+    allContentfulPost(
+      sort: {order: DESC, fields: updatedAt},
+      filter: {tags: {elemMatch: {slug: {in: $tag}}}}
+      ) {
       totalCount
       edges {
         node {
+          title
+          slug
           excerpt
-          timeToRead
-          frontmatter {
-            title
-            excerpt
-            tags
-            date
-            image {
-              childImageSharp {
-                fluid(maxWidth: 1240) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-            author {
-              id
-              bio
-              avatar {
-                children {
-                  ... on ImageSharp {
-                    fluid(quality: 100, srcSetBreakpoints: [40, 80, 120]) {
-                      ...GatsbyImageSharpFluid
-                    }
-                  }
-                }
-              }
+          updatedAt(formatString: "dd MMM yyyy")
+          tags {
+              slug
+              tagName
             }
           }
-          fields {
-            layout
-            slug
+          hero {
+            fluid(maxWidth: 2540)  {
+              ...GatsbyContentfulFluid_withWebp
+            }
+          }
+          body {
+            childMarkdownRemark {
+              htmlAst
+              timeToRead
+            }
+          }
+          author {
+            name
+            subtitle
+            avatar {
+              fluid(maxWidth: 800)  {
+                ...GatsbyContentfulFluid_withWebp
+              }
+            }
           }
         }
       }
-    }
+    } 
   }
-`;
+}`;

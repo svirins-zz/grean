@@ -10,7 +10,7 @@ export const SubscribeForm: React.FC = () => {
     <form
       noValidate
       css={SubscribeFormStyles}
-      action={config.mailchimpAction}
+      action={process.env.MAILCHIMP_ACTION}
       method="post"
       id="mc-embedded-subscribe-form"
       name="mc-embedded-subscribe-form"
@@ -22,8 +22,8 @@ export const SubscribeForm: React.FC = () => {
         <SubscribeEmail
           className="subscribe-email"
           type="email"
-          name={config.mailchimpEmailFieldName}
-          id={config.mailchimpEmailFieldName}
+          name={process.env.MAILCHIMP_NAME}
+          id={process.env.MAILCHIMP_ID}
           placeholder="youremail@example.com"
         />
       </FormGroup>

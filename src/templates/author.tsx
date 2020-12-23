@@ -1,14 +1,10 @@
-import { graphql } from 'gatsby';
-import React from 'react';
-
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { Footer } from 'components/footer';
 import { SiteNav } from 'components/header';
 import { Seo, Wrapper } from 'components/layout';
 import { PostCard } from 'components/post';
-
+import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
+import React from 'react';
 import {
   AuthorProfileImage,
   PostFeed,
@@ -23,45 +19,46 @@ import {
   inner,
   outer,
 } from 'styles/shared';
+
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { AuthorTemplateProps } from '@types';
 
-const Author = ({ data }): AuthorTemplateProps => {
-  const author = data.authorYaml;
-
-  const edges = data.allMarkdownRemark.edges.filter(edge => {
-    const isDraft = edge.node.frontmatter.draft !== true || process.env.NODE_ENV === 'development';
-
-    let authorParticipated = false;
-    if (edge.node.frontmatter.author) {
-      edge.node.frontmatter.author.forEach(element => {
-        if (element.id === author.id) {
-          authorParticipated = true;
-        }
-      });
-    }
-
-    return isDraft && authorParticipated;
+const Author = ({ data }: AuthorTemplateProps) => {
+  // TODO: implement multi-authors
+  const author = data.allContentfulAuthor.edges[0].node;
+  const { edges, totalCount } = data.allContentfulPost;
+  // TODO:im[plement socials detection]
+  const socialsDisplay = author.social?.map((social: string) => {
+    return (
+      <AuthorSocialLink
+        key={social}
+        className="author-social-link"
+      >
+        <AuthorSocialLinkAnchor href={author.social} target="_blank" rel="noopener noreferrer">
+          Social link
+        </AuthorSocialLinkAnchor>
+      </AuthorSocialLink>
+    );
   });
-  const totalCount = edges.length;
 
   return (
     <IndexLayout>
       <Seo
-        seoTitle={}
-        seoDescription={}
-        imageSrc={}
-
+        seoTitle={author.name}
+        seoDescription={author.subtitle}
+        imageSrc={author.avatar?.fixed.src}
       />
       <Wrapper>
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav isHome={false} />
+              <SiteNav />
             </div>
           </div>
 
           <ResponsiveHeaderBackground
-            backgroundImage={author.profile_image?.childImageSharp.fluid.src}
+            backgroundImage={author.profileImage?.fixed.src}
             css={[outer, SiteHeaderBackground]}
             className="site-header-background"
           >
@@ -70,56 +67,22 @@ const Author = ({ data }): AuthorTemplateProps => {
                 <img
                   style={{ marginTop: '8px' }}
                   css={[AuthorProfileImage, AuthorProfileBioImage]}
-                  src={data.authorYaml.avatar.childImageSharp.fluid.src}
-                  alt={author.id}
+                  src={author.avatar?.fluid.src}
+                  alt={author.name}
                 />
                 <AuthHeaderContent className="author-header-content">
-                  <SiteTitle className="site-title">{author.id}</SiteTitle>
-                  {author.bio && <AuthorBio className="author-bio">{author.bio}</AuthorBio>}
+                  <SiteTitle className="site-title">{author.name}</SiteTitle>
+                  <AuthorBio className="author-bio">{author.subtitle}</AuthorBio>
                   <div css={AuthorMeta} className="author-meta">
-                    {author.location && (
-                      <div className="author-location" css={[HiddenMobile]}>
-                        {author.location}
-                      </div>
-                    )}
+                    <div className="author-location" css={[HiddenMobile]}>
+                      {author.location}
+                    </div>
                     <div className="author-stats" css={[HiddenMobile]}>
                       {totalCount > 1 && `${totalCount} posts`}
                       {totalCount === 1 && '1 post'}
                       {totalCount === 0 && 'No posts'}
                     </div>
-                    {author.website && (
-                      <AuthorSocialLink className="author-social-link">
-                        <AuthorSocialLinkAnchor
-                          href={author.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Website
-                        </AuthorSocialLinkAnchor>
-                      </AuthorSocialLink>
-                    )}
-                    {author.twitter && (
-                      <AuthorSocialLink className="author-social-link">
-                        <AuthorSocialLinkAnchor
-                          href={`https://twitter.com/${author.twitter}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Twitter
-                        </AuthorSocialLinkAnchor>
-                      </AuthorSocialLink>
-                    )}
-                    {author.facebook && (
-                      <AuthorSocialLink className="author-social-link">
-                        <AuthorSocialLinkAnchor
-                          href={`https://www.facebook.com/${author.facebook}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Facebook
-                        </AuthorSocialLinkAnchor>
-                      </AuthorSocialLink>
-                    )}
+                    {socialsDisplay}
                   </div>
                 </AuthHeaderContent>
               </SiteHeaderContent>
@@ -130,7 +93,7 @@ const Author = ({ data }): AuthorTemplateProps => {
           <div css={inner}>
             <div css={[PostFeed]}>
               {edges.map(({ node }) => {
-                return <PostCard key={node.fields.slug} post={node} />;
+                return <PostCard key={node.slug} post={node} />;
               })}
             </div>
           </div>
@@ -140,106 +103,74 @@ const Author = ({ data }): AuthorTemplateProps => {
     </IndexLayout>
   );
 };
-// ALL AUTHORS QUERY
-const authorsResult = await graphql(`
-{
-  allContentfulAuthor {
-    edges {
-      node {
-        avatar {
-          fluid(maxWidth: 720)  {
-            aspectRatio
-            base64
-            sizes
-            src
-            srcSet
-          }
-        }
-        name
-        social
-        slug
-        subtitle
-        personal_info {
-          childMarkdownRemark {
-            html
-          }
-        }
-      }
-    }
-  }
-}  
-`);
+
+// ALL AUTHORS WITH CORRESPONDING POSTS QUERY
 
 export const pageQuery = graphql`
-  query($author: String) {
-    authorYaml(id: { eq: $author }) {
-      id
-      website
-      twitter
-      bio
-      facebook
-      location
-      profile_image {
-        childImageSharp {
-          fluid(maxWidth: 3720) {
-            ...GatsbyImageSharpFluid
+  query($slug: String) {
+    allContentfulAuthor(filter: { fields: { slug: { eq: $slug } } }) {
+      edges {
+        node {
+          name
+          subtitle
+          location
+          social
+          personal_info {
+            childMarkdownRemark {
+              htmlAst
+            }
           }
-        }
-      }
-      avatar {
-        childImageSharp {
-          fluid(quality: 100, srcSetBreakpoints: [40, 80, 120]) {
-            ...GatsbyImageSharpFluid
+          avatar {
+            fluid(maxWidth: 720) {
+              ...GatsbyContentfulFluid_withWebp
+            }
+            fixed {
+              src
+            }
+          }
+          profileImage {
+            fluid(maxWidth: 2540) {
+              ...GatsbyContentfulFluid_withWebp
+            }
+            fixed {
+              src
+            }
           }
         }
       }
     }
-    allMarkdownRemark(
-      filter: { frontmatter: { draft: { ne: true } } }
-      sort: { fields: [frontmatter___date], order: DESC }
-      limit: 2000
+    allContentfulPost(
+      sort: { fields: date, order: DESC }
+      filter: { author: { elemMatch: { slug: { eq: $slug } } } }
     ) {
+      totalcount
       edges {
         node {
+          title
+          slug
           excerpt
-          timeToRead
-          frontmatter {
-            title
-            excerpt
-            tags
-            date
-            draft
-            image {
-              childImageSharp {
-                fluid(maxWidth: 3720) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-            author {
-              id
-              bio
-              avatar {
-                children {
-                  ... on ImageSharp {
-                    fluid(quality: 100) {
-                      ...GatsbyImageSharpFluid
-                    }
-                  }
-                }
-              }
+          updatedAt(formatString: "dd MMM yyyy")
+          tags {
+            id
+            slug
+            tagName
+          }
+          hero {
+            fluid(maxWidth: 2540) {
+              ...GatsbyContentfulFluid_withWebp
             }
           }
-          fields {
-            layout
-            slug
+          body {
+            childMarkdownRemark {
+              htmlAst
+              timeToRead
+            }
           }
         }
       }
     }
   }
 `;
-
 // styling goes here
 const HiddenMobile = css`
   @media (max-width: 500px) {

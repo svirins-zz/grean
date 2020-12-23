@@ -7,13 +7,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const postsResult = await graphql(`
   {
-    allContentfulPost(limit: 100, sort: {fields: date, order: ASC}) {
+    allContentfulPost(limit: 100, sort: {fields: date, order: DESC}) {
       edges {
         node {
           slug
           tags {
-            ... on ContentfulTag {
-              tagName
+            slug
             }
           }
           author {
@@ -83,7 +82,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         prev,
         next,
         slug: post.slug,
-        primaryTag: post.tags ? post.tags[0].tagName : '',
+        primaryTag: post.tags ? post.tags[0].slug : '',
       },
     });
   });
@@ -96,7 +95,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       path: `/tags/${tag.slug}/`,
       component: tagTemplate,
       context: {
-        tag,
+        tag: tag.slug,
       },
     });
   });

@@ -1,13 +1,12 @@
-import { graphql } from 'gatsby';
-import React from 'react';
-
-import { css } from '@emotion/react';
-
+import frontImage from 'assets/img/frontImage.webp';
+import siteLogo from 'assets/img/siteLogo.webp';
 import { Footer } from 'components/footer';
-import { PostCard, Pagination } from 'components/post';
 import { SiteNav } from 'components/header';
-import { Wrapper, Seo } from 'components/layout';
+import { Seo, Wrapper } from 'components/layout';
+import { Pagination, PostCard } from 'components/post';
+import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
+import React from 'react';
 import {
   PostFeed,
   Posts,
@@ -20,58 +19,48 @@ import {
   inner,
   outer,
 } from 'styles/shared';
+
+import { css } from '@emotion/react';
 import { IndexProps } from '@types';
 
-
+// TODO: infer types from gatsby-typegen
 
 const IndexPage: React.FC<IndexProps> = props => {
-  const { width, height } = props.data.header.childImageSharp.fixed;
-
   return (
     <IndexLayout css={HomePosts}>
       <Seo
-        seoTitle={}
-        seoDescription={}
-        imageSrc={}
-
+        imageSrc={frontImage}
+        seoDescription={props.data.site.siteMetadata.description}
+        seoTitle={props.data.site.siteMetadata.title}
       />
       <Wrapper>
         <div
           css={[outer, SiteHeader, SiteHeaderStyles]}
           className="site-header-background"
           style={{
-            backgroundImage: `url('${props.data.header.childImageSharp.fixed.src}')`,
+            backgroundImage: frontImage,
           }}
         >
           <div css={inner}>
             <SiteNav isHome />
             <SiteHeaderContent className="site-header-conent">
               <SiteTitle className="site-title">
-                {props.data.logo ? (
-                  <img
-                    style={{ maxHeight: '55px' }}
-                    src={props.data.logo.childImageSharp.fixed.src}
-                    alt={config.title}
-                  />
-                ) : (
-                  config.title
-                )}
+                <img
+                  style={{ maxHeight: '55px' }}
+                  src={siteLogo}
+                  alt={props.data.site.siteMetadata.title}
+                />
               </SiteTitle>
-              <SiteDescription>{config.description}</SiteDescription>
+              <SiteDescription>{props.data.site.siteMetadata.description}</SiteDescription>
             </SiteHeaderContent>
           </div>
         </div>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={[inner, Posts]}>
             <div css={[PostFeed]}>
-              {props.data.allMarkdownRemark.edges.map((post, index) => {
+              {props.data.allContentfulPost.edges.map((node, index) => {
                 // filter out drafts in production
-                return (
-                  (post.node.frontmatter.draft !== true ||
-                    process.env.NODE_ENV !== 'production') && (
-                    <PostCard key={post.node.fields.slug} post={post.node} large={index === 0} />
-                  )
-                );
+                return <PostCard key={node.slug} post={node} large={index === 0} />;
               })}
             </div>
           </div>
@@ -89,125 +78,52 @@ const IndexPage: React.FC<IndexProps> = props => {
   );
 };
 
+// ALL POSTS QUERY
 export const pageQuery = graphql`
-  query blogPageQuery($skip: Int!, $limit: Int!) {
-    logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
-      childImageSharp {
-        # Specify the image processing specifications right in the query.
-        # Makes it trivial to update as your page's design changes.
-        fixed {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    header: file(relativePath: { eq: "img/blog-cover.png" }) {
-      childImageSharp {
-        # Specify the image processing specifications right in the query.
-        # Makes it trivial to update as your page's design changes.
-        fixed(width: 2000, quality: 100) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { draft: { ne: true } } }
-      limit: $limit
-      skip: $skip
-    ) {
+  query($skip: Int!, $limit: Int!) {
+    allContentfulPost(sort: { fields: updatedAt, order: DESC }, skip: $skip, limit: $limit) {
       edges {
         node {
-          timeToRead
-          frontmatter {
-            title
-            date
-            tags
-            draft
-            excerpt
-            image {
-              childImageSharp {
-                fluid(maxWidth: 3720) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-            author {
-              id
-              bio
-              avatar {
-                children {
-                  ... on ImageSharp {
-                    fluid(quality: 100, srcSetBreakpoints: [40, 80, 120]) {
-                      ...GatsbyImageSharpFluid
-                    }
-                  }
-                }
-              }
+          title
+          slug
+          excerpt
+          updatedAt(formatString: "dd MMM yyyy")
+          featured
+          tags {
+            slug
+            tagName
+          }
+          hero {
+            fluid(maxWidth: 2540) {
+              ...GatsbyContentfulFluid_withWebp
             }
           }
-          excerpt
-          fields {
-            layout
-            slug
+          body {
+            childMarkdownRemark {
+              htmlAst
+              timeToRead
+            }
+          }
+          author {
+            name
+            subtitle
+            avatar {
+              fluid(maxWidth: 800) {
+                ...GatsbyContentfulFluid_withWebp
+              }
+            }
           }
         }
+      }
+    }
+    site {
+      siteMetadata {
+        title
+        description
       }
     }
   }
 `;
-
-// ALLPOSTQUERY
-{
-  allContentfulPost(limit: 100, sort: {fields: date, order: ASC}) {
-    edges {
-      node {
-        slug
-        title
-        date(formatString: "MMM DD YYYY")
-        excerpt
-        tags {
-          ... on ContentfulTag {
-            tagName
-          }
-        }
-        body {
-          childMarkdownRemark {
-            html
-            timeToRead
-          }
-        }
-        author {
-          name
-          social
-          subtitle
-          personal_info {
-            childMarkdownRemark {
-              html
-            }
-          }
-          avatar {
-            fluid(maxWidth: 480) {
-              aspectRatio
-              base64
-              sizes
-              src
-              srcSet
-            }
-          }
-        }
-        hero {
-          fluid(maxWidth: 3720) {
-            aspectRatio
-            base64
-            sizes
-            src
-            srcSet
-          }
-        }
-      }
-    }
-  }
-}
 
 const HomePosts = css`
   @media (min-width: 795px) {

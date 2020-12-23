@@ -1,17 +1,8 @@
-import { graphql, Link, StaticQuery } from 'gatsby';
+import { Link, StaticQuery, graphql } from 'gatsby';
 import React from 'react';
+
 import { css } from '@emotion/react';
-import { FixedObject } from 'gatsby-image';
-
-import config from '../../website-config';
-
-interface SiteNavLogoProps {
-  logo?: {
-    childImageSharp: {
-      fixed: FixedObject;
-    };
-  };
-}
+import { SiteNavLogoProps } from '@types';
 
 export const SiteNavLogo = () => (
   <StaticQuery

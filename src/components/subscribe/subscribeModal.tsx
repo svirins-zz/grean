@@ -2,13 +2,10 @@ import React from 'react';
 import { colors } from 'styles/colors';
 
 import styled from '@emotion/styled';
+import { SubscribeState } from '@types';
 
 import { SubscribeForm } from './subscribeForm';
 import { SubscribeLogo } from './subscribeLogo';
-
-interface SubscribeState {
-  isOpen: boolean;
-}
 
 export class SubscribeModal extends React.Component<any, SubscribeState> {
   state = { isOpen: false };

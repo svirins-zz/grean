@@ -10,26 +10,13 @@ import { NoImage, PostFull, PostFullHeader, PostFullTitle } from 'templates/post
 
 import { css } from '@emotion/react';
 
-const PageTemplate = css`
-  .site-main {
-    margin-top: 64px;
-    padding-bottom: 4vw;
-    background: #fff;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .site-main {
-      /* background: var(--darkmode); */
-      background: ${colors.darkmode};
-    }
-  }
-`;
-
 const About: React.FC = () => (
   <IndexLayout>
-    <Seo>
-      <title>About</title>
-    </Seo>
+    <Seo
+      seoDescription={}
+      seoTitle={}
+      imageSrc={}
+    />
     <Wrapper css={PageTemplate}>
       <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
         <div css={[outer, SiteNavMain]}>
@@ -97,3 +84,18 @@ const About: React.FC = () => (
 );
 
 export default About;
+
+const PageTemplate = css`
+  .site-main {
+    margin-top: 64px;
+    padding-bottom: 4vw;
+    background: #fff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .site-main {
+      /* background: var(--darkmode); */
+      background: ${colors.darkmode};
+    }
+  }
+`;

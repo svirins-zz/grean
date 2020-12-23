@@ -1,87 +1,72 @@
-import { format } from 'date-fns';
+import { AuthorList } from 'components/author';
+import { Footer } from 'components/footer';
+import { SiteNav, SiteNavMain } from 'components/header';
+import { Seo, Wrapper } from 'components/layout';
+import { PostContent, ReadNext } from 'components/post';
+import { Subscribe } from 'components/subscribe';
 import { Link, graphql } from 'gatsby';
 import Img from 'gatsby-image';
+import { IndexLayout } from 'layouts';
 import * as _ from 'lodash';
 import { lighten, setLightness } from 'polished';
 import React from 'react';
+import { colors } from 'styles/colors';
+import { SiteMain, inner, outer } from 'styles/shared';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { AuthorList } from 'components/author';
-import { Footer } from 'components/footer';
-import { SiteNavMain, SiteNav } from 'components/header';
-import { Wrapper, Seo } from 'components/layout';
-import { ReadNext, PostContent } from 'components/post';
-import { Subscribe } from 'components/subscribe';
-import { IndexLayout } from 'layouts';
-import { colors } from 'styles/colors';
-import { SiteMain, inner, outer } from 'styles/shared';
 import { PageTemplateProps } from '@types';
 
 const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
-  const post = data.markdownRemark;
-  let width = '';
-  let height = '';
-  if (post.frontmatter.image?.childImageSharp) {
-    width = post.frontmatter.image.childImageSharp.fluid.sizes.split(', ')[1].split('px')[0];
-    height = String(Number(width) / post.frontmatter.image.childImageSharp.fluid.aspectRatio);
-  }
-
-  const date = new Date(post.frontmatter.date);
-  // 2018-08-20
-  const datetime = format(date, 'yyyy-MM-dd');
-  // 20 AUG 2018
-  const displayDatetime = format(date, 'dd LLL yyyy');
-
+  const post = data.allContentfulPost.edges[0].node;
+  const tagsDisplay = post.tags?.map(tag => {
+    return (
+      <Link key={tag.slug} to={`/tags/${tag.slug}/`}>
+        {tag.tagName}
+      </Link>
+    );
+  });
+  const authorsDisplay = post.author?.map(author => {
+    return (
+      <Link key={author.slug} to={`/author/${author.slug}/`}>
+        {author.name}
+      </Link>
+    );
+  });
   return (
     <IndexLayout className="post-template">
-      <Seo
-        seoTitle={}
-        seoDescription={}
-        imageSrc={}
-      />
+      <Seo seoTitle={post.title} seoDescription={post.excerpt} imageSrc={post.hero?.fixed.src} />
       <Wrapper css={PostTemplate}>
         <header className="site-header">
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav isPost post={post.frontmatter} />
+              <SiteNav />
             </div>
           </div>
         </header>
         <main id="site-main" className="site-main" css={[SiteMain, outer]}>
           <div css={inner}>
             {/* TODO: no-image css tag? */}
-            <article css={[PostFull, !post.frontmatter.image && NoImage]}>
+            <article css={[PostFull, !post.hero && NoImage]}>
               <PostFullHeader className="post-full-header">
-                <PostFullTags className="post-full-tags">
-                  {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
-                    <Link to={`/tags/${_.kebabCase(post.frontmatter.tags[0])}/`}>
-                      {post.frontmatter.tags[0]}
-                    </Link>
-                  )}
-                </PostFullTags>
-                <PostFullTitle className="post-full-title">{post.frontmatter.title}</PostFullTitle>
+                <PostFullTags className="post-full-tags">{tagsDisplay}</PostFullTags>
+                <PostFullTitle className="post-full-title">{post.title}</PostFullTitle>
                 <PostFullCustomExcerpt className="post-full-custom-excerpt">
-                  {post.frontmatter.excerpt}
+                  {post.excerpt}
                 </PostFullCustomExcerpt>
                 <PostFullByline className="post-full-byline">
                   <section className="post-full-byline-content">
-                    <AuthorList authors={post.frontmatter.author} tooltip="large" />
+                    <AuthorList authors={post.author} tooltip="large" />
                     <section className="post-full-byline-meta">
                       <h4 className="author-name">
-                        {post.frontmatter.author.map(author => (
-                          <Link key={author.id} to={`/author/${_.kebabCase(author.id)}/`}>
-                            {author.id}
-                          </Link>
-                        ))}
+                        {authorsDisplay}
                       </h4>
                       <div className="byline-meta-content">
-                        <time className="byline-meta-date" dateTime={datetime}>
-                          {displayDatetime}
+                        <time className="byline-meta-date" dateTime={post.updatedAt}>
+                          {post.updatedAt?.toString()}
                         </time>
                         <span className="byline-reading-time">
-                          <span className="bull">&bull;</span> {post.timeToRead} min read
+                          <span className="bull">&bull;</span> {post.body?.childMarkdownRemark.timeToRead} min read
                         </span>
                       </div>
                     </section>
@@ -89,26 +74,25 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
                 </PostFullByline>
               </PostFullHeader>
 
-              {post.frontmatter.image?.childImageSharp && (
+              {post.hero && (
                 <PostFullImage>
                   <Img
                     style={{ height: '100%' }}
-                    fluid={post.frontmatter.image.childImageSharp.fluid}
-                    alt={post.frontmatter.title}
+                    fluid={post.hero.fluid}
+                    alt={post.title}
                   />
                 </PostFullImage>
               )}
-              <PostContent htmlAst={post.htmlAst} />
+              <PostContent htmlAst={post.body?.childMarkdownRemark.htmlAst} />
 
-              {/* The big email subscribe modal content */}
-              {config.showSubscribe && <Subscribe title={config.title} />}
+              <Subscribe />
             </article>
           </div>
         </main>
 
         <ReadNext
           currentPageSlug={location.pathname}
-          tags={post.frontmatter.tags}
+          tags={post.tags}
           relatedPosts={data.relatedPosts}
           pageContext={pageContext}
         />
@@ -121,76 +105,81 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
 
 // POST QUERY
 export const query = graphql`
-  query($slug: String, $primaryTag: String)
-  {
-    allContentfulPost(
-      filter: { slug: { eq: $slug } }
-    ) {
+  query($slug: String, $primaryTag: String) {
+    allContentfulPost(filter: { slug: { eq: $slug } }) {
       edges {
         node {
-          slug
           title
-          date(formatString: "MMM DD YYYY")
+          slug
           excerpt
+          updatedAt(formatString: "dd MMM yyyy")
           tags {
-            ... on ContentfulTag {
-              tagName
+            slug
+            tagName
+          }
+          hero {
+            fluid(maxWidth: 2540) {
+              ...GatsbyContentfulFluid_withWebp
+            }
+            fixed {
+              src
             }
           }
           body {
             childMarkdownRemark {
-              html
+              htmlAst
               timeToRead
             }
           }
           author {
             name
-            social
+            slug
             subtitle
-            personal_info {
-              childMarkdownRemark {
-                html
-              }
-            }
             avatar {
-              fluid(maxWidth: 480) {
-                aspectRatio
-                base64
-                sizes
-                src
-                srcSet
+              fluid(maxWidth: 800) {
+                ...GatsbyContentfulFluid_withWebp
               }
-            }
-          }
-          hero {
-            fluid(maxWidth: 3720) {
-              aspectRatio
-              base64
-              sizes
-              src
-              srcSet
             }
           }
         }
       }
     }
     relatedPosts: allContentfulPost(
-      filter: { frontmatter: { tags: { in: [$primaryTag] }, draft: { ne: true } } }
       limit: 5
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { order: DESC, fields: updatedAt }
+      filter: { tags: { elemMatch: { slug: { eq: $primaryTag } } } }
     ) {
       totalCount
       edges {
         node {
-          id
-          timeToRead
+          title
+          slug
           excerpt
-          frontmatter {
-            title
-            date
+          updatedAt(formatString: "dd MMM yyyy")
+          tags {          
+              slug
+              tagName
           }
-          fields {
+          hero {
+            fluid(maxWidth: 2540) {
+              ...GatsbyContentfulFluid_withWebp
+            }
+          }
+          body {
+            childMarkdownRemark {
+              htmlAst
+              timeToRead
+            }
+          }
+          author {
+            name
+            subtitle
             slug
+            avatar {
+              fluid(maxWidth: 800) {
+                ...GatsbyContentfulFluid_withWebp
+              }
+            }
           }
         }
       }

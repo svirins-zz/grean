@@ -1,20 +1,10 @@
 import { FixedObject, FluidObject } from 'gatsby-image';
-import { MetaHTMLAttributes, ReactChild, ReactChildren } from 'react';
-
-export interface SeoProps {
-  description?: string;
-  lang?: string;
-  meta?: Array<MetaHTMLAttributes<HTMLMetaElement>>;
-  title: string;
-}
+import { ReactChild, ReactChildren } from 'react';
 
 export type ContextProps = {
   modalVisible: { isVisible: boolean };
   darkMode: { isDark: boolean };
   switchMode: () => void;
-  handleSelect: () => void;
-  closeMenu: () => void;
-  showMenu: () => void;
   showModal: () => void;
   closeModal: () => void;
 };
@@ -31,180 +21,121 @@ export interface MenuItem {
 export interface IndexProps {
   className?: string;
 }
-export interface AuthorTemplateProps {
-  location: Location;
-  data: {
-    logo: {
-      childImageSharp: {
-        fluid: any;
-      };
-    };
-    allMarkdownRemark: {
-      totalCount: number;
-      edges: Array<{
-        node: PageContext;
-      }>;
-    };
-    authorYaml: {
-      id: string;
-      website?: string;
-      twitter?: string;
-      facebook?: string;
-      location?: string;
-      profile_image?: {
-        childImageSharp: {
-          fluid: FluidObject;
-        };
-      };
-      bio?: string;
-      avatar: {
-        childImageSharp: {
-          fluid: FluidObject;
-        };
-      };
-    };
-  };
-}
-
 export interface IndexProps {
   pageContext: {
     currentPage: number;
     numPages: number;
   };
   data: {
-    logo: {
-      childImageSharp: {
-        fixed: FixedObject;
-      };
+    allContentfulPost: {
+      edges: PostNode[];
     };
-    header: {
-      childImageSharp: {
-        fixed: FixedObject;
+    site: {
+      siteMetadata: {
+        title: string;
+        description: string;
       };
-    };
-    allMarkdownRemark: {
-      edges: Array<{
-        node: PageContext;
-      }>;
     };
   };
 }
-
-export interface Author {
-  id: string;
-  bio: string;
-  avatar: {
-    children: Array<{
-      fluid: FluidObject;
-    }>;
-  };
-}
-
 export interface PageTemplateProps {
   location: Location;
   data: {
-    logo: {
-      childImageSharp: {
-        fixed: any;
-      };
-    };
-    markdownRemark: {
-      html: string;
-      htmlAst: any;
-      excerpt: string;
-      timeToRead: string;
-      frontmatter: {
-        title: string;
-        date: string;
-        userDate: string;
-        image: {
-          childImageSharp: {
-            fluid: any;
-          };
-        };
-        excerpt: string;
-        tags: string[];
-        author: Author[];
-      };
+    allContentfulPost: {
+      edges: PostNode[];
     };
     relatedPosts: {
       totalCount: number;
-      edges: Array<{
-        node: {
-          timeToRead: number;
-          frontmatter: {
-            title: string;
-            date: string;
-          };
-          fields: {
-            slug: string;
-          };
-        };
-      }>;
+      edges: PostNode[];
     };
   };
   pageContext: {
-    prev: PageContext;
-    next: PageContext;
+    prev: Post;
+    next: Post;
   };
 }
-
-export interface PageContext {
-  excerpt: string;
-  timeToRead: number;
-  fields: {
-    slug: string;
-  };
-  frontmatter: {
-    image: {
-      childImageSharp: {
-        fluid: FluidObject;
-      };
-    };
-    excerpt: string;
-    title: string;
-    date: string;
-    draft?: boolean;
-    tags: string[];
-    author: Author[];
-  };
-}
-
 export interface TagTemplateProps {
-  location: Location;
-  pageContext: {
-    tag: string;
-  };
   data: {
-    allTagYaml: {
-      edges: Array<{
-        node: {
-          id: string;
-          description: string;
-          image?: {
-            childImageSharp: {
-              fluid: FluidObject;
-            };
-          };
-        };
-      }>;
+    allContentfulTag: {
+      edges: TagNode[];
     };
-    allMarkdownRemark: {
+    allContentfulPost: {
       totalCount: number;
-      edges: Array<{
-        node: PageContext;
-      }>;
+      edges: PostNode[];
     };
   };
+}
+export interface AuthorTemplateProps {
+  data: {
+    allContentfulAuthor: {
+      edges: AuthorNode[];
+    };
+    allContentfulPost: {
+      totalCount: number;
+      edges: PostNode[];
+    };
+  };
+}
+
+export interface TagNode {
+  node: Tag;
+}
+export interface PostNode {
+  node: Post;
+}
+
+export interface AuthorNode {
+  node: Author;
+}
+export interface Post {
+  title: string;
+  slug: string;
+  excerpt?: string;
+  updatedAt?: Date;
+  featured?: boolean;
+  hero?: ImageObject;
+  body?: {
+    childMarkdownRemark: {
+      htmlAst: JSON;
+      timeToRead: number;
+    };
+  };
+  tags?: Tag[];
+  author?: Author[];
+}
+export interface Author {
+  name: string;
+  slug: string;
+  location?: string;
+  subtitle?: string;
+  social?: string[];
+  personal_info?: {
+    childMarkdownRemark: {
+      htmlAst: JSON;
+    };
+  };
+  avatar?: ImageObject;
+  profileImage?: ImageObject;
+}
+
+export interface ImageObject {
+  fluid: FluidObject;
+  fixed: FixedObject;
+}
+export interface Tag {
+  slug: string;
+  tagName: string;
+  description?: {
+    raw: string;
+  };
+  image?: ImageObject;
 }
 
 export interface NotFoundTemplateProps {
   data: {
     allMarkdownRemark: {
       totalCount: number;
-      edges: Array<{
-        node: PageContext;
-      }>;
+      edges: PostNode[];
     };
   };
 }
@@ -214,54 +145,24 @@ export interface WrapperProps {
 }
 
 export interface ReadNextProps {
-  tags: string[];
+  tags: Tag[];
   currentPageSlug: string;
   relatedPosts: {
     totalCount: number;
-    edges: Array<{
-      node: {
-        timeToRead: number;
-        frontmatter: {
-          title: string;
-          date: string;
-        };
-        fields: {
-          slug: string;
-        };
-      };
-    }>;
+    edges: PostNode[];
+  };
+  pageContext: {
+    prev: Post;
+    next: Post;
   };
 }
 
-export interface ReadNextProps {
-  tags: string[];
-  currentPageSlug: string;
-  relatedPosts: {
-    totalCount: number;
-    edges: Array<{
-      node: {
-        timeToRead: number;
-        frontmatter: {
-          date: string;
-          title: string;
-        };
-        fields: {
-          slug: string;
-        };
-      };
-    }>;
-  };
-  pageContext: {
-    prev: PageContext;
-    next: PageContext;
-  };
-}
 export interface PostContentProps {
-  htmlAst: any;
+  htmlAst: JSON;
 }
 
 export interface PostCardProps {
-  post: PageContext;
+  post: Post;
   large?: boolean;
 }
 
@@ -279,36 +180,20 @@ export interface AuthorListProps {
   tooltip: 'small' | 'large';
   authors: Author[];
 }
-export interface SubscribeProps {
-  title: string;
-}
-
-export interface SiteNavLogoProps {
-  logo?: {
-    childImageSharp: {
-      fixed: FixedObject;
-    };
-  };
-}
 
 export interface SubscribeState {
   isOpen: boolean;
 }
 
-export interface SiteNavProps {
-  isHome?: boolean;
-  isPost?: boolean;
-  post?: any;
+export interface SeoProps {
+  seoTitle?: string;
+  seoDescription?: string;
+  imageSrc?: string;
 }
 
-export interface SiteNavState {
-  showTitle: boolean;
-}
-
-export interface SiteNavLogoProps {
-  logo?: {
-    childImageSharp: {
-      fixed: FixedObject;
-    };
-  };
+export interface Socials {
+  name: string;
+  color: string;
+  link: string;
+  showInHeader: boolean;
 }

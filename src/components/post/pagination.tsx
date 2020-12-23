@@ -4,11 +4,7 @@ import React from 'react';
 import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
-
-export interface PaginationProps {
-  currentPage: number;
-  numPages: number;
-}
+import { PaginationProps } from '@types';
 
 export const Pagination: React.FunctionComponent<PaginationProps> = ({ currentPage, numPages }) => {
   const isFirst = currentPage === 1;

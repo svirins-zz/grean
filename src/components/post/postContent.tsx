@@ -4,6 +4,7 @@ import RehypeReact from 'rehype-react';
 import { colors } from 'styles/colors';
 
 import styled from '@emotion/styled';
+import { PostContentProps } from '@types';
 
 const renderAst = new RehypeReact({
   createElement: React.createElement,
@@ -15,10 +16,6 @@ const Ast = ({ ast, ...props }: any) => {
   ast.properties = props;
   return renderAst(ast);
 };
-
-export interface PostContentProps {
-  htmlAst: any;
-}
 
 export const PostContent: React.FC<PostContentProps> = ({ htmlAst }) => {
   return (

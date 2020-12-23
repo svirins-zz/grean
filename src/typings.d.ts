@@ -27,3 +27,4 @@ declare module 'rehype-react' {
 declare module '*.png';
 declare module '*.svg';
 declare module '*.jpg';
+declare module '*.webp';

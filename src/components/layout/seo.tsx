@@ -4,17 +4,14 @@ import React, { useContext } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { useLocation } from '@reach/router';
+import { SeoProps } from '@types';
 
 // add detailed seo props
 export const Seo = ({
   seoTitle,
   seoDescription,
   imageSrc,
-}: {
-  seoTitle: string;
-  seoDescription: string;
-  imageSrc: any;
-}): JSX.Element => {
+}: SeoProps): JSX.Element => {
   const { site } = useStaticQuery(
     graphql`
       query {

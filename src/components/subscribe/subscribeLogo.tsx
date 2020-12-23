@@ -1,16 +1,8 @@
 import { StaticQuery, graphql } from 'gatsby';
-import { FixedObject } from 'gatsby-image';
 import React from 'react';
 
 import { css } from '@emotion/react';
-
-interface SiteNavLogoProps {
-  logo?: {
-    childImageSharp: {
-      fixed: FixedObject;
-    };
-  };
-}
+import { SiteNavLogoProps } from '@types';
 
 export const SubscribeLogo = () => (
   <StaticQuery
@@ -37,7 +29,7 @@ export const SubscribeLogo = () => (
           css={SubscribeOverlayLogo}
           className="subscribe-overlay-logo"
           src={data.logo.childImageSharp.fixed.src}
-          alt={config.title}
+          alt="Addict.cf"
         />
       );
     }}

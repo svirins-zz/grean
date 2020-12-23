@@ -9,17 +9,7 @@ import { PostFeed, SiteHeader, SiteNavMain, inner, outer } from 'styles/shared';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-interface NotFoundTemplateProps {
-  data: {
-    allMarkdownRemark: {
-      totalCount: number;
-      edges: Array<{
-        node: PageContext;
-      }>;
-    };
-  };
-}
+import { NotFoundTemplateProps } from '@types';
 
 const NotFoundPage: React.FC<NotFoundTemplateProps> = props => {
   const { edges } = props.data.allMarkdownRemark;

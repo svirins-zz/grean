@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import { colors } from 'styles/colors';
 
 import { Global, css } from '@emotion/react';
+import { IndexProps } from '@types';
 
 export const IndexLayout: React.FC<IndexProps> = props => {
   return (
