@@ -32,6 +32,8 @@ const IndexPage: React.FC<IndexProps> = props => {
         imageSrc={frontImage}
         seoDescription={props.data.site.siteMetadata.description}
         seoTitle={props.data.site.siteMetadata.title}
+        pathname={props.location}
+
       />
       <Wrapper>
         <div
@@ -42,7 +44,7 @@ const IndexPage: React.FC<IndexProps> = props => {
           }}
         >
           <div css={inner}>
-            <SiteNav isHome />
+            <SiteNav title={props.data.site.siteMetadata.title} />
             <SiteHeaderContent className="site-header-conent">
               <SiteTitle className="site-title">
                 <img
@@ -60,7 +62,7 @@ const IndexPage: React.FC<IndexProps> = props => {
             <div css={[PostFeed]}>
               {props.data.allContentfulPost.edges.map((node, index) => {
                 // filter out drafts in production
-                return <PostCard key={node.slug} post={node} large={index === 0} />;
+                return <PostCard key={node.node.slug} post={node.node} large={index === 0} />;
               })}
             </div>
           </div>

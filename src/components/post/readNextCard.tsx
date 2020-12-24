@@ -1,6 +1,4 @@
-import { format } from 'date-fns';
 import { Link } from 'gatsby';
-import * as _ from 'lodash';
 import { lighten } from 'polished';
 import React from 'react';
 import { colors } from 'styles/colors';
@@ -10,32 +8,27 @@ import { ReadNextProps } from '@types';
 
 export const ReadNextCard: React.FC<ReadNextProps> = props => {
   // filter out current post and limit to 3 related posts
-  const relatedPosts = props.relatedPosts.edges.filter(post => post.node.fields.slug !== props.currentPageSlug).slice(0, 3);
+  const relatedPosts = props.relatedPosts.edges.filter(post => post.node.slug !== props.currentPageSlug).slice(0, 3);
 
   return (
     <ReadNextCardArticle className="read-next-card">
       <header className="read-next-card-header">
         <ReadNextCardHeaderTitle>
           <span>More in</span>{' '}
-          <Link to={`/tags/${_.kebabCase(props.tags[0])}/`}>{props.tags[0]}</Link>
+          <Link to={`/tags/${props.tags[0].slug}/`}>{props.tags[0].tagName}</Link>
         </ReadNextCardHeaderTitle>
       </header>
       <ReadNextCardContent className="read-next-card-content">
         <ul>
-          {relatedPosts.map(n => {
-            const date = new Date(n.node.frontmatter.date);
-            // 2018-08-20
-            const datetime = format(date, 'yyyy-MM-dd');
-            // 20 AUG 2018
-            const displayDatetime = format(date, 'dd LLL yyyy');
+          {relatedPosts.map(post => {
             return (
-              <li key={n.node.frontmatter.title}>
+              <li key={post.node.title}>
                 <h4>
-                  <Link to={n.node.fields.slug}>{n.node.frontmatter.title}</Link>
+                  <Link to={post.node.slug}>{post.node.title}</Link>
                 </h4>
                 <ReadNextCardMeta className="read-next-card-meta">
                   <p>
-                    <time dateTime={datetime}>{displayDatetime}</time> - {n.node.timeToRead} min
+                    <time dateTime={post.node.updatedAt?.toDateString()}>{post.node.updatedAt}</time> - {post.node.body?.childMarkdownRemark.timeToRead} min
                     read
                   </p>
                 </ReadNextCardMeta>
@@ -45,7 +38,7 @@ export const ReadNextCard: React.FC<ReadNextProps> = props => {
         </ul>
       </ReadNextCardContent>
       <ReadNextCardFooter className="read-next-card-footer">
-        <Link to={`/tags/${_.kebabCase(props.tags[0])}/`}>
+        <Link to={`/tags/${props.tags[0].slug}/`}>
           {props.relatedPosts.totalCount > 1 && `See all ${props.relatedPosts.totalCount} posts`}
           {props.relatedPosts.totalCount === 1 && '1 post'}
           {props.relatedPosts.totalCount === 0 && 'No posts'} →

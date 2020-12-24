@@ -2,9 +2,7 @@ import { FixedObject, FluidObject } from 'gatsby-image';
 import { ReactChild, ReactChildren } from 'react';
 
 export type ContextProps = {
-  modalVisible: { isVisible: boolean };
-  darkMode: { isDark: boolean };
-  switchMode: () => void;
+  modalVisible: boolean;
   showModal: () => void;
   closeModal: () => void;
 };
@@ -13,15 +11,11 @@ export interface AuxProps {
   children: ReactChild | ReactChildren;
 }
 
-export interface MenuItem {
-  name: string;
-  link: string;
-}
-
 export interface IndexProps {
   className?: string;
 }
 export interface IndexProps {
+  location: Location;
   pageContext: {
     currentPage: number;
     numPages: number;
@@ -55,6 +49,7 @@ export interface PageTemplateProps {
   };
 }
 export interface TagTemplateProps {
+  location: Location;
   data: {
     allContentfulTag: {
       edges: TagNode[];
@@ -66,6 +61,7 @@ export interface TagTemplateProps {
   };
 }
 export interface AuthorTemplateProps {
+  location: Location;
   data: {
     allContentfulAuthor: {
       edges: AuthorNode[];
@@ -76,14 +72,12 @@ export interface AuthorTemplateProps {
     };
   };
 }
-
 export interface TagNode {
   node: Tag;
 }
 export interface PostNode {
   node: Post;
 }
-
 export interface AuthorNode {
   node: Author;
 }
@@ -181,14 +175,11 @@ export interface AuthorListProps {
   authors: Author[];
 }
 
-export interface SubscribeState {
-  isOpen: boolean;
-}
-
 export interface SeoProps {
   seoTitle?: string;
   seoDescription?: string;
   imageSrc?: string;
+  pathname?: string;
 }
 
 export interface Socials {

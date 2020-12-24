@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-var-requires */
 const path = require('path');
-const _ = require('lodash');
 const POSTS_PER_PAGE = 6;
 
 exports.createPages = async ({ graphql, actions, reporter }) => {

@@ -1,110 +1,84 @@
 import { SocialLinks } from 'components/social';
-import { SubscribeModal } from 'components/subscribe/';
+import { SubscribeModal } from 'components/subscribe';
+import { myContext } from 'context';
 import { Link } from 'gatsby';
 import { darken } from 'polished';
-import React from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { SiteNavProps, SiteNavState } from '@types';
 
 import { SiteNavLogo } from './siteNavLogo';
 
-export class SiteNav extends React.Component<SiteNavProps, SiteNavState> {
-  subscribe = React.createRef<SubscribeModal>();
-  titleRef = React.createRef<HTMLSpanElement>();
-  lastScrollY = 0;
-  ticking = false;
-  state = { showTitle: false };
+export const SiteNav = (title: { title: string }) => {
+  const titleRef = useRef(null);
+  let lastScrollY = 0;
+  let ticking = false;
 
-  openModal = () => {
-    if (this.subscribe.current) {
-      this.subscribe.current.open();
+  const onScroll = () => {
+    if (ticking) {
+      requestAnimationFrame(update);
     }
+
+    ticking = true;
   };
 
-  componentDidMount(): void {
-    this.lastScrollY = window.scrollY;
-    if (this.props.isPost) {
-      window.addEventListener('scroll', this.onScroll, { passive: true });
-    }
-  }
+  useEffect(() => {
+    console.log('Mount');
+    lastScrollY = window.scrollY;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [onScroll]);
+  const context = useContext(myContext);
+  const [showTitle, setShowTitle] = useState(false);
 
-  componentWillUnmount(): void {
-    window.removeEventListener('scroll', this.onScroll);
-  }
-
-  onScroll = () => {
-    if (!this.titleRef || !this.titleRef.current) {
+  const update = () => {
+    if (!titleRef || !titleRef.current) {
       return;
     }
 
-    if (!this.ticking) {
-      requestAnimationFrame(this.update);
-    }
-
-    this.ticking = true;
-  };
-
-  update = () => {
-    if (!this.titleRef || !this.titleRef.current) {
-      return;
-    }
-
-    this.lastScrollY = window.scrollY;
-
-    const trigger = this.titleRef.current.getBoundingClientRect().top;
-    const triggerOffset = this.titleRef.current.offsetHeight + 35;
-
+    lastScrollY = window.scrollY;
+    const trigger: number = titleRef.current.getBoundingClientRect().top;
+    const triggerOffset: number = titleRef.current.offsetHeight + 35;
     // show/hide post title
-    if (this.lastScrollY >= trigger + triggerOffset) {
-      this.setState({ showTitle: true });
+    if (lastScrollY >= trigger + triggerOffset) {
+      setShowTitle(true);
     } else {
-      this.setState({ showTitle: false });
+      setShowTitle(false);
+      ticking = false;
     }
-
-    this.ticking = false;
   };
 
- // TODO: remove isPost etc all props
-  render() {
-    const { isHome = false, isPost = false, post = {} } = this.props;
-    return (
-      <>
-        {config.showSubscribe && <SubscribeModal ref={this.subscribe} />}
-        <nav css={SiteNavStyles}>
-          <SiteNavLeft className="site-nav-left">
-            {!isHome && <SiteNavLogo />}
-            <SiteNavContent css={[this.state.showTitle ? HideNav : '']}>
-              <ul css={NavStyles} role="menu">
-                {/* TODO: mark current nav item - add class nav-current */}
-                <li role="menuitem">
-                  <Link to="/">Home</Link>
-                </li>
-                <li role="menuitem">
-                  <Link to="/about">About</Link>
-                </li>
-                <li role="menuitem">
-                  <Link to="/tags/getting-started/">Getting Started</Link>
-                </li>
-              </ul>
-              {isPost && (
-                <NavPostTitle ref={this.titleRef} className="nav-post-title">
-                  {post.title}
-                </NavPostTitle>
-              )}
-            </SiteNavContent>
-          </SiteNavLeft>
-          <SiteNavRight>
-            <SocialLinks />
-            <SubscribeButton onClick={this.openModal}>Subscribe</SubscribeButton>
-          </SiteNavRight>
-        </nav>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <SubscribeModal />
+      <nav css={SiteNavStyles}>
+        <SiteNavLeft className="site-nav-left">
+          <SiteNavLogo />
+          <SiteNavContent css={[showTitle ? HideNav : '']}>
+            <ul css={NavStyles} role="menu">
+              {/* TODO: mark current nav item - add class nav-current */}
+              <li role="menuitem">
+                <Link to="/">Home</Link>
+              </li>
+              <li role="menuitem">
+                <Link to="/about">About</Link>
+              </li>
+            </ul>
+            <NavPostTitle ref={titleRef} className="nav-post-title">
+              {title}
+            </NavPostTitle>
+          </SiteNavContent>
+        </SiteNavLeft>
+        <SiteNavRight>
+          <SocialLinks />
+          <SubscribeButton onClick={context.showModal}>Subscribe</SubscribeButton>
+        </SiteNavRight>
+      </nav>
+    </>
+  );
+};
 
 export const SiteNavMain = css`
   position: fixed;
@@ -270,4 +244,3 @@ const HideNav = css`
     transform: translateY(0);
   }
 `;
-

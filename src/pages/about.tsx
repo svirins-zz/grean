@@ -21,7 +21,7 @@ const About: React.FC = () => (
       <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
         <div css={[outer, SiteNavMain]}>
           <div css={inner}>
-            <SiteNav isHome={false} />
+            <SiteNav title="About page" />
           </div>
         </div>
       </header>

@@ -6,7 +6,7 @@ import { colors } from 'styles/colors';
 import { css } from '@emotion/react';
 import { PaginationProps } from '@types';
 
-export const Pagination: React.FunctionComponent<PaginationProps> = ({ currentPage, numPages }) => {
+export const Pagination: React.FC<PaginationProps> = ({ currentPage, numPages }) => {
   const isFirst = currentPage === 1;
   const isLast = currentPage === numPages;
   const prevPage = currentPage - 1 === 1 ? '/' : (currentPage - 1).toString();

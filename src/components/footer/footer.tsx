@@ -7,6 +7,7 @@ import { inner, outer } from 'styles/shared';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+// TODO: IMPLEMENT FOOTER SOCIALS + MENU
 export const Footer: React.FC = () => {
   return (
     <footer css={[outer, SiteFooter]}>

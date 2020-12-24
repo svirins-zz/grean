@@ -1,8 +1,6 @@
 import { AuthorList } from 'components/author';
-import { format } from 'date-fns';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
-import _ from 'lodash';
 import { lighten } from 'polished';
 import React from 'react';
 import { colors } from 'styles/colors';
@@ -12,62 +10,52 @@ import styled from '@emotion/styled';
 import { PostCardProps } from '@types';
 
 export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
-  const date = new Date(post.frontmatter.date);
-  // 2018-08-20
-  const datetime = format(date, 'yyyy-MM-dd');
-  // 20 AUG 2018
-  const displayDatetime = format(date, 'dd LLL yyyy');
-
   return (
     <article
-      className={`post-card ${post.frontmatter.image ? '' : 'no-image'} ${
+      className={`post-card ${post.hero ? '' : 'no-image'} ${
         large ? 'post-card-large' : ''
       }`}
       css={[PostCardStyles, large && PostCardLarge]}
     >
-      {post.frontmatter.image && (
-        <Link className="post-card-image-link" css={PostCardImageLink} to={post.fields.slug}>
+      {post.hero && (
+        <Link className="post-card-image-link" css={PostCardImageLink} to={post.slug}>
           <PostCardImage className="post-card-image">
-            {post.frontmatter?.image?.childImageSharp?.fluid && (
-              <Img
-                alt={`${post.frontmatter.title} cover image`}
-                style={{ height: '100%' }}
-                fluid={post.frontmatter.image.childImageSharp.fluid}
-              />
-            )}
+            <Img
+              alt={`${post.title} cover image`}
+              style={{ height: '100%' }}
+              fluid={post.hero.fluid}
+            />
           </PostCardImage>
         </Link>
       )}
       <PostCardContent className="post-card-content">
-        <Link className="post-card-content-link" css={PostCardContentLink} to={post.fields.slug}>
+        <Link className="post-card-content-link" css={PostCardContentLink} to={post.slug}>
           <PostCardHeader className="post-card-header">
-            {post.frontmatter.tags && (
-              <PostCardPrimaryTag className="post-card-primary-tag">
-                {post.frontmatter.tags[0]}
-              </PostCardPrimaryTag>
-            )}
-            <PostCardTitle className="post-card-title">{post.frontmatter.title}</PostCardTitle>
+            <PostCardPrimaryTag className="post-card-primary-tag">
+              {post.tags[0].tagName}
+            </PostCardPrimaryTag>
+            <PostCardTitle className="post-card-title">{post.title}</PostCardTitle>
           </PostCardHeader>
           <PostCardExcerpt className="post-card-excerpt">
-            <p>{post.frontmatter.excerpt || post.excerpt}</p>
+            <p>{post.excerpt}</p>
           </PostCardExcerpt>
         </Link>
         <PostCardMeta className="post-card-meta">
-          <AuthorList authors={post.frontmatter.author} tooltip="small" />
+          <AuthorList authors={post.author} tooltip="small" />
           <PostCardBylineContent className="post-card-byline-content">
             <span>
-              {post.frontmatter.author.map((author, index) => {
+              {post.author.map((author, index) => {
                 return (
-                  <React.Fragment key={author.id}>
-                    <Link to={`/author/${_.kebabCase(author.id)}/`}>{author.id}</Link>
-                    {post.frontmatter.author.length - 1 > index && ', '}
+                  <React.Fragment key={author.name}>
+                    <Link to={`/author/${author.slug}/`}>{author.name}</Link>
+                    {post.author.length - 1 > index && ', '}
                   </React.Fragment>
                 );
               })}
             </span>
             <span className="post-card-byline-date">
-              <time dateTime={datetime}>{displayDatetime}</time>{' '}
-              <span className="bull">&bull;</span> {post.timeToRead} min read
+              <time dateTime={post.updatedAt?.toDateString()}>{post.updatedAt?.toDateString()}</time>{' '}
+              <span className="bull">&bull;</span> {post.body?.childMarkdownRemark.timeToRead} min read
             </span>
           </PostCardBylineContent>
         </PostCardMeta>

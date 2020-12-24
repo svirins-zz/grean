@@ -11,7 +11,7 @@ export const SocialLinks: React.FC = () => {
     if (social.showInHeader) {
       return (
         <a
-          key={index}
+          key={social.name}
           className="social-link-fb"
           css={[SocialLink, SocialLinkFb]}
           href={social.link}

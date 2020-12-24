@@ -22,7 +22,7 @@ import {
 
 import { TagTemplateProps } from '@types';
 
-const Tags = ({ data }: TagTemplateProps): JSX.Element => {
+const Tags = ({ data, location }: TagTemplateProps): JSX.Element => {
   const { edges, totalCount } = data.allContentfulPost;
   const tagData = data.allContentfulTag.edges[0].node;
   return (
@@ -31,6 +31,7 @@ const Tags = ({ data }: TagTemplateProps): JSX.Element => {
         seoTitle={tagData.tagName}
         seoDescription={tagData.description?.raw}
         imageSrc={tagData.image?.fixed.src}
+        pathname={location}
       />
       <Wrapper>
         <header
@@ -39,7 +40,7 @@ const Tags = ({ data }: TagTemplateProps): JSX.Element => {
         >
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav />
+              <SiteNav title={tagData.tagName}/>
             </div>
           </div>
           <ResponsiveHeaderBackground

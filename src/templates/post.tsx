@@ -7,7 +7,6 @@ import { Subscribe } from 'components/subscribe';
 import { Link, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import { IndexLayout } from 'layouts';
-import * as _ from 'lodash';
 import { lighten, setLightness } from 'polished';
 import React from 'react';
 import { colors } from 'styles/colors';
@@ -35,12 +34,17 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
   });
   return (
     <IndexLayout className="post-template">
-      <Seo seoTitle={post.title} seoDescription={post.excerpt} imageSrc={post.hero?.fixed.src} />
+      <Seo
+        seoTitle={post.title}
+        seoDescription={post.excerpt}
+        imageSrc={post.hero?.fixed.src}
+        pathname={location}
+      />
       <Wrapper css={PostTemplate}>
         <header className="site-header">
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav />
+              <SiteNav title={post.title}/>
             </div>
           </div>
         </header>
@@ -58,15 +62,14 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
                   <section className="post-full-byline-content">
                     <AuthorList authors={post.author} tooltip="large" />
                     <section className="post-full-byline-meta">
-                      <h4 className="author-name">
-                        {authorsDisplay}
-                      </h4>
+                      <h4 className="author-name">{authorsDisplay}</h4>
                       <div className="byline-meta-content">
-                        <time className="byline-meta-date" dateTime={post.updatedAt}>
+                        <time className="byline-meta-date" dateTime={post.updatedAt?.toDateString()}>
                           {post.updatedAt?.toString()}
                         </time>
                         <span className="byline-reading-time">
-                          <span className="bull">&bull;</span> {post.body?.childMarkdownRemark.timeToRead} min read
+                          <span className="bull">&bull;</span>{' '}
+                          {post.body?.childMarkdownRemark.timeToRead} min read
                         </span>
                       </div>
                     </section>
@@ -76,11 +79,7 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
 
               {post.hero && (
                 <PostFullImage>
-                  <Img
-                    style={{ height: '100%' }}
-                    fluid={post.hero.fluid}
-                    alt={post.title}
-                  />
+                  <Img style={{ height: '100%' }} fluid={post.hero.fluid} alt={post.title} />
                 </PostFullImage>
               )}
               <PostContent htmlAst={post.body?.childMarkdownRemark.htmlAst} />
@@ -156,9 +155,9 @@ export const query = graphql`
           slug
           excerpt
           updatedAt(formatString: "dd MMM yyyy")
-          tags {          
-              slug
-              tagName
+          tags {
+            slug
+            tagName
           }
           hero {
             fluid(maxWidth: 2540) {

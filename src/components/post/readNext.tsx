@@ -16,6 +16,7 @@ export const ReadNext = ({ relatedPosts, currentPageSlug, tags, pageContext }: R
         <ReadNextFeed className="read-next-feed">
           {showRelatedPosts && (
             <ReadNextCard
+              pageContext={pageContext}
               currentPageSlug={currentPageSlug}
               tags={tags}
               relatedPosts={relatedPosts}

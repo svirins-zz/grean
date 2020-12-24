@@ -1,7 +1,6 @@
 import { AuthorProfileImage } from 'components/post';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
-import * as _ from 'lodash';
 import { lighten } from 'polished';
 import React, { useState } from 'react';
 import { colors } from 'styles/colors';
@@ -26,6 +25,7 @@ export const AuthorListItem: React.FC<AuthorListItemProps> = props => {
     clearTimeout(timeout);
     timeout = setTimeout(() => setHover(false), 600);
   }
+  // TODO: implement markdown - author personal info
 
   return (
     <AuthorListItemLi
@@ -34,25 +34,23 @@ export const AuthorListItem: React.FC<AuthorListItemProps> = props => {
       onMouseLeave={() => handleMouseLeave()}
     >
       {props.tooltip === 'small' && (
-        <AuthorNameTooltip className="author-name-tooltip">{props.author.id}</AuthorNameTooltip>
+        <AuthorNameTooltip className="author-name-tooltip">{props.author.name}</AuthorNameTooltip>
       )}
       {props.tooltip === 'large' && (
         <div css={[AuthorCardStyles, hovered && Hovered]} className="author-card">
-          {props.author.avatar.children.length && (
-            <Img
-              css={AuthorProfileImage}
-              className="author-profile-image"
-              fluid={props.author.avatar.children[0].fluid}
-              fadeIn={false}
-            />
-          )}
+          <Img
+            css={AuthorProfileImage}
+            className="author-profile-image"
+            fluid={props.author.avatar?.fluid}
+            fadeIn={false}
+          />
           <div className="author-info">
             <div className="bio">
-              <h2>{props.author.id}</h2>
-              <p>{props.author.bio}</p>
+              <h2>{props.author.name}</h2>
+              <p>{props.author.subtitle}</p>
               <p>
-                <Link to={`/author/${_.kebabCase(props.author.id)}/`}>More posts</Link> by{' '}
-                {props.author.id}.
+                <Link to={`/author/${props.author.slug}/`}>More posts</Link> by{' '}
+                {props.author.name}.
               </p>
             </div>
           </div>
@@ -61,13 +59,12 @@ export const AuthorListItem: React.FC<AuthorListItemProps> = props => {
       <Link
         css={AuthorAvatar}
         className="author-avatar"
-        to={`/author/${_.kebabCase(props.author.id)}/`}
+        to={`/author/${props.author.slug}/`}
       >
         <Img
           css={AuthorProfileImage}
           className="author-profile-image"
-          fluid={props.author.avatar.children[0].fluid}
-          alt={props.author.id}
+          fluid={props.author.avatar?.fluid}
           fadeIn={false}
         />
       </Link>

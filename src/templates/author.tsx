@@ -24,7 +24,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AuthorTemplateProps } from '@types';
 
-const Author = ({ data }: AuthorTemplateProps) => {
+const Author = ({ data, location }: AuthorTemplateProps) => {
   // TODO: implement multi-authors
   const author = data.allContentfulAuthor.edges[0].node;
   const { edges, totalCount } = data.allContentfulPost;
@@ -48,12 +48,13 @@ const Author = ({ data }: AuthorTemplateProps) => {
         seoTitle={author.name}
         seoDescription={author.subtitle}
         imageSrc={author.avatar?.fixed.src}
+        pathname={location}
       />
       <Wrapper>
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav />
+              <SiteNav title={author.name} />
             </div>
           </div>
 

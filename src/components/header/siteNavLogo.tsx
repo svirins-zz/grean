@@ -1,33 +1,16 @@
-import { Link, StaticQuery, graphql } from 'gatsby';
+import logo from 'assets/svg/logo.svg';
+import { Link } from 'gatsby';
 import React from 'react';
 
 import { css } from '@emotion/react';
-import { SiteNavLogoProps } from '@types';
 
-export const SiteNavLogo = () => (
-  <StaticQuery
-    query={graphql`
-      query HeadingQuery {
-        logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
-          childImageSharp {
-            fixed(quality: 100 width: 500) {
-              ...GatsbyImageSharpFixed
-            }
-          }
-        }
-      }
-    `}
-    render={(data: SiteNavLogoProps) => (
-      <Link className="site-nav-logo" css={SiteNavLogoStyles} to="/">
-        {data.logo ? (
-          <img src={data.logo.childImageSharp.fixed.src} alt={config.title} />
-        ) : (
-          config.title
-        )}
-      </Link>
-    )}
-  />
-);
+export const SiteNavLogo = () => {
+  return (
+    <Link to="/">
+      <img css={SiteNavLogoStyles} className="subscribe-overlay-logo" src={logo} alt="Addict.cf" />
+    </Link>
+  );
+};
 
 const SiteNavLogoStyles = css`
   position: relative;
@@ -53,4 +36,3 @@ const SiteNavLogoStyles = css`
     height: 21px;
   }
 `;
-
