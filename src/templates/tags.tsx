@@ -108,9 +108,8 @@ export const pageQuery = graphql`
           excerpt
           updatedAt(formatString: "dd MMM yyyy")
           tags {
-              slug
-              tagName
-            }
+            slug
+            tagName
           }
           hero {
             fluid(maxWidth: 2540)  {
@@ -134,4 +133,5 @@ export const pageQuery = graphql`
           }
         }
       }
-    }`;
+    }
+  }`;

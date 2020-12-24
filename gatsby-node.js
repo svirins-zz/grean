@@ -68,17 +68,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // post creatipon logic
 
   const postTemplate = path.resolve('./src/templates/post.tsx');
-  posts.forEach(({ post }, index) => {
+  posts.forEach(({ node }, index) => {
     const prev = index === 0 ? null : posts[index - 1].node;
     const next = index === posts.length - 1 ? null : posts[index + 1].node;
     createPage({
-      path: `/${post.slug}/`,
+      path: `/${node.slug}/`,
       component: postTemplate,
       context: {
         prev,
         next,
-        slug: post.slug,
-        primaryTag: post.tags ? post.tags[0].slug : '',
+        slug: node.slug,
+        primaryTag: node.tags ? node.tags[0].slug : '',
       },
     });
   });
@@ -86,12 +86,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // tag creation logic
   const tags = tagsResult.data.allContentfulTag.edges;
   const tagTemplate = path.resolve('./src/templates/tags.tsx');
-  tags.forEach(({ tag }) => {
+  tags.forEach(({ node }) => {
     createPage({
-      path: `/tags/${tag.slug}/`,
+      path: `/tags/${node.slug}/`,
       component: tagTemplate,
       context: {
-        tag: tag.slug,
+        tag: node.slug,
       },
     });
   });
@@ -99,12 +99,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // Create author pages
   const authorTemplate = path.resolve('./src/templates/author.tsx');
   const authors = authorsResult.data.allContentfulAuthor.edges;
-  authors.edges.forEach(({ author }) => {
+  authors.forEach(({ node }) => {
     createPage({
-      path: `/author/${author.slug}/`,
+      path: `/author/${node.slug}/`,
       component: authorTemplate,
       context: {
-        author: author.slug,
+        author: node.slug,
       },
     });
   });
