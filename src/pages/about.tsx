@@ -1,3 +1,4 @@
+import siteImage from 'assets/img/hero.jpg';
 import { Footer } from 'components/footer';
 import { SiteNav } from 'components/header';
 import { Seo, Wrapper } from 'components/layout';
@@ -13,9 +14,9 @@ import { css } from '@emotion/react';
 const About: React.FC = () => (
   <IndexLayout>
     <Seo
-      seoDescription={}
-      seoTitle={}
-      imageSrc={}
+      seoDescription="About Page"
+      seoTitle="Who we are"
+      imageSrc={siteImage}
     />
     <Wrapper css={PageTemplate}>
       <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>

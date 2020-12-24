@@ -34,13 +34,10 @@ const Tags = ({ data, location }: TagTemplateProps): JSX.Element => {
         pathname={location}
       />
       <Wrapper>
-        <header
-          className="site-archive-header"
-          css={[SiteHeader, SiteArchiveHeader]}
-        >
+        <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav title={tagData.tagName}/>
+              <SiteNav title={tagData.tagName} />
             </div>
           </div>
           <ResponsiveHeaderBackground
@@ -51,9 +48,7 @@ const Tags = ({ data, location }: TagTemplateProps): JSX.Element => {
             <SiteHeaderContent css={inner} className="site-header-content">
               <SiteTitle className="site-title">{tagData.tagName}</SiteTitle>
               <SiteDescription className="site-description">
-                {tagData.description}
-                {' '} A collection of {' '}
-                {totalCount > 1 && `${totalCount} posts`}
+                {tagData.description} A collection of {totalCount > 1 && `${totalCount} posts`}
                 {totalCount === 1 && '1 post'}
                 {totalCount === 0 && 'No posts'}
               </SiteDescription>
@@ -103,7 +98,7 @@ export const pageQuery = graphql`
     }
     allContentfulPost(
       sort: {order: DESC, fields: updatedAt},
-      filter: {tags: {elemMatch: {slug: {in: $tag}}}}
+      filter: {tags: {elemMatch: {slug: {eq: $tag}}}}
       ) {
       totalCount
       edges {
@@ -139,6 +134,4 @@ export const pageQuery = graphql`
           }
         }
       }
-    } 
-  }
-}`;
+    }`;

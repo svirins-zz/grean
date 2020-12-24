@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore
-import favicon from '/src/svg/favicon.svg';
+import favicon from 'assets/svg/favicon.svg';
 import { lighten } from 'polished';
 import React from 'react';
 import { Helmet } from 'react-helmet';

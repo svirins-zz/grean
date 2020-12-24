@@ -21,7 +21,7 @@ export const Seo = ({
             author
             lang
             keywords
-            siteUrl
+            siteURL
           }
         }
       }

@@ -36,7 +36,7 @@ const NotFoundPage: React.FC<NotFoundTemplateProps> = props => {
 
             <div css={PostFeed} className="post-feed">
               {edges.map(({ node }) => (
-                <PostCard key={node.fields.slug} post={node} />
+                <PostCard key={node.slug} post={node} />
               ))}
             </div>
           </div>
@@ -48,39 +48,37 @@ const NotFoundPage: React.FC<NotFoundTemplateProps> = props => {
 
 export const pageQuery = graphql`
   query {
-    allMarkdownRemark(limit: 3, sort: { fields: [frontmatter___date], order: DESC }) {
+    allContentfulPost(sort: { fields: updatedAt, order: DESC }, limit: 3) {
       edges {
         node {
-          timeToRead
-          frontmatter {
-            title
-            date
-            tags
-            image {
-              childImageSharp {
-                fluid(maxWidth: 3720) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-            author {
-              id
-              bio
-              avatar {
-                children {
-                  ... on ImageSharp {
-                    fluid(quality: 100, srcSetBreakpoints: [40, 80, 120]) {
-                      ...GatsbyImageSharpFluid
-                    }
-                  }
-                }
-              }
+          title
+          slug
+          excerpt
+          updatedAt(formatString: "dd MMM yyyy")
+          featured
+          tags {
+            slug
+            tagName
+          }
+          hero {
+            fluid(maxWidth: 2540) {
+              ...GatsbyContentfulFluid_withWebp
             }
           }
-          excerpt
-          fields {
-            layout
-            slug
+          body {
+            childMarkdownRemark {
+              htmlAst
+              timeToRead
+            }
+          }
+          author {
+            name
+            subtitle
+            avatar {
+              fluid(maxWidth: 800) {
+                ...GatsbyContentfulFluid_withWebp
+              }
+            }
           }
         }
       }

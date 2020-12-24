@@ -6,13 +6,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const postsResult = await graphql(`
   {
-    allContentfulPost(limit: 100, sort: {fields: date, order: DESC}) {
+    allContentfulPost(limit: 100, sort: {fields: date, order: DESC}) 
+    {
       edges {
         node {
           slug
           tags {
             slug
-            }
           }
           author {
             slug
@@ -20,8 +20,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         }
       }
     }
-  }
-`);
+  }`);
   const authorsResult = await graphql(`
   {
     allContentfulAuthor {
@@ -31,8 +30,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         }
       }
     }
-  }  
-`);
+  }`);
   const tagsResult = await graphql(`
   {
     allContentfulTag {
@@ -42,8 +40,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         }
       }
     }
-  }
-`);
+  }`);
   // Handle errors
   if (postsResult.errors || authorsResult.errors || tagsResult.errors) {
     reporter.panicOnBuild('Error while running GraphQL query.');

@@ -109,7 +109,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
 
 export const pageQuery = graphql`
   query($slug: String) {
-    allContentfulAuthor(filter: { fields: { slug: { eq: $slug } } }) {
+    allContentfulAuthor(filter: { slug: { eq: $slug } } ) {
       edges {
         node {
           name
@@ -144,7 +144,7 @@ export const pageQuery = graphql`
       sort: { fields: date, order: DESC }
       filter: { author: { elemMatch: { slug: { eq: $slug } } } }
     ) {
-      totalcount
+      totalCount
       edges {
         node {
           title

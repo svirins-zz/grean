@@ -12,7 +12,7 @@ module.exports = {
     lang: 'ru',
     keywords: ['Addiction', 'Therapy', 'Recovery', 'Blog'],
     coverImage: 'src/assets/img/hero.jpg',
-    logo: 'src/assets/svg/eye.svg',
+    logo: 'src/assets/svg/logo.svg',
     facebook: '',
     twitter: '',
     showSubscribe: true,
@@ -70,13 +70,6 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'pages',
-        path: `${__dirname}/src/content`,
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
         name: 'images',
         path: `${__dirname}/src/assets`,
       },
@@ -121,7 +114,6 @@ module.exports = {
     'gatsby-plugin-emotion',
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
-    'gatsby-transformer-yaml',
     'gatsby-plugin-feed',
     {
       resolve: 'gatsby-plugin-postcss',
