@@ -10,11 +10,14 @@ import React from 'react';
 import {
   PostFeed,
   Posts,
+  SiteArchiveHeader,
   SiteDescription,
   SiteHeader,
+  SiteHeaderBackground,
   SiteHeaderContent,
   SiteHeaderStyles,
   SiteMain,
+  SiteNavMain,
   SiteTitle,
   inner,
   outer,
@@ -34,6 +37,13 @@ const IndexPage: React.FC<IndexProps> = props => {
         seoTitle={props.data.site.siteMetadata.title}
       />
       <Wrapper>
+        <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
+          <div css={[outer, SiteNavMain]}>
+            <div css={inner}>
+              <SiteNav title={props.data.site.siteMetadata.title} />
+            </div>
+          </div>
+        </header>
         <div
           css={[outer, SiteHeader, SiteHeaderStyles]}
           className="site-header-background"
@@ -42,7 +52,6 @@ const IndexPage: React.FC<IndexProps> = props => {
           }}
         >
           <div css={inner}>
-            <SiteNav title={props.data.site.siteMetadata.title} />
             <SiteHeaderContent className="site-header-conent">
               <SiteTitle className="site-title">
                 <img

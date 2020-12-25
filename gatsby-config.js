@@ -36,26 +36,6 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-typegen',
-      options: {
-        outputPath: 'src/@types/__generated__/gatsby-types.d.ts',
-      },
-    },
-    {
-      resolve: 'gatsby-plugin-webfonts',
-      options: {
-        fonts: {
-          google: [
-            {
-              family: 'Montserrat',
-              subsets: ['cyrillic-ext'],
-              variants: ['400', '500', '700', '800'],
-            },
-          ],
-        },
-      },
-    },
-    {
       resolve: 'gatsby-plugin-sharp',
       options: {
         defaultQuality: 100,
@@ -102,12 +82,6 @@ module.exports = {
             options: {
               maxWidth: 2000,
               quality: 100,
-            },
-          },
-          {
-            resolve: 'gatsby-remark-images-zoom',
-            options: {
-              background: '#101010',
             },
           },
         ],
