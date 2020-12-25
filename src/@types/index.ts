@@ -15,7 +15,6 @@ export interface IndexProps {
   className?: string;
 }
 export interface IndexProps {
-  location: Location;
   pageContext: {
     currentPage: number;
     numPages: number;
@@ -33,7 +32,6 @@ export interface IndexProps {
   };
 }
 export interface PageTemplateProps {
-  location: Location;
   data: {
     allContentfulPost: {
       edges: PostNode[];
@@ -49,7 +47,6 @@ export interface PageTemplateProps {
   };
 }
 export interface TagTemplateProps {
-  location: Location;
   data: {
     allContentfulTag: {
       edges: TagNode[];
@@ -61,7 +58,6 @@ export interface TagTemplateProps {
   };
 }
 export interface AuthorTemplateProps {
-  location: Location;
   data: {
     allContentfulAuthor: {
       edges: AuthorNode[];
@@ -84,18 +80,18 @@ export interface AuthorNode {
 export interface Post {
   title: string;
   slug: string;
-  excerpt?: string;
-  updatedAt?: Date;
-  featured?: boolean;
-  hero?: ImageObject;
-  body?: {
+  updatedAt: Date;
+  featured: boolean;
+  hero: ImageObject;
+  body: {
     childMarkdownRemark: {
       htmlAst: JSON;
       timeToRead: number;
+      excerpt: string;
     };
   };
-  tags?: Tag[];
-  author?: Author[];
+  tags: Tag[];
+  author: Author[];
 }
 export interface Author {
   name: string;
@@ -103,13 +99,13 @@ export interface Author {
   location?: string;
   subtitle?: string;
   social?: string[];
-  personal_info?: {
+  personal_info: {
     childMarkdownRemark: {
       htmlAst: JSON;
     };
   };
-  avatar?: ImageObject;
-  profileImage?: ImageObject;
+  avatar: ImageObject;
+  profileImage: ImageObject;
 }
 
 export interface ImageObject {
@@ -119,10 +115,14 @@ export interface ImageObject {
 export interface Tag {
   slug: string;
   tagName: string;
-  description?: {
-    raw: string;
+  description: {
+    childMarkdownRemark: {
+      htmlAst: JSON;
+      timeToRead: number;
+      excerpt: string;
+    };
   };
-  image?: ImageObject;
+  image: ImageObject;
 }
 
 export interface NotFoundTemplateProps {
@@ -179,7 +179,6 @@ export interface SeoProps {
   seoTitle?: string;
   seoDescription?: string;
   imageSrc?: string;
-  pathname?: string;
 }
 
 export interface Socials {

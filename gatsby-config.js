@@ -26,6 +26,16 @@ module.exports = {
     'gatsby-plugin-sitemap',
     'gatsby-plugin-resolve-src',
     {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'Addict.cf',
+        short_name: 'addict',
+        start_url: '/',
+        display: 'browser',
+        icon: 'src/assets/svg/logo.svg',
+      },
+    },
+    {
       resolve: 'gatsby-plugin-typegen',
       options: {
         outputPath: 'src/@types/__generated__/gatsby-types.d.ts',
@@ -119,6 +129,21 @@ module.exports = {
       resolve: 'gatsby-plugin-postcss',
       options: {
         postCssPlugins: [require('postcss-color-function'), require('cssnano')()],
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'Addict.cf',
+        short_name: 'Addict.cf',
+        description: 'Addict.cf',
+        start_url: '/',
+        lang: 'ru',
+        display: 'standalone',
+        icon: 'src/assets/svg/logo.svg',
+        background_color: '#101010',
+        theme_color: '#20263d',
+        crossOrigin: 'use-credentials',
       },
     },
   ],

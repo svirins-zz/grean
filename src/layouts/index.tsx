@@ -1,9 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
 // @ts-ignore
-import favicon from 'assets/svg/favicon.svg';
 import { lighten } from 'polished';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { colors } from 'styles/colors';
 
 import { Global, css } from '@emotion/react';
@@ -12,9 +10,6 @@ import { IndexProps } from '@types';
 export const IndexLayout: React.FC<IndexProps> = props => {
   return (
     <div className={props.className}>
-      <Helmet>
-        <link rel="icon" href={favicon} type="image/x-icon" />
-      </Helmet>
       <Global
         styles={css`
           html,
@@ -274,8 +269,8 @@ export const IndexLayout: React.FC<IndexProps> = props => {
           body {
             overflow-x: hidden;
             color: ${lighten('-0.3', colors.midgrey)};
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-              Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Montserrat', Roboto, Ubuntu,
+            'Open Sans', 'Helvetica Neue', sans-serif;
             font-size: 1.6rem;
             line-height: 1.6em;
             font-weight: 400;

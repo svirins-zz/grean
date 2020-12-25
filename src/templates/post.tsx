@@ -14,18 +14,20 @@ import { SiteMain, inner, outer } from 'styles/shared';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useLocation } from '@reach/router';
 import { PageTemplateProps } from '@types';
 
-const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
+const PageTemplate = ({ data, pageContext }: PageTemplateProps) => {
+  const { pathname } = useLocation();
   const post = data.allContentfulPost.edges[0].node;
-  const tagsDisplay = post.tags?.map(tag => {
+  const tagsDisplay = post.tags.map(tag => {
     return (
       <Link key={tag.slug} to={`/tags/${tag.slug}/`}>
         {tag.tagName}
       </Link>
     );
   });
-  const authorsDisplay = post.author?.map(author => {
+  const authorsDisplay = post.author.map(author => {
     return (
       <Link key={author.slug} to={`/author/${author.slug}/`}>
         {author.name}
@@ -36,9 +38,8 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
     <IndexLayout className="post-template">
       <Seo
         seoTitle={post.title}
-        seoDescription={post.excerpt}
-        imageSrc={post.hero?.fixed.src}
-        pathname={location}
+        seoDescription={post.body.childMarkdownRemark.excerpt}
+        imageSrc={post.hero.fixed.src}
       />
       <Wrapper css={PostTemplate}>
         <header className="site-header">
@@ -56,7 +57,7 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
                 <PostFullTags className="post-full-tags">{tagsDisplay}</PostFullTags>
                 <PostFullTitle className="post-full-title">{post.title}</PostFullTitle>
                 <PostFullCustomExcerpt className="post-full-custom-excerpt">
-                  {post.excerpt}
+                  {post.body.childMarkdownRemark.excerpt}
                 </PostFullCustomExcerpt>
                 <PostFullByline className="post-full-byline">
                   <section className="post-full-byline-content">
@@ -64,12 +65,12 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
                     <section className="post-full-byline-meta">
                       <h4 className="author-name">{authorsDisplay}</h4>
                       <div className="byline-meta-content">
-                        <time className="byline-meta-date" dateTime={post.updatedAt?.toDateString()}>
-                          {post.updatedAt?.toString()}
+                        <time className="byline-meta-date" dateTime={post.updatedAt.toString()}>
+                          {post.updatedAt.toString()}
                         </time>
                         <span className="byline-reading-time">
                           <span className="bull">&bull;</span>{' '}
-                          {post.body?.childMarkdownRemark.timeToRead} min read
+                          {post.body.childMarkdownRemark.timeToRead} min read
                         </span>
                       </div>
                     </section>
@@ -82,7 +83,7 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
                   <Img style={{ height: '100%' }} fluid={post.hero.fluid} alt={post.title} />
                 </PostFullImage>
               )}
-              <PostContent htmlAst={post.body?.childMarkdownRemark.htmlAst} />
+              <PostContent htmlAst={post.body.childMarkdownRemark.htmlAst} />
 
               <Subscribe />
             </article>
@@ -90,7 +91,7 @@ const PageTemplate = ({ data, pageContext, location }: PageTemplateProps) => {
         </main>
 
         <ReadNext
-          currentPageSlug={location.pathname}
+          currentPageSlug={pathname}
           tags={post.tags}
           relatedPosts={data.relatedPosts}
           pageContext={pageContext}
@@ -110,8 +111,7 @@ export const query = graphql`
         node {
           title
           slug
-          excerpt
-          updatedAt(formatString: "dd MMM yyyy")
+          updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug
             tagName
@@ -127,6 +127,7 @@ export const query = graphql`
           body {
             childMarkdownRemark {
               htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
             }
           }
@@ -153,8 +154,7 @@ export const query = graphql`
         node {
           title
           slug
-          excerpt
-          updatedAt(formatString: "dd MMM yyyy")
+          updatedAt(formatString: "d MMM yyyy")
           tags {
             slug
             tagName
@@ -167,6 +167,7 @@ export const query = graphql`
           body {
             childMarkdownRemark {
               htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
             }
           }

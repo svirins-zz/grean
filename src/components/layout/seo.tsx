@@ -9,7 +9,6 @@ export const Seo = ({
   seoTitle,
   seoDescription,
   imageSrc,
-  pathname,
 }: SeoProps): JSX.Element => {
   const { site } = useStaticQuery(
     graphql`
@@ -31,7 +30,7 @@ export const Seo = ({
   return (
     <Helmet
       htmlAttributes={{
-        lang: site.siteMetadata.lang ?? 'en',
+        lang: site.siteMetadata.lang ?? 'ru',
       }}
       title={`${site.siteMetadata.title} | ${seoTitle}`}
       meta={[
@@ -69,7 +68,7 @@ export const Seo = ({
         },
         {
           name: 'og:url',
-          content: `site.siteMetadata.siteUrl${pathname}`,
+          content: (process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : `site.siteMetadata.siteUrl${pathname}`),
         },
         {
           name: 'twitter:card',

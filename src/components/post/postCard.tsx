@@ -18,7 +18,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
       css={[PostCardStyles, large && PostCardLarge]}
     >
       {post.hero && (
-        <Link className="post-card-image-link" css={PostCardImageLink} to={post.slug}>
+        <Link className="post-card-image-link" css={PostCardImageLink} to={`/${post.slug}`}>
           <PostCardImage className="post-card-image">
             <Img
               alt={`${post.title} cover image`}
@@ -29,15 +29,15 @@ export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
         </Link>
       )}
       <PostCardContent className="post-card-content">
-        <Link className="post-card-content-link" css={PostCardContentLink} to={post.slug}>
+        <Link className="post-card-content-link" css={PostCardContentLink} to={`/${post.slug}`}>
           <PostCardHeader className="post-card-header">
             <PostCardPrimaryTag className="post-card-primary-tag">
-              {post.tags[0].tagName}
+              <Link to={`/tags/${post.tags[0].slug}/`}>{post.tags[0].tagName}</Link>
             </PostCardPrimaryTag>
             <PostCardTitle className="post-card-title">{post.title}</PostCardTitle>
           </PostCardHeader>
           <PostCardExcerpt className="post-card-excerpt">
-            <p>{post.excerpt}</p>
+            <p>{post.body.childMarkdownRemark.excerpt}</p>
           </PostCardExcerpt>
         </Link>
         <PostCardMeta className="post-card-meta">
@@ -54,8 +54,8 @@ export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
               })}
             </span>
             <span className="post-card-byline-date">
-              <time dateTime={post.updatedAt?.toDateString()}>{post.updatedAt?.toDateString()}</time>{' '}
-              <span className="bull">&bull;</span> {post.body?.childMarkdownRemark.timeToRead} min read
+              <time dateTime={post.updatedAt.toString()}>{post.updatedAt.toString()}</time>{' '}
+              <span className="bull">&bull;</span> {post.body.childMarkdownRemark.timeToRead} min read
             </span>
           </PostCardBylineContent>
         </PostCardMeta>

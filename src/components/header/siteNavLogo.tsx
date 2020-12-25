@@ -1,4 +1,3 @@
-import logo from 'assets/svg/logo.svg';
 import { Link } from 'gatsby';
 import React from 'react';
 
@@ -7,7 +6,7 @@ import { css } from '@emotion/react';
 export const SiteNavLogo = () => {
   return (
     <Link to="/">
-      <img css={SiteNavLogoStyles} className="subscribe-overlay-logo" src={logo} alt="Addict.cf" />
+      <span css={SiteNavLogoStyles}>Addict.cf</span>
     </Link>
   );
 };

@@ -6,29 +6,28 @@ import { colors } from 'styles/colors';
 import styled from '@emotion/styled';
 import { ReadNextProps } from '@types';
 
-export const ReadNextCard: React.FC<ReadNextProps> = props => {
+export const ReadNextCard = ({ relatedPosts, currentPageSlug, tags, pageContext }: ReadNextProps) => {
   // filter out current post and limit to 3 related posts
-  const relatedPosts = props.relatedPosts.edges.filter(post => post.node.slug !== props.currentPageSlug).slice(0, 3);
-
+  const related = relatedPosts.edges.filter(post => post.node.slug !== currentPageSlug).slice(0, 3);
   return (
     <ReadNextCardArticle className="read-next-card">
       <header className="read-next-card-header">
         <ReadNextCardHeaderTitle>
           <span>More in</span>{' '}
-          <Link to={`/tags/${props.tags[0].slug}/`}>{props.tags[0].tagName}</Link>
+          <Link to={`/tags/${tags[0].slug}/`}>{tags[0].tagName}</Link>
         </ReadNextCardHeaderTitle>
       </header>
       <ReadNextCardContent className="read-next-card-content">
         <ul>
-          {relatedPosts.map(post => {
+          {related.map(post => {
             return (
               <li key={post.node.title}>
                 <h4>
-                  <Link to={post.node.slug}>{post.node.title}</Link>
+                  <Link to={`/${post.node.slug}`}>{post.node.title}</Link>
                 </h4>
                 <ReadNextCardMeta className="read-next-card-meta">
                   <p>
-                    <time dateTime={post.node.updatedAt?.toDateString()}>{post.node.updatedAt}</time> - {post.node.body?.childMarkdownRemark.timeToRead} min
+                    <time dateTime={post.node.updatedAt.toString()}>{post.node.updatedAt.toString()}</time> - {post.node.body.childMarkdownRemark.timeToRead} min
                     read
                   </p>
                 </ReadNextCardMeta>
@@ -38,10 +37,10 @@ export const ReadNextCard: React.FC<ReadNextProps> = props => {
         </ul>
       </ReadNextCardContent>
       <ReadNextCardFooter className="read-next-card-footer">
-        <Link to={`/tags/${props.tags[0].slug}/`}>
-          {props.relatedPosts.totalCount > 1 && `See all ${props.relatedPosts.totalCount} posts`}
-          {props.relatedPosts.totalCount === 1 && '1 post'}
-          {props.relatedPosts.totalCount === 0 && 'No posts'} →
+        <Link to={`/tags/${tags[0].slug}/`}>
+          {relatedPosts.totalCount > 1 && `See all ${relatedPosts.totalCount} posts`}
+          {relatedPosts.totalCount === 1 && '1 post'}
+          {relatedPosts.totalCount === 0 && 'No posts'} →
         </Link>
       </ReadNextCardFooter>
     </ReadNextCardArticle>

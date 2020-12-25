@@ -24,18 +24,19 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AuthorTemplateProps } from '@types';
 
-const Author = ({ data, location }: AuthorTemplateProps) => {
+const Author = ({ data }: AuthorTemplateProps) => {
   // TODO: implement multi-authors
   const author = data.allContentfulAuthor.edges[0].node;
+
   const { edges, totalCount } = data.allContentfulPost;
   // TODO:im[plement socials detection]
-  const socialsDisplay = author.social?.map((social: string) => {
+  const socialsDisplay = author.social.map((social: string) => {
     return (
       <AuthorSocialLink
         key={social}
         className="author-social-link"
       >
-        <AuthorSocialLinkAnchor href={author.social} target="_blank" rel="noopener noreferrer">
+        <AuthorSocialLinkAnchor href={social} target="_blank" rel="noopener noreferrer">
           Social link
         </AuthorSocialLinkAnchor>
       </AuthorSocialLink>
@@ -47,8 +48,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
       <Seo
         seoTitle={author.name}
         seoDescription={author.subtitle}
-        imageSrc={author.avatar?.fixed.src}
-        pathname={location}
+        imageSrc={author.avatar.fixed.src}
       />
       <Wrapper>
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
@@ -59,7 +59,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
           </div>
 
           <ResponsiveHeaderBackground
-            backgroundImage={author.profileImage?.fixed.src}
+            backgroundImage={author.profileImage.fixed.src}
             css={[outer, SiteHeaderBackground]}
             className="site-header-background"
           >
@@ -68,7 +68,7 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
                 <img
                   style={{ marginTop: '8px' }}
                   css={[AuthorProfileImage, AuthorProfileBioImage]}
-                  src={author.avatar?.fluid.src}
+                  src={author.avatar.fluid.src}
                   alt={author.name}
                 />
                 <AuthHeaderContent className="author-header-content">
@@ -108,17 +108,19 @@ const Author = ({ data, location }: AuthorTemplateProps) => {
 // ALL AUTHORS WITH CORRESPONDING POSTS QUERY
 
 export const pageQuery = graphql`
-  query($slug: String) {
-    allContentfulAuthor(filter: { slug: { eq: $slug } } ) {
+  query($author: String) {
+    allContentfulAuthor(filter: { slug: { eq: $author } } ) {
       edges {
         node {
           name
+          slug
           subtitle
           location
           social
           personal_info {
             childMarkdownRemark {
               htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
             }
           }
           avatar {
@@ -142,17 +144,15 @@ export const pageQuery = graphql`
     }
     allContentfulPost(
       sort: { fields: date, order: DESC }
-      filter: { author: { elemMatch: { slug: { eq: $slug } } } }
+      filter: { author: { elemMatch: { slug: { eq: $author } } } }
     ) {
       totalCount
       edges {
         node {
           title
           slug
-          excerpt
-          updatedAt(formatString: "dd MMM yyyy")
+          updatedAt(formatString: "d MMMM yyyy")
           tags {
-            id
             slug
             tagName
           }
@@ -164,7 +164,18 @@ export const pageQuery = graphql`
           body {
             childMarkdownRemark {
               htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
+            }
+          }
+          author {
+            name
+            slug
+            subtitle
+            avatar {
+              fluid(maxWidth: 800) {
+                ...GatsbyContentfulFluid_withWebp
+              }
             }
           }
         }

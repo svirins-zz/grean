@@ -41,7 +41,7 @@ export const AuthorListItem: React.FC<AuthorListItemProps> = props => {
           <Img
             css={AuthorProfileImage}
             className="author-profile-image"
-            fluid={props.author.avatar?.fluid}
+            fluid={props.author.avatar.fluid}
             fadeIn={false}
           />
           <div className="author-info">
@@ -64,7 +64,7 @@ export const AuthorListItem: React.FC<AuthorListItemProps> = props => {
         <Img
           css={AuthorProfileImage}
           className="author-profile-image"
-          fluid={props.author.avatar?.fluid}
+          fluid={props.author.avatar.fluid}
           fadeIn={false}
         />
       </Link>

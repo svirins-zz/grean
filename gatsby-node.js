@@ -6,16 +6,41 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const postsResult = await graphql(`
   {
-    allContentfulPost(limit: 100, sort: {fields: date, order: DESC}) 
+    allContentfulPost(limit: 100, sort: {fields: updatedAt, order: DESC}) 
     {
       edges {
         node {
+          title
           slug
+          updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug
+            tagName
+          }
+          hero {
+            fluid(maxWidth: 2540) {
+              src
+            }
+            fixed {
+              src
+            }
+          }
+          body {
+            childMarkdownRemark {
+              htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
+              timeToRead
+            }
           }
           author {
+            name
             slug
+            subtitle
+            avatar {
+              fluid(maxWidth: 800) {
+                src
+              }
+            }
           }
         }
       }
@@ -100,6 +125,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const authorTemplate = path.resolve('./src/templates/author.tsx');
   const authors = authorsResult.data.allContentfulAuthor.edges;
   authors.forEach(({ node }) => {
+    console.log()
     createPage({
       path: `/author/${node.slug}/`,
       component: authorTemplate,

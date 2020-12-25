@@ -25,7 +25,6 @@ export const SiteNav = (title: { title: string }) => {
   };
 
   useEffect(() => {
-    console.log('Mount');
     lastScrollY = window.scrollY;
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -50,13 +49,14 @@ export const SiteNav = (title: { title: string }) => {
     }
   };
 
+  //TODO: title not working. treated as object
   return (
     <>
       <SubscribeModal />
       <nav css={SiteNavStyles}>
         <SiteNavLeft className="site-nav-left">
           <SiteNavLogo />
-          <SiteNavContent css={[showTitle ? HideNav : '']}>
+          <SiteNavContent >
             <ul css={NavStyles} role="menu">
               {/* TODO: mark current nav item - add class nav-current */}
               <li role="menuitem">
@@ -67,7 +67,7 @@ export const SiteNav = (title: { title: string }) => {
               </li>
             </ul>
             <NavPostTitle ref={titleRef} className="nav-post-title">
-              {title}
+              Replacement for title
             </NavPostTitle>
           </SiteNavContent>
         </SiteNavLeft>

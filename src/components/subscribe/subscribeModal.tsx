@@ -20,7 +20,6 @@ export const SubscribeModal = () => {
   );
 
   useEffect(() => {
-    console.log('Mount');
     document.addEventListener('keydown', escFunction, false);
     return () => document.removeEventListener('keydown', escFunction, false);
   }, [escFunction]);

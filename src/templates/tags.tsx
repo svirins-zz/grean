@@ -22,16 +22,15 @@ import {
 
 import { TagTemplateProps } from '@types';
 
-const Tags = ({ data, location }: TagTemplateProps): JSX.Element => {
+const Tags = ({ data }: TagTemplateProps): JSX.Element => {
   const { edges, totalCount } = data.allContentfulPost;
   const tagData = data.allContentfulTag.edges[0].node;
   return (
     <IndexLayout>
       <Seo
         seoTitle={tagData.tagName}
-        seoDescription={tagData.description?.raw}
-        imageSrc={tagData.image?.fixed.src}
-        pathname={location}
+        seoDescription={tagData.description.childMarkdownRemark.excerpt}
+        imageSrc={tagData.image.fixed.src}
       />
       <Wrapper>
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
@@ -42,13 +41,13 @@ const Tags = ({ data, location }: TagTemplateProps): JSX.Element => {
           </div>
           <ResponsiveHeaderBackground
             css={[outer, SiteHeaderBackground]}
-            backgroundImage={tagData.image?.fluid.src}
+            backgroundImage={tagData.image.fluid.src}
             className="site-header-background"
           >
             <SiteHeaderContent css={inner} className="site-header-content">
               <SiteTitle className="site-title">{tagData.tagName}</SiteTitle>
               <SiteDescription className="site-description">
-                {tagData.description} A collection of {totalCount > 1 && `${totalCount} posts`}
+                {tagData.description.childMarkdownRemark.excerpt} A collection of {totalCount > 1 && `${totalCount} posts`}
                 {totalCount === 1 && '1 post'}
                 {totalCount === 0 && 'No posts'}
               </SiteDescription>
@@ -83,8 +82,12 @@ export const pageQuery = graphql`
           slug
           tagName
           description {
-            raw
-          }
+            childMarkdownRemark {
+              htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
+              timeToRead
+            }
+          }  
           image {
             fluid(maxWidth: 800) {
               ...GatsbyContentfulFluid_withWebp
@@ -105,8 +108,7 @@ export const pageQuery = graphql`
         node {
           title
           slug
-          excerpt
-          updatedAt(formatString: "dd MMM yyyy")
+          updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug
             tagName
@@ -119,14 +121,16 @@ export const pageQuery = graphql`
           body {
             childMarkdownRemark {
               htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
             }
           }
           author {
             name
+            slug
             subtitle
             avatar {
-              fluid(maxWidth: 800)  {
+              fluid(maxWidth: 800) {
                 ...GatsbyContentfulFluid_withWebp
               }
             }

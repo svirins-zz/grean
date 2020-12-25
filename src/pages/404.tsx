@@ -53,8 +53,7 @@ export const pageQuery = graphql`
         node {
           title
           slug
-          excerpt
-          updatedAt(formatString: "dd MMM yyyy")
+          updatedAt(formatString: "d MMM yyyy")
           featured
           tags {
             slug
@@ -68,11 +67,13 @@ export const pageQuery = graphql`
           body {
             childMarkdownRemark {
               htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
             }
           }
           author {
             name
+            slug
             subtitle
             avatar {
               fluid(maxWidth: 800) {

@@ -32,8 +32,6 @@ const IndexPage: React.FC<IndexProps> = props => {
         imageSrc={frontImage}
         seoDescription={props.data.site.siteMetadata.description}
         seoTitle={props.data.site.siteMetadata.title}
-        pathname={props.location}
-
       />
       <Wrapper>
         <div
@@ -88,8 +86,7 @@ export const pageQuery = graphql`
         node {
           title
           slug
-          excerpt
-          updatedAt(formatString: "dd MMM yyyy")
+          updatedAt(formatString: "d MMMM yyyy")
           featured
           tags {
             slug
@@ -103,11 +100,13 @@ export const pageQuery = graphql`
           body {
             childMarkdownRemark {
               htmlAst
+              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
             }
           }
           author {
             name
+            slug
             subtitle
             avatar {
               fluid(maxWidth: 800) {
