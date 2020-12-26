@@ -66,6 +66,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       }
     }
   }`);
+  const pagesResult = await graphql(`
+  {
+    allContentfulPage {
+      edges {
+        node {
+          slug  
+        }
+      }
+    }
+  }`);
   // Handle errors
   if (postsResult.errors || authorsResult.errors || tagsResult.errors) {
     reporter.panicOnBuild('Error while running GraphQL query.');
@@ -125,10 +135,23 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const authorTemplate = path.resolve('./src/templates/author.tsx');
   const authors = authorsResult.data.allContentfulAuthor.edges;
   authors.forEach(({ node }) => {
-    console.log()
     createPage({
       path: `/author/${node.slug}/`,
       component: authorTemplate,
+      context: {
+        author: node.slug,
+      },
+    });
+  });
+
+  // create pages
+  const pageTemplate = path.resolve('./src/templates/page.tsx');
+  const pages = pagesResult.data.allContentfulPage.edges;
+  pages.forEach(({ node }) => {
+    console.log(node);
+    createPage({
+      path: `/pages/${node.slug}/`,
+      component: pageTemplate,
       context: {
         author: node.slug,
       },

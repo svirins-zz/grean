@@ -15,9 +15,9 @@ import { SiteMain, inner, outer } from 'styles/shared';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useLocation } from '@reach/router';
-import { PageTemplateProps } from '@types';
+import { PostTemplateProps } from '@types';
 
-const PageTemplate = ({ data, pageContext }: PageTemplateProps) => {
+const PageTemplate = ({ data, pageContext }: PostTemplateProps) => {
   const { pathname } = useLocation();
   const post = data.allContentfulPost.edges[0].node;
   const tagsDisplay = post.tags.map(tag => {
@@ -111,7 +111,8 @@ export const query = graphql`
         node {
           title
           slug
-          updatedAt(formatString: "d MMMM yyyy")
+          excerpt
+          updatedAt(formatString: "dd MMM yyyy")
           tags {
             slug
             tagName
@@ -127,7 +128,6 @@ export const query = graphql`
           body {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
             }
           }
@@ -154,7 +154,8 @@ export const query = graphql`
         node {
           title
           slug
-          updatedAt(formatString: "d MMM yyyy")
+          excerpt
+          updatedAt(formatString: "dd MMM yyyy")
           tags {
             slug
             tagName
@@ -167,7 +168,6 @@ export const query = graphql`
           body {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 200)
               timeToRead
             }
           }

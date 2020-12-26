@@ -6,12 +6,10 @@ export type ContextProps = {
   showModal: () => void;
   closeModal: () => void;
 };
-
 export interface AuxProps {
   children: ReactChild | ReactChildren;
 }
-
-export interface IndexProps {
+export interface LayoutProps {
   className?: string;
 }
 export interface IndexProps {
@@ -31,7 +29,7 @@ export interface IndexProps {
     };
   };
 }
-export interface PageTemplateProps {
+export interface PostTemplateProps {
   data: {
     allContentfulPost: {
       edges: PostNode[];
@@ -57,6 +55,13 @@ export interface TagTemplateProps {
     };
   };
 }
+export interface PageTemplateProps {
+  data: {
+    allContentfulPage: {
+      edges: PageNode[];
+    };
+  };
+}
 export interface AuthorTemplateProps {
   data: {
     allContentfulAuthor: {
@@ -77,6 +82,9 @@ export interface PostNode {
 export interface AuthorNode {
   node: Author;
 }
+export interface PageNode {
+  node: Page;
+}
 export interface Post {
   title: string;
   slug: string;
@@ -96,9 +104,9 @@ export interface Post {
 export interface Author {
   name: string;
   slug: string;
-  location?: string;
-  subtitle?: string;
-  social?: string[];
+  location: string;
+  subtitle: string;
+  social: string[];
   personal_info: {
     childMarkdownRemark: {
       htmlAst: JSON;
@@ -107,7 +115,16 @@ export interface Author {
   avatar: ImageObject;
   profileImage: ImageObject;
 }
-
+export interface Page {
+  titke: string;
+  slug: string;
+  markdown: {
+    childMarkdownRemark: {
+      htmlAst: JSON;
+      excerpt: string;
+    };
+  };
+}
 export interface ImageObject {
   fluid: FluidObject;
   fixed: FixedObject;
@@ -133,11 +150,9 @@ export interface NotFoundTemplateProps {
     };
   };
 }
-
 export interface WrapperProps {
   className?: string;
 }
-
 export interface ReadNextProps {
   tags: Tag[];
   currentPageSlug: string;
@@ -150,35 +165,29 @@ export interface ReadNextProps {
     next: Post;
   };
 }
-
 export interface PostContentProps {
   htmlAst: JSON;
 }
-
 export interface PostCardProps {
   post: Post;
   large?: boolean;
 }
-
 export interface PaginationProps {
   currentPage: number;
   numPages: number;
 }
-
 export interface AuthorListItemProps {
   tooltip: 'small' | 'large';
   author: Author;
 }
-
 export interface AuthorListProps {
   tooltip: 'small' | 'large';
   authors: Author[];
 }
-
 export interface SeoProps {
-  seoTitle?: string;
-  seoDescription?: string;
-  imageSrc?: string;
+  seoTitle: string;
+  seoDescription: string;
+  imageSrc: string;
 }
 
 export interface Socials {

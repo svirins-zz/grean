@@ -1,3 +1,4 @@
+import { Comments } from 'components/comments/comments';
 import { lighten } from 'polished';
 import React from 'react';
 import RehypeReact from 'rehype-react';
@@ -22,6 +23,7 @@ export const PostContent: React.FC<PostContentProps> = ({ htmlAst }) => {
     <PostFullContent className="post-full-content">
       {/* TODO: this will apply the class when rehype-react is published https://github.com/rhysd/rehype-react/pull/11 */}
       <Ast className="post-content" ast={htmlAst} />
+      <Comments />
     </PostFullContent>
   );
 };

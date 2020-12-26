@@ -5,9 +5,9 @@ import React from 'react';
 import { colors } from 'styles/colors';
 
 import { Global, css } from '@emotion/react';
-import { IndexProps } from '@types';
+import { LayoutProps } from '@types';
 
-export const IndexLayout: React.FC<IndexProps> = props => {
+export const IndexLayout: React.FC<LayoutProps> = props => {
   return (
     <div className={props.className}>
       <Global
