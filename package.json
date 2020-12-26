@@ -96,6 +96,6 @@
     "not dead"
   ],
   "engines": {
-    "node": "14.15.1"
+    "node": "12.x"
   }
 }
