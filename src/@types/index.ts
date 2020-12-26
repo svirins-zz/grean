@@ -30,6 +30,7 @@ export interface IndexProps {
   };
 }
 export interface PostTemplateProps {
+  location: Location;
   data: {
     allContentfulPost: {
       edges: PostNode[];
@@ -147,6 +148,7 @@ export interface NotFoundTemplateProps {
     allContentfulPost: {
       edges: PostNode[];
     };
+  };
 }
 export interface WrapperProps {
   className?: string;
@@ -164,7 +166,10 @@ export interface ReadNextProps {
   };
 }
 export interface PostContentProps {
+  title: string;
+  url: string;
   htmlAst: JSON;
+  tags: string[];
 }
 export interface PostCardProps {
   post: Post;
@@ -194,3 +199,10 @@ export interface Socials {
   link: string;
   showInHeader: boolean;
 }
+
+export interface ShareButtonsProps {
+  title: string;
+  url: string;
+  twitterHandle: string;
+  tags: string;
+};

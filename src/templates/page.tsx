@@ -11,9 +11,9 @@ import { SiteMain, inner, outer } from 'styles/shared';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { PostTemplateProps } from '@types';
+import { PageTemplateProps } from '@types';
 
-const PageTemplate = ({ data }: PostTemplateProps) => {
+const PageTemplate = ({ data }: PageTemplateProps) => {
   const page = data.allContentfulPage.edges[0].node;
   return (
     <IndexLayout className="post-template">

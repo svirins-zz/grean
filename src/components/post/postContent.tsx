@@ -1,4 +1,5 @@
 import { Comments } from 'components/comments/comments';
+import { ShareButtons } from 'components/share/shareButtons';
 import { lighten } from 'polished';
 import React from 'react';
 import RehypeReact from 'rehype-react';
@@ -18,11 +19,17 @@ const Ast = ({ ast, ...props }: any) => {
   return renderAst(ast);
 };
 
-export const PostContent: React.FC<PostContentProps> = ({ htmlAst }) => {
+export const PostContent: React.FC<PostContentProps> = ({ htmlAst, url, title, tags }) => {
   return (
     <PostFullContent className="post-full-content">
       {/* TODO: this will apply the class when rehype-react is published https://github.com/rhysd/rehype-react/pull/11 */}
       <Ast className="post-content" ast={htmlAst} />
+      <ShareButtons
+        title={title}
+        url={url}
+        twitterHandle="Svirins"
+        tags={tags.join(',')}
+      />
       <Comments />
     </PostFullContent>
   );

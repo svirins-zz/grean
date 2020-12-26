@@ -17,7 +17,7 @@ import styled from '@emotion/styled';
 import { useLocation } from '@reach/router';
 import { PostTemplateProps } from '@types';
 
-const PageTemplate = ({ data, pageContext }: PostTemplateProps) => {
+const PageTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
   const { pathname } = useLocation();
   const post = data.allContentfulPost.edges[0].node;
   const tagsDisplay = post.tags.map(tag => {
@@ -34,6 +34,8 @@ const PageTemplate = ({ data, pageContext }: PostTemplateProps) => {
       </Link>
     );
   });
+  const tagNames = post.tags.map(tag => tag.tagName);
+
   return (
     <IndexLayout className="post-template">
       <Seo
@@ -83,7 +85,12 @@ const PageTemplate = ({ data, pageContext }: PostTemplateProps) => {
                   <Img style={{ height: '100%' }} fluid={post.hero.fluid} alt={post.title} />
                 </PostFullImage>
               )}
-              <PostContent htmlAst={post.body.childMarkdownRemark.htmlAst} />
+              <PostContent
+                htmlAst={post.body.childMarkdownRemark.htmlAst}
+                url={location.href}
+                title={post.title}
+                tags={tagNames}
+              />
 
               <Subscribe />
             </article>
@@ -111,7 +118,6 @@ export const query = graphql`
         node {
           title
           slug
-          excerpt
           updatedAt(formatString: "dd MMM yyyy")
           tags {
             slug
@@ -129,7 +135,7 @@ export const query = graphql`
             childMarkdownRemark {
               htmlAst
               timeToRead
-            }
+              excerpt(format: PLAIN, pruneLength: 200)            }
           }
           author {
             name
@@ -154,7 +160,6 @@ export const query = graphql`
         node {
           title
           slug
-          excerpt
           updatedAt(formatString: "dd MMM yyyy")
           tags {
             slug
@@ -167,8 +172,8 @@ export const query = graphql`
           }
           body {
             childMarkdownRemark {
-              htmlAst
               timeToRead
+              excerpt(format: PLAIN, pruneLength: 200)
             }
           }
           author {
