@@ -23,7 +23,6 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-netlify',
-    'gatsby-plugin-sitemap',
     'gatsby-plugin-resolve-src',
     {
       resolve: 'gatsby-plugin-manifest',
@@ -106,7 +105,6 @@ module.exports = {
     'gatsby-plugin-emotion',
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-feed',
     {
       resolve: 'gatsby-plugin-postcss',
       options: {
