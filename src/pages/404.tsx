@@ -11,8 +11,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NotFoundTemplateProps } from '@types';
 
-const NotFoundPage: React.FC<NotFoundTemplateProps> = props => {
-  const { edges } = props.data.allMarkdownRemark;
+const NotFoundPage = ({ data }: NotFoundTemplateProps) => {
+  const { edges } = data.allContentfulPost;
 
   return (
     <IndexLayout>

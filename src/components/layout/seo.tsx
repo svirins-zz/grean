@@ -2,6 +2,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
+import { useLocation } from '@reach/router';
 import { SeoProps } from '@types';
 
 // add detailed seo props
@@ -20,13 +21,13 @@ export const Seo = ({
             author
             lang
             keywords
-            siteURL
+            siteUrl
           }
         }
       }
     `,
   );
-
+  const { pathname } = useLocation();
   return (
     <Helmet
       htmlAttributes={{
@@ -68,7 +69,7 @@ export const Seo = ({
         },
         {
           name: 'og:url',
-          content: (process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : `site.siteMetadata.siteUrl${pathname}`),
+          content: (process.env.NODE_ENV === 'development' ? `https://localhost:8000${pathname}` : `${site.siteMetadata.siteUrl}${pathname}`),
         },
         {
           name: 'twitter:card',

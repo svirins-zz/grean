@@ -144,11 +144,9 @@ export interface Tag {
 
 export interface NotFoundTemplateProps {
   data: {
-    allMarkdownRemark: {
-      totalCount: number;
+    allContentfulPost: {
       edges: PostNode[];
     };
-  };
 }
 export interface WrapperProps {
   className?: string;

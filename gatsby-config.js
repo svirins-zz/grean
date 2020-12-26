@@ -8,7 +8,7 @@ module.exports = {
     title: 'Gatsby Addict',
     description: 'Gatsby + TypeScript + Tailwind CSS + Emotion = IAM',
     author: 'dr. Grean',
-    siteURL: 'https://addict.cf',
+    siteUrl: 'https://addict.cf',
     lang: 'ru',
     keywords: ['Addiction', 'Therapy', 'Recovery', 'Blog'],
     coverImage: 'src/assets/img/hero.jpg',
@@ -35,14 +35,14 @@ module.exports = {
         icon: 'src/assets/svg/logo.svg',
       },
     },
-    {
-      resolve: 'gatsby-plugin-algolia',
-      options: {
-        appId: process.env.GATSBY_ALGOLIA_APP_ID,
-        apiKey: process.env.ALGOLIA_ADMIN_KEY,
-        queries: require('./src/utils/algolia-queries'),
-      },
-    },
+    // {
+    //   resolve: 'gatsby-plugin-algolia',
+    //   options: {
+    //     appId: process.env.GATSBY_ALGOLIA_APP_ID,
+    //     apiKey: process.env.ALGOLIA_ADMIN_KEY,
+    //     queries: require('./src/utils/algolia-queries'),
+    //   },
+    // },
     {
       resolve: 'gatsby-plugin-sharp',
       options: {
