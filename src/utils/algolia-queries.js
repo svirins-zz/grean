@@ -1,30 +1,23 @@
-const indexName = 'Posts';
 const pageQuery = `{
-  pages: allContentfulPost(filter: { slug: { eq: $slug } }) {
+  pages: allContentfulPost {
     edges {
       node {
-        id
-        title
-        tags {
-          tagName
-        }
+        slug
+        title       
         body {
           childMarkdownRemark {
             excerpt(format: PLAIN, pruneLength: 10000)
           }
-        }
-        author {
-          name
-          subtitle        
-        }
+        }        
       }
     }
   }
 }`;
-function pageToAlgoliaRecord({ node: { id, title, ...rest } }) {
+// TODO: destructure excerpt
+function pageToAlgoliaRecord({ node: { slug, title, ...rest } }) {
   return {
-    objectID: id,
-    ...title,
+    objectID: slug,
+    title,
     ...rest,
   };
 }
@@ -33,8 +26,10 @@ const queries = [
   {
     query: pageQuery,
     transformer: ({ data }) => data.pages.edges.map(pageToAlgoliaRecord),
-    indexName,
+    indexName: 'ADDICT',
     settings: { attributesToSnippet: ['excerpt:20'] },
+    matchFields: ['slug', 'body'],
+    // skipIndexing: true,
   },
 ];
 module.exports = queries;

@@ -1,3 +1,4 @@
+import { CreatePagesArgs } from 'gatsby';
 import { FixedObject, FluidObject } from 'gatsby-image';
 import { ReactChild, ReactChildren } from 'react';
 
@@ -204,5 +205,14 @@ export interface ShareButtonsProps {
   title: string;
   url: string;
   twitterHandle: string;
-  tags: string;
-};
+  tags: string[];
+}
+
+export interface AlgoliaQuery {
+  data: {
+    pages: AlgoliaPages;
+  };
+}
+export interface AlgoliaPages {
+  edges: PostNode[];
+}

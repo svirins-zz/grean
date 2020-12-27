@@ -28,7 +28,7 @@ export const PostContent: React.FC<PostContentProps> = ({ htmlAst, url, title, t
         title={title}
         url={url}
         twitterHandle="Svirins"
-        tags={tags.join(',')}
+        tags={tags ?? []}
       />
       <Comments />
     </PostFullContent>

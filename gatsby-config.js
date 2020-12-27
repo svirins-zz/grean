@@ -1,4 +1,9 @@
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 module.exports = {
   siteMetadata: {
     title: 'Gatsby Addict',
@@ -30,14 +35,16 @@ module.exports = {
         icon: 'src/assets/svg/logo.svg',
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-algolia',
-    //   options: {
-    //     appId: process.env.GATSBY_ALGOLIA_APP_ID,
-    //     apiKey: process.env.ALGOLIA_ADMIN_KEY,
-    //     queries: require('./src/utils/algolia-queries'),
-    //   },
-    // },
+    {
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        enablePartialUpdates: true,
+        appId: process.env.ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        indexName: process.env.ALGOLIA_INDEX_NAME,
+        queries: require('./src/utils/algolia-queries.js'),
+      },
+    },
     {
       resolve: 'gatsby-plugin-sharp',
       options: {
