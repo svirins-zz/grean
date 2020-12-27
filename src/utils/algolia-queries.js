@@ -13,23 +13,23 @@ const pageQuery = `{
     }
   }
 }`;
-// TODO: destructure excerpt
-function pageToAlgoliaRecord({ node: { slug, title, ...rest } }) {
+
+function pageToAlgoliaRecord(slug, title, excerpt) {
   return {
     objectID: slug,
     title,
-    ...rest,
+    text: excerpt,
   };
 }
 
 const queries = [
   {
     query: pageQuery,
-    transformer: ({ data }) => data.pages.edges.map(pageToAlgoliaRecord),
+    transformer: ({ data }) => data.pages.edges.map(({ node }) => pageToAlgoliaRecord(node.slug, node.title, node.body.childMarkdownRemark.excerpt)),
     indexName: 'ADDICT',
-    settings: { attributesToSnippet: ['excerpt:20'] },
-    matchFields: ['slug', 'body'],
-    // skipIndexing: true,
+    settings: { attributesToSnippet: ['text:20'] },
+    matchFields: ['title', 'text'],
+    skipIndexing: true,
   },
 ];
 module.exports = queries;

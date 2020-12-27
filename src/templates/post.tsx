@@ -8,7 +8,7 @@ import { Link, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import { IndexLayout } from 'layouts';
 import { lighten, setLightness } from 'polished';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { colors } from 'styles/colors';
 import { SiteMain, inner, outer } from 'styles/shared';
 
@@ -20,18 +20,26 @@ import { PostTemplateProps } from '@types';
 const PageTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
   const { pathname } = useLocation();
   const post = data.allContentfulPost.edges[0].node;
-  const tagsDisplay = post.tags.map(tag => {
+  const tagsDisplay = post.tags.map((tag, index) => {
+    const isComma = (post.tags.length > 1 && index !== post.tags.length - 1) ? `,${' '}` : '';
     return (
-      <Link key={tag.slug} to={`/tags/${tag.slug}/`}>
-        {tag.tagName}
-      </Link>
+      <Fragment key={tag.slug}>
+        <Link to={`/tags/${tag.slug}/`}>
+          {tag.tagName}
+        </Link>
+        {isComma}
+      </Fragment>
     );
   });
-  const authorsDisplay = post.author.map(author => {
+  const authorsDisplay = post.author.map((author, index) => {
+    const isComma = (post.author.length > 1 && index !== post.author.length - 1) ? `,${' '}` : '';
     return (
-      <Link key={author.slug} to={`/author/${author.slug}/`}>
-        {author.name}
-      </Link>
+      <Fragment key={author.slug}>
+        <Link to={`/author/${author.slug}/`}>
+          {author.name}
+        </Link>
+        {isComma}
+      </Fragment>
     );
   });
   const tagNames = post.tags.map(tag => tag.tagName);

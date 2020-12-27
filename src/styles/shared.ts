@@ -24,7 +24,8 @@ export const SiteNavMain = css`
   left: 0;
   z-index: 1000;
   /* background: color(var(--darkgrey) l(-5%)); */
-  background: ${lighten('-0.05', colors.darkgrey)};
+  background: ${lighten('-0.05', '#05264c')};
+  box-shadow: 0px 2px 2px 0 #ccc;
 `;
 
 export const SiteMain = css`
@@ -97,12 +98,6 @@ export const SocialLink = css`
   svg {
     height: 1.8rem;
     fill: #fff;
-  }
-`;
-
-export const SocialLinkFb = css`
-  svg {
-    height: 1.6rem;
   }
 `;
 

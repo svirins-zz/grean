@@ -199,6 +199,7 @@ export interface Socials {
   color: string;
   link: string;
   showInHeader: boolean;
+  svgPath: string;
 }
 
 export interface ShareButtonsProps {

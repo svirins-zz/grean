@@ -22,6 +22,15 @@ export const Search = ({ indices }) => {
     process.env.ALGOLIA_APP_ID ?? '',
     process.env.ALGOLIA_SEARCH_KEY ?? '',
   );
+  // TODO: implement search Fn to work correct
+  const sFn = (helper) => {
+    if (helper.state.query.length < 3) {
+      return;
+    }
+
+    helper.search();
+  };
+
   useClickOutside(rootRef, () => setFocus(false));
   return (
     <ThemeProvider theme={theme}>
@@ -29,6 +38,7 @@ export const Search = ({ indices }) => {
         <InstantSearch
           searchClient={searchClient}
           indexName={indices[0].name}
+          searchFunction={sFn}
           onSearchStateChange={({ query }) => setQuery(query)}
         >
           <SearchBox

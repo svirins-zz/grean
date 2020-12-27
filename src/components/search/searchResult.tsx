@@ -13,7 +13,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const HitCount = connectStateResults(({ searchResults }) => {
-  const hitCount = searchResults ?? searchResults.nbHits;
+  const hitCount = searchResults ?? 0;
   return hitCount > 0 ? (
     <div className="HitCount">
       `${hitCount} result${hitCount === 1 ? '' : 's'}`
@@ -47,6 +47,22 @@ const SearchResult = ({ indices, className }) => (
     <PoweredBy />
   </div>
 );
+const Popover = css`
+  max-height: 80vh;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 100%;
+  margin-top: 0.5em;
+  width: 80vw;
+  max-width: 30em;
+  box-shadow: 0 0 5px 0;
+  padding: 1em;
+  border-radius: 2px;
+  background: white;
+`;
 
 export default styled(SearchResult)`
   display: ${props => (props.show ? `block` : `none`)};
@@ -63,7 +79,7 @@ export default styled(SearchResult)`
     li.ais-Hits-item {
       margin-bottom: 1em;
       a {
-        color: ${({ theme }) => theme.foreground};
+        color: #050505;
         h4 {
           margin-bottom: 0.2em;
         }
@@ -79,19 +95,4 @@ export default styled(SearchResult)`
     }
   }
 `;
-const Popover = css`
-  max-height: 80vh;
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
-  position: absolute;
-  z-index: 2;
-  right: 0;
-  top: 100%;
-  margin-top: 0.5em;
-  width: 80vw;
-  max-width: 30em;
-  box-shadow: 0 0 5px 0;
-  padding: 1em;
-  border-radius: 2px;
-  background: ${({ theme }) => theme.background};
-`;
+

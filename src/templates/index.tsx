@@ -4,6 +4,8 @@ import { Footer } from 'components/footer';
 import { SiteNav } from 'components/header';
 import { Seo, Wrapper } from 'components/layout';
 import { Pagination, PostCard } from 'components/post';
+import { Search } from 'components/search/search';
+import { searchIndices } from 'const';
 import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
 import React from 'react';
@@ -64,6 +66,9 @@ const IndexPage: React.FC<IndexProps> = props => {
             </SiteHeaderContent>
           </div>
         </div>
+        <section css={[outer, SiteMain]}>
+          <Search indices={searchIndices}/>
+        </section>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={[inner, Posts]}>
             <div css={[PostFeed]}>

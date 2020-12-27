@@ -33,7 +33,7 @@ const SearchBox = connectSearchBox(
 
 const open = css`
   width: 10em;
-  background: ${({ theme }) => theme.background};
+  background: white;
   cursor: text;
   margin-left: -1.6em;
   padding-left: 1.6em;

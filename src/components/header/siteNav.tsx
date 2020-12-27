@@ -1,4 +1,3 @@
-import { Search } from 'components/search/search';
 import { SocialLinks } from 'components/social';
 import { SubscribeModal } from 'components/subscribe';
 import { myContext } from 'context';
@@ -16,7 +15,6 @@ export const SiteNav = (title: { title: string }) => {
   const titleRef = useRef(null);
   let lastScrollY = 0;
   let ticking = false;
-  const searchIndices = [{ name: 'ADDICT', title: 'Addiction search index' }];
   const onScroll = () => {
     if (ticking) {
       requestAnimationFrame(update);
@@ -72,7 +70,7 @@ export const SiteNav = (title: { title: string }) => {
             </NavPostTitle>
           </SiteNavContent>
         </SiteNavLeft>
-        <Search indices={searchIndices} />
+
         <SiteNavRight>
           <SocialLinks />
           <SubscribeButton onClick={context.showModal}>Subscribe</SubscribeButton>
