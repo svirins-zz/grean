@@ -6,6 +6,7 @@ import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
 import React from 'react';
 import {
+  Details,
   PostFeed,
   ResponsiveHeaderBackground,
   SiteArchiveHeader,
@@ -36,7 +37,7 @@ const Tags = ({ data }: TagTemplateProps): JSX.Element => {
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav title={tagData.tagName} />
+              <SiteNav />
             </div>
           </div>
           <ResponsiveHeaderBackground
@@ -47,7 +48,7 @@ const Tags = ({ data }: TagTemplateProps): JSX.Element => {
             <SiteHeaderContent css={inner} className="site-header-content">
               <SiteTitle className="site-title">{tagData.tagName}</SiteTitle>
               <SiteDescription className="site-description">
-                {tagData.description.childMarkdownRemark.excerpt} A collection of {totalCount > 1 && `${totalCount} posts`}
+                A collection of {totalCount > 1 && `${totalCount} posts`}
                 {totalCount === 1 && '1 post'}
                 {totalCount === 0 && 'No posts'}
               </SiteDescription>
@@ -56,6 +57,9 @@ const Tags = ({ data }: TagTemplateProps): JSX.Element => {
         </header>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={inner}>
+            <Details>
+              {tagData.description.childMarkdownRemark.excerpt}
+            </Details>
             <div css={[PostFeed]}>
               {edges.map(({ node }) => (
                 <PostCard key={node.slug} post={node} />
@@ -84,7 +88,7 @@ export const pageQuery = graphql`
           description {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 200)
+              excerpt(format: PLAIN, pruneLength: 400)
               timeToRead
             }
           }  
@@ -108,6 +112,7 @@ export const pageQuery = graphql`
         node {
           title
           slug
+          featured
           updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug

@@ -24,8 +24,8 @@ export const SiteNavMain = css`
   left: 0;
   z-index: 1000;
   /* background: color(var(--darkgrey) l(-5%)); */
-  background: ${lighten('-0.05', '#05264c')};
-  box-shadow: 0px 2px 2px 0 #ccc;
+  background: ${lighten('-0.05', '#000000')};
+  box-shadow: 0px 2px 2px 0 #000000;
 `;
 
 export const SiteMain = css`
@@ -405,4 +405,10 @@ export const NoImage = css`
       color: rgba(255, 255, 255, 0.75);
     }
   }
+`;
+
+export const Details = styled.div`
+  font-weight: 300;
+  font-style: italic;
+  color: #363636;
 `;

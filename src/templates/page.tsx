@@ -25,7 +25,7 @@ const PageTemplate = ({ data }: PageTemplateProps) => {
         <header className="site-header">
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav title={page.title}/>
+              <SiteNav />
             </div>
           </div>
         </header>

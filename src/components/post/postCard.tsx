@@ -9,7 +9,21 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { PostCardProps } from '@types';
 
+import { FeaturedIcon } from './featuredIcon';
+
 export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
+  const tagsDisplay = post.tags.map((tag, index) => {
+    const isComma = (post.tags.length > 1 && index !== post.tags.length - 1) ? `,${' '}` : '';
+    return (
+      <PostCardPrimaryTag key={tag.slug}>
+        <Link to={`/tags/${tag.slug}/`}>
+          {tag.tagName}
+        </Link>
+        {isComma}
+      </PostCardPrimaryTag>
+    );
+  });
+  const isFeatured = post.featured ? (<FeaturedIcon />) : null;
   return (
     <article
       className={`post-card ${post.hero ? '' : 'no-image'} ${
@@ -31,9 +45,8 @@ export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
       <PostCardContent className="post-card-content">
         <Link className="post-card-content-link" css={PostCardContentLink} to={`/${post.slug}`}>
           <PostCardHeader className="post-card-header">
-            <PostCardPrimaryTag className="post-card-primary-tag">
-              <Link to={`/tags/${post.tags[0].slug}/`}>{post.tags[0].tagName}</Link>
-            </PostCardPrimaryTag>
+            {tagsDisplay}
+            {isFeatured}
             <PostCardTitle className="post-card-title">{post.title}</PostCardTitle>
           </PostCardHeader>
           <PostCardExcerpt className="post-card-excerpt">
@@ -46,16 +59,16 @@ export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
             <span>
               {post.author.map((author, index) => {
                 return (
-                  <React.Fragment key={author.name}>
+                  <span key={author.name} className="author">
                     <Link to={`/author/${author.slug}/`}>{author.name}</Link>
                     {post.author.length - 1 > index && ', '}
-                  </React.Fragment>
+                  </span>
                 );
               })}
             </span>
             <span className="post-card-byline-date">
               <time dateTime={post.updatedAt.toString()}>{post.updatedAt.toString()}</time>{' '}
-              <span className="bull">&bull;</span> {post.body.childMarkdownRemark.timeToRead} min read
+              <span className="bull">&bull;</span> {post.body.childMarkdownRemark.timeToRead} мин чтения
             </span>
           </PostCardBylineContent>
         </PostCardMeta>
@@ -162,7 +175,7 @@ const PostCardContentLink = css`
   }
 `;
 
-const PostCardPrimaryTag = styled.div`
+const PostCardPrimaryTag = styled.span`
   margin: 0 0 0.2em;
   /* color: var(--blue); */
   color: ${colors.blue};
@@ -203,13 +216,15 @@ const PostCardBylineContent = styled.div`
   flex-direction: column;
   margin: 4px 0 0 10px;
   /* color: color(var(--midgrey) l(+10%)); */
-  color: ${lighten('0.1', colors.midgrey)};
-  font-size: 1.2rem;
+  color: ${lighten('0.1', colors.darkgrey)};
+  font-size: 1.3rem !important;
   line-height: 1.4em;
   font-weight: 400;
   letter-spacing: 0.2px;
-  text-transform: uppercase;
-
+  text-transform: none;
+  .author {
+    font-size: 1.5rem !important;
+  }
   span {
     margin: 0;
   }
@@ -224,6 +239,9 @@ const PostCardBylineContent = styled.div`
     a {
       color: rgba(255, 255, 255, 0.75);
     }
+  }
+  .post-card-byline-date {
+    text-transform: none !important;
   }
 `;
 

@@ -1,23 +1,21 @@
 import frontImage from 'assets/img/frontImage.webp';
-import siteLogo from 'assets/img/siteLogo.webp';
 import { Footer } from 'components/footer';
 import { SiteNav } from 'components/header';
 import { Seo, Wrapper } from 'components/layout';
 import { Pagination, PostCard } from 'components/post';
 import { Search } from 'components/search/search';
-import { searchIndices } from 'const';
 import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
 import React from 'react';
 import {
   PostFeed,
   Posts,
+  ResponsiveHeaderBackground,
   SiteArchiveHeader,
   SiteDescription,
   SiteHeader,
   SiteHeaderBackground,
   SiteHeaderContent,
-  SiteHeaderStyles,
   SiteMain,
   SiteNavMain,
   SiteTitle,
@@ -31,6 +29,7 @@ import { IndexProps } from '@types';
 // TODO: infer types from gatsby-typegen
 
 const IndexPage: React.FC<IndexProps> = props => {
+  // do additional sort
   return (
     <IndexLayout css={HomePosts}>
       <Seo
@@ -42,38 +41,27 @@ const IndexPage: React.FC<IndexProps> = props => {
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav title={props.data.site.siteMetadata.title} />
+              <SiteNav />
             </div>
           </div>
-        </header>
-        <div
-          css={[outer, SiteHeader, SiteHeaderStyles]}
-          className="site-header-background"
-          style={{
-            backgroundImage: frontImage,
-          }}
-        >
-          <div css={inner}>
-            <SiteHeaderContent className="site-header-conent">
-              <SiteTitle className="site-title">
-                <img
-                  style={{ maxHeight: '55px' }}
-                  src={siteLogo}
-                  alt={props.data.site.siteMetadata.title}
-                />
-              </SiteTitle>
+          <ResponsiveHeaderBackground
+            css={[outer, SiteHeaderBackground]}
+            backgroundImage={frontImage}
+            className="site-header-background"
+          >
+            <SiteHeaderContent css={inner} className="site-header-content">
+              <SiteTitle className="site-title">{props.data.site.siteMetadata.title}</SiteTitle>
               <SiteDescription>{props.data.site.siteMetadata.description}</SiteDescription>
             </SiteHeaderContent>
-          </div>
-        </div>
+          </ResponsiveHeaderBackground>
+        </header>
         <section css={[outer, SiteMain]}>
-          <Search indices={searchIndices}/>
+          <Search />
         </section>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={[inner, Posts]}>
             <div css={[PostFeed]}>
               {props.data.allContentfulPost.edges.map((node, index) => {
-                // filter out drafts in production
                 return <PostCard key={node.node.slug} post={node.node} large={index === 0} />;
               })}
             </div>

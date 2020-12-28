@@ -49,7 +49,7 @@ export const AuthorListItem: React.FC<AuthorListItemProps> = props => {
               <h2>{props.author.name}</h2>
               <p>{props.author.subtitle}</p>
               <p>
-                <Link to={`/author/${props.author.slug}/`}>More posts</Link> by{' '}
+                <Link to={`/author/${props.author.slug}/`}>Еще посты</Link> от{' '}
                 {props.author.name}.
               </p>
             </div>

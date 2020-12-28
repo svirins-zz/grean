@@ -1,5 +1,6 @@
 import { Link } from 'gatsby';
 import React from 'react';
+import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
 
@@ -18,7 +19,7 @@ const SiteNavLogoStyles = css`
   display: inline-block;
   margin-right: 32px;
   padding: 12px 0;
-  color: #fff;
+  color: ${colors.yellow};
   font-size: 1.7rem;
   line-height: 1.8rem;
   font-weight: bold;

@@ -20,7 +20,7 @@ const NotFoundPage = ({ data }: NotFoundTemplateProps) => {
         <header css={[SiteHeader, outer]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav title="Four Zero Four" />
+              <SiteNav />
             </div>
           </div>
         </header>

@@ -1,8 +1,11 @@
 import { AuthorList } from 'components/author';
+import { Comments } from 'components/comments/comments';
 import { Footer } from 'components/footer';
 import { SiteNav, SiteNavMain } from 'components/header';
 import { Seo, Wrapper } from 'components/layout';
 import { PostContent, ReadNext } from 'components/post';
+import { FeaturedIcon } from 'components/post/featuredIcon';
+import { ShareButtons } from 'components/share/shareButtons';
 import { Subscribe } from 'components/subscribe';
 import { Link, graphql } from 'gatsby';
 import Img from 'gatsby-image';
@@ -17,18 +20,19 @@ import styled from '@emotion/styled';
 import { useLocation } from '@reach/router';
 import { PostTemplateProps } from '@types';
 
-const PageTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
+const SinglePostTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
   const { pathname } = useLocation();
   const post = data.allContentfulPost.edges[0].node;
+  const isFeatured = post.featured ? (<FeaturedIcon />) : null;
   const tagsDisplay = post.tags.map((tag, index) => {
     const isComma = (post.tags.length > 1 && index !== post.tags.length - 1) ? `,${' '}` : '';
     return (
-      <Fragment key={tag.slug}>
+      <PostCardPrimaryTag key={tag.slug}>
         <Link to={`/tags/${tag.slug}/`}>
           {tag.tagName}
         </Link>
         {isComma}
-      </Fragment>
+      </PostCardPrimaryTag>
     );
   });
   const authorsDisplay = post.author.map((author, index) => {
@@ -55,7 +59,7 @@ const PageTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
         <header className="site-header">
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav title={post.title}/>
+              <SiteNav />
             </div>
           </div>
         </header>
@@ -64,7 +68,8 @@ const PageTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
             {/* TODO: no-image css tag? */}
             <article css={[PostFull, !post.hero && NoImage]}>
               <PostFullHeader className="post-full-header">
-                <PostFullTags className="post-full-tags">{tagsDisplay}</PostFullTags>
+                {tagsDisplay}
+                {isFeatured}
                 <PostFullTitle className="post-full-title">{post.title}</PostFullTitle>
                 <PostFullCustomExcerpt className="post-full-custom-excerpt">
                   {post.body.childMarkdownRemark.excerpt}
@@ -73,7 +78,7 @@ const PageTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
                   <section className="post-full-byline-content">
                     <AuthorList authors={post.author} tooltip="large" />
                     <section className="post-full-byline-meta">
-                      <h4 className="author-name">{authorsDisplay}</h4>
+                      <h3 className="author-name">{authorsDisplay}</h3>
                       <div className="byline-meta-content">
                         <time className="byline-meta-date" dateTime={post.updatedAt.toString()}>
                           {post.updatedAt.toString()}
@@ -95,11 +100,14 @@ const PageTemplate = ({ data, pageContext, location }: PostTemplateProps) => {
               )}
               <PostContent
                 htmlAst={post.body.childMarkdownRemark.htmlAst}
-                url={location.href}
-                title={post.title}
-                tags={tagNames}
               />
-
+              <ShareButtons
+                title={post.title}
+                url={location.href}
+                twitterHandle="@Svirins"
+                tags={tagNames ?? []}
+              />
+              <Comments />
               <Subscribe />
             </article>
           </div>
@@ -126,7 +134,8 @@ export const query = graphql`
         node {
           title
           slug
-          updatedAt(formatString: "dd MMM yyyy")
+          featured
+          updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug
             tagName
@@ -168,7 +177,8 @@ export const query = graphql`
         node {
           title
           slug
-          updatedAt(formatString: "dd MMM yyyy")
+          featured
+          updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug
             tagName
@@ -252,18 +262,6 @@ export const PostFullHeader = styled.header`
   }
 `;
 
-const PostFullTags = styled.section`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  /* color: var(--midgrey); */
-  color: ${colors.midgrey};
-  font-size: 1.3rem;
-  line-height: 1.4em;
-  font-weight: 600;
-  text-transform: uppercase;
-`;
-
 const PostFullCustomExcerpt = styled.p`
   margin: 20px 0 0;
   color: var(--midgrey);
@@ -306,25 +304,25 @@ const PostFullByline = styled.div`
     margin: 2px 0 0;
     /* color: color(var(--midgrey) l(+10%)); */
     color: ${lighten('0.1', colors.midgrey)};
-    font-size: 1.2rem;
-    line-height: 1.2em;
+    font-size: 1.3rem !important;
+    line-height: 1.1em;
     letter-spacing: 0.2px;
-    text-transform: uppercase;
+    text-transform: none;
   }
 
-  .post-full-byline-meta h4 {
+  .post-full-byline-meta h4, h3 {
     margin: 0 0 3px;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     line-height: 1.4em;
     font-weight: 500;
   }
 
-  .post-full-byline-meta h4 a {
+  .post-full-byline-meta h3 a {
     /* color: color(var(--darkgrey) l(+10%)); */
     color: ${lighten('0.1', colors.darkgrey)};
   }
 
-  .post-full-byline-meta h4 a:hover {
+  .post-full-byline-meta h3 a:hover {
     /* color: var(--darkgrey); */
     color: ${colors.darkgrey};
   }
@@ -386,4 +384,14 @@ const PostFullImage = styled.figure`
   }
 `;
 
-export default PageTemplate;
+const PostCardPrimaryTag = styled.span`
+  margin: 0 0 0.2em;
+  /* color: var(--blue); */
+  color: ${colors.blue};
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+`;
+
+export default SinglePostTemplate;

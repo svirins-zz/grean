@@ -7,6 +7,7 @@ import { IndexLayout } from 'layouts';
 import React from 'react';
 import {
   AuthorProfileImage,
+  Details,
   PostFeed,
   ResponsiveHeaderBackground,
   SiteArchiveHeader,
@@ -37,7 +38,7 @@ const Author = ({ data }: AuthorTemplateProps) => {
         className="author-social-link"
       >
         <AuthorSocialLinkAnchor href={social} target="_blank" rel="noopener noreferrer">
-          Social link
+          Facebook
         </AuthorSocialLinkAnchor>
       </AuthorSocialLink>
     );
@@ -54,7 +55,7 @@ const Author = ({ data }: AuthorTemplateProps) => {
         <header className="site-archive-header" css={[SiteHeader, SiteArchiveHeader]}>
           <div css={[outer, SiteNavMain]}>
             <div css={inner}>
-              <SiteNav title={author.name} />
+              <SiteNav />
             </div>
           </div>
 
@@ -92,6 +93,9 @@ const Author = ({ data }: AuthorTemplateProps) => {
         </header>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={inner}>
+            <Details>
+              {author.personal_info.childMarkdownRemark.excerpt}
+            </Details>
             <div css={[PostFeed]}>
               {edges.map(({ node }) => {
                 return <PostCard key={node.slug} post={node} />;
@@ -151,6 +155,7 @@ export const pageQuery = graphql`
         node {
           title
           slug
+          featured
           updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug
@@ -164,7 +169,7 @@ export const pageQuery = graphql`
           body {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 200)
+              excerpt(format: PLAIN, pruneLength: 400)
               timeToRead
             }
           }
@@ -281,10 +286,13 @@ const AuthorProfileBioImage = css`
 `;
 
 const AuthorSocialLinkAnchor = styled.a`
-  color: #fff;
+ 
   font-weight: 600;
 
+  color: #1877f2;
   :hover {
+    text-decoration: underline;
+    color:#408bee;
     opacity: 1;
   }
 `;

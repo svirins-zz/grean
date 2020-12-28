@@ -1,4 +1,5 @@
 import algoliasearch from 'algoliasearch/lite';
+import { searchIndices } from 'const';
 import { default as React, createRef, useState } from 'react';
 import { InstantSearch } from 'react-instantsearch-dom';
 
@@ -14,7 +15,7 @@ const theme = {
   faded: '#888',
 };
 
-export const Search = ({ indices }) => {
+export const Search = () => {
   const rootRef = createRef();
   const [query, setQuery] = useState();
   const [hasFocus, setFocus] = useState(false);
@@ -22,14 +23,6 @@ export const Search = ({ indices }) => {
     process.env.ALGOLIA_APP_ID ?? '',
     process.env.ALGOLIA_SEARCH_KEY ?? '',
   );
-  // TODO: implement search Fn to work correct
-  const sFn = (helper) => {
-    if (helper.state.query.length < 3) {
-      return;
-    }
-
-    helper.search();
-  };
 
   useClickOutside(rootRef, () => setFocus(false));
   return (
@@ -37,8 +30,7 @@ export const Search = ({ indices }) => {
       <div ref={rootRef} css={[SearchRootStyles]}>
         <InstantSearch
           searchClient={searchClient}
-          indexName={indices[0].name}
-          searchFunction={sFn}
+          indexName={searchIndices[0].name}
           onSearchStateChange={({ query }) => setQuery(query)}
         >
           <SearchBox
@@ -47,7 +39,7 @@ export const Search = ({ indices }) => {
           />
           <SearchResult
             show={query && query.length > 0 && hasFocus}
-            indices={indices}
+            indices={searchIndices}
           />
         </InstantSearch>
       </div>

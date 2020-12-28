@@ -13,7 +13,7 @@ export const ReadNextCard = ({ relatedPosts, currentPageSlug, tags, pageContext 
     <ReadNextCardArticle className="read-next-card">
       <header className="read-next-card-header">
         <ReadNextCardHeaderTitle>
-          <span>More in</span>{' '}
+          <span>Еще в:</span>{' '}
           <Link to={`/tags/${tags[0].slug}/`}>{tags[0].tagName}</Link>
         </ReadNextCardHeaderTitle>
       </header>
@@ -27,8 +27,8 @@ export const ReadNextCard = ({ relatedPosts, currentPageSlug, tags, pageContext 
                 </h4>
                 <ReadNextCardMeta className="read-next-card-meta">
                   <p>
-                    <time dateTime={post.node.updatedAt.toString()}>{post.node.updatedAt.toString()}</time> - {post.node.body.childMarkdownRemark.timeToRead} min
-                    read
+                    <time dateTime={post.node.updatedAt.toString()}>{post.node.updatedAt.toString()}</time> - {post.node.body.childMarkdownRemark.timeToRead} мин.
+                    чтения
                   </p>
                 </ReadNextCardMeta>
               </li>
@@ -38,9 +38,9 @@ export const ReadNextCard = ({ relatedPosts, currentPageSlug, tags, pageContext 
       </ReadNextCardContent>
       <ReadNextCardFooter className="read-next-card-footer">
         <Link to={`/tags/${tags[0].slug}/`}>
-          {relatedPosts.totalCount > 1 && `See all ${relatedPosts.totalCount} posts`}
-          {relatedPosts.totalCount === 1 && '1 post'}
-          {relatedPosts.totalCount === 0 && 'No posts'} →
+          {relatedPosts.totalCount > 1 && `Еще ${relatedPosts.totalCount} постов(а)`}
+          {relatedPosts.totalCount === 1 && '1 пост'}
+          {relatedPosts.totalCount === 0 && 'Нет постов'} →
         </Link>
       </ReadNextCardFooter>
     </ReadNextCardArticle>

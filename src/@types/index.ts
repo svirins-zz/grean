@@ -1,4 +1,3 @@
-import { CreatePagesArgs } from 'gatsby';
 import { FixedObject, FluidObject } from 'gatsby-image';
 import { ReactChild, ReactChildren } from 'react';
 
@@ -112,13 +111,14 @@ export interface Author {
   personal_info: {
     childMarkdownRemark: {
       htmlAst: JSON;
+      excerpt: string;
     };
   };
   avatar: ImageObject;
   profileImage: ImageObject;
 }
 export interface Page {
-  titke: string;
+  title: string;
   slug: string;
   markdown: {
     childMarkdownRemark: {
@@ -167,10 +167,7 @@ export interface ReadNextProps {
   };
 }
 export interface PostContentProps {
-  title: string;
-  url: string;
   htmlAst: JSON;
-  tags: string[];
 }
 export interface PostCardProps {
   post: Post;

@@ -3,7 +3,7 @@ import { SubscribeModal } from 'components/subscribe';
 import { myContext } from 'context';
 import { Link } from 'gatsby';
 import { darken } from 'polished';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext } from 'react';
 import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
@@ -11,44 +11,9 @@ import styled from '@emotion/styled';
 
 import { SiteNavLogo } from './siteNavLogo';
 
-export const SiteNav = (title: { title: string }) => {
-  const titleRef = useRef(null);
-  let lastScrollY = 0;
-  let ticking = false;
-  const onScroll = () => {
-    if (ticking) {
-      requestAnimationFrame(update);
-    }
-
-    ticking = true;
-  };
-
-  useEffect(() => {
-    lastScrollY = window.scrollY;
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [onScroll]);
+export const SiteNav = () => {
   const context = useContext(myContext);
-  const [showTitle, setShowTitle] = useState(false);
 
-  const update = () => {
-    if (!titleRef || !titleRef.current) {
-      return;
-    }
-
-    lastScrollY = window.scrollY;
-    const trigger: number = titleRef.current.getBoundingClientRect().top;
-    const triggerOffset: number = titleRef.current.offsetHeight + 35;
-    // show/hide post title
-    if (lastScrollY >= trigger + triggerOffset) {
-      setShowTitle(true);
-    } else {
-      setShowTitle(false);
-      ticking = false;
-    }
-  };
-
-  //TODO: title not working. treated as object
   return (
     <>
       <SubscribeModal />
@@ -59,21 +24,18 @@ export const SiteNav = (title: { title: string }) => {
             <ul css={NavStyles} role="menu">
               {/* TODO: mark current nav item - add class nav-current */}
               <li role="menuitem">
-                <Link to="/">Home</Link>
+                <Link to="/pages/about">О проекте</Link>
               </li>
               <li role="menuitem">
-                <Link to="/about">About</Link>
+                <Link to="/pages/contact">Контакты</Link>
               </li>
             </ul>
-            <NavPostTitle ref={titleRef} className="nav-post-title">
-              Replacement for title
-            </NavPostTitle>
           </SiteNavContent>
         </SiteNavLeft>
 
         <SiteNavRight>
           <SocialLinks />
-          <SubscribeButton onClick={context.showModal}>Subscribe</SubscribeButton>
+          <SubscribeButton onClick={context.showModal}>Подписка</SubscribeButton>
         </SiteNavRight>
       </nav>
     </>
@@ -117,7 +79,7 @@ const SiteNavLeft = styled.div`
   padding: 10px 0 80px;
   font-weight: 500;
   letter-spacing: 0.2px;
-  text-transform: uppercase;
+  text-transform: none;
   white-space: nowrap;
 
   -ms-overflow-scrolling: touch;
@@ -207,40 +169,5 @@ const SubscribeButton = styled.a`
     text-decoration: none;
     opacity: 1;
     cursor: pointer;
-  }
-`;
-
-const NavPostTitle = styled.span`
-  visibility: hidden;
-  position: absolute;
-  top: 9px;
-  color: #fff;
-  font-size: 1.7rem;
-  font-weight: 400;
-  text-transform: none;
-  opacity: 0;
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-  transform: translateY(175%);
-
-  .dash {
-    left: -25px;
-  }
-
-  .dash:before {
-    content: '– ';
-    opacity: 0.5;
-  }
-`;
-
-const HideNav = css`
-  ul {
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-175%);
-  }
-  .nav-post-title {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
   }
 `;
