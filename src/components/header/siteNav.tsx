@@ -1,4 +1,3 @@
-import { SocialLinks } from 'components/social';
 import { SubscribeModal } from 'components/subscribe';
 import { myContext } from 'context';
 import { Link } from 'gatsby';
@@ -34,7 +33,8 @@ export const SiteNav = () => {
         </SiteNavLeft>
 
         <SiteNavRight>
-          <SocialLinks />
+          <FBButton href="https://www.facebook.com/doktorGrin/">FB</FBButton>
+          <YTButton href="https://www.youtube.com/channel/UCg83jkm7aM3OKTAWMoSpf2A">YT</YTButton>
           <SubscribeButton onClick={context.showModal}>Подписка</SubscribeButton>
         </SiteNavRight>
       </nav>
@@ -131,8 +131,8 @@ const NavStyles = css`
     bottom: 8px;
     left: 12px;
     height: 1px;
-    background: #fff;
-    opacity: 0.25;
+    background: #36a6e2;
+    opacity: 1;
     transition: all 0.35s ease-in-out;
   }
 
@@ -161,6 +161,40 @@ const SubscribeButton = styled.a`
   margin: 0 0 0 10px;
   border: #fff 1px solid;
   color: #fff;
+  line-height: 1em;
+  border-radius: 10px;
+  opacity: 0.8;
+
+  :hover {
+    text-decoration: none;
+    opacity: 1;
+    cursor: pointer;
+  }
+`;
+
+const FBButton = styled.a`
+  display: block;
+  padding: 4px 10px;
+  margin: 0 0 0 10px;
+  border: #1877F2 1px solid;
+  color: #1877F2;
+  line-height: 1em;
+  border-radius: 10px;
+  opacity: 0.8;
+
+  :hover {
+    text-decoration: none;
+    opacity: 1;
+    cursor: pointer;
+  }
+`;
+
+const YTButton = styled.a`
+  display: block;
+  padding: 4px 10px;
+  margin: 0 0 0 10px;
+  border: #FF0000 1px solid;
+  color: #FF0000;
   line-height: 1em;
   border-radius: 10px;
   opacity: 0.8;

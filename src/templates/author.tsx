@@ -124,7 +124,7 @@ export const pageQuery = graphql`
           personal_info {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 200)
+              excerpt(format: PLAIN, pruneLength: 300)
             }
           }
           avatar {
@@ -156,7 +156,7 @@ export const pageQuery = graphql`
           title
           slug
           featured
-          updatedAt(formatString: "d MMMM yyyy")
+          updatedAt(formatString: "d MMM yyyy", locale: "ru-RU")
           tags {
             slug
             tagName
@@ -169,7 +169,7 @@ export const pageQuery = graphql`
           body {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 400)
+              excerpt(format: PLAIN, pruneLength: 250)
               timeToRead
             }
           }

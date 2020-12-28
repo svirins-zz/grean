@@ -20,7 +20,6 @@ const Ast = ({ ast, ...props }: any) => {
 export const PostContent: React.FC<PostContentProps> = ({ htmlAst }) => {
   return (
     <PostFullContent className="post-full-content">
-      {/* TODO: this will apply the class when rehype-react is published https://github.com/rhysd/rehype-react/pull/11 */}
       <Ast className="post-content" ast={htmlAst} />
     </PostFullContent>
   );
@@ -30,6 +29,7 @@ export const PostFullContent = styled.section`
   position: relative;
   margin: 0 auto;
   padding: 0 170px 6vw;
+  padding-bottom: 70px;
   min-height: 230px;
   font-family: Georgia, serif;
   font-size: 2rem;
@@ -46,13 +46,12 @@ export const PostFullContent = styled.section`
   @media (max-width: 500px) {
     padding: 0;
   }
-  @media (max-width: 500px) {
+    @media (max-width: 500px) {
     .post-full-custom-excerpt {
       font-size: 1.9rem;
       line-height: 1.5em;
     }
   }
-
   .no-image {
     padding-top: 0;
   }

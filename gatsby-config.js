@@ -6,8 +6,8 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Addict',
-    description: 'Gatsby + TypeScript + Tailwind CSS + Emotion = IAM',
+    title: 'Addict.cf',
+    description: 'Врачи и психотерапевты об аддикции и методах ее лечения.',
     author: 'dr. Grean',
     siteUrl: 'https://addict.cf',
     lang: 'ru',
@@ -17,7 +17,7 @@ module.exports = {
     facebook: '',
     twitter: '',
     showSubscribe: true,
-    footer: 'is based on Gatsby Casper',
+    footer: 'авторский блог об аддикции',
   },
   flags: {
     PRESERVE_WEBPACK_CACHE: true,
@@ -127,6 +127,12 @@ module.exports = {
         background_color: '#101010',
         theme_color: '#20263d',
         crossOrigin: 'use-credentials',
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-disqus',
+      options: {
+        shortname: 'addict-cf',
       },
     },
   ],

@@ -1,13 +1,12 @@
 import { Link } from 'gatsby';
 import React from 'react';
-import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
 
 export const SiteNavLogo = () => {
   return (
     <Link to="/">
-      <span css={SiteNavLogoStyles}>Addict.cf</span>
+      <span css={SiteNavLogoStyles}>😵‍💫💊💉⛓ Addict.cf</span>
     </Link>
   );
 };
@@ -19,7 +18,7 @@ const SiteNavLogoStyles = css`
   display: inline-block;
   margin-right: 32px;
   padding: 12px 0;
-  color: ${colors.yellow};
+  color:  #36a6e2;
   font-size: 1.7rem;
   line-height: 1.8rem;
   font-weight: bold;

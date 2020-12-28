@@ -94,16 +94,16 @@ const ReadNextCardHeaderTitle = styled.h3`
   font-weight: 300;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-
+  font-weight: 500;
   a {
-    color: #fff;
+    text-transform: uppercase;
+    color: ${colors.blue};
     font-weight: 500;
     text-decoration: none;
-    opacity: 0.8;
   }
 
   a:hover {
-    opacity: 1;
+    text-decoration: underline;
   }
 `;
 

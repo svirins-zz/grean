@@ -85,11 +85,17 @@ const SinglePostTemplate = ({ data, pageContext, location }: PostTemplateProps) 
                         </time>
                         <span className="byline-reading-time">
                           <span className="bull">&bull;</span>{' '}
-                          {post.body.childMarkdownRemark.timeToRead} min read
+                          {post.body.childMarkdownRemark.timeToRead} мин. чтения
                         </span>
                       </div>
                     </section>
                   </section>
+                  <ShareButtons
+                    title={post.title}
+                    url={location.href}
+                    twitterHandle="@Svirins"
+                    tags={tagNames ?? []}
+                  />
                 </PostFullByline>
               </PostFullHeader>
 
@@ -101,13 +107,7 @@ const SinglePostTemplate = ({ data, pageContext, location }: PostTemplateProps) 
               <PostContent
                 htmlAst={post.body.childMarkdownRemark.htmlAst}
               />
-              <ShareButtons
-                title={post.title}
-                url={location.href}
-                twitterHandle="@Svirins"
-                tags={tagNames ?? []}
-              />
-              <Comments />
+              <Comments location={location.href} slug={post.slug}/>
               <Subscribe />
             </article>
           </div>
@@ -135,7 +135,7 @@ export const query = graphql`
           title
           slug
           featured
-          updatedAt(formatString: "d MMMM yyyy")
+          updatedAt(formatString: "d MMMM yyyy", locale: "ru-RU")
           tags {
             slug
             tagName
@@ -152,7 +152,7 @@ export const query = graphql`
             childMarkdownRemark {
               htmlAst
               timeToRead
-              excerpt(format: PLAIN, pruneLength: 200)            }
+              excerpt(format: PLAIN, pruneLength: 300)            }
           }
           author {
             name
@@ -178,7 +178,7 @@ export const query = graphql`
           title
           slug
           featured
-          updatedAt(formatString: "d MMMM yyyy")
+          updatedAt(formatString: "d MMM yyyy", locale: "ru-RU")
           tags {
             slug
             tagName
@@ -191,7 +191,7 @@ export const query = graphql`
           body {
             childMarkdownRemark {
               timeToRead
-              excerpt(format: PLAIN, pruneLength: 200)
+              excerpt(format: PLAIN, pruneLength: 250)
             }
           }
           author {
@@ -240,11 +240,11 @@ export const NoImage = css`
     display: none;
   }
 `;
-
+// remove bottom padding
 export const PostFullHeader = styled.header`
   position: relative;
   margin: 0 auto;
-  padding: 70px 170px 50px;
+  padding: 70px 170px 0px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 

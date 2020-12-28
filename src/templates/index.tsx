@@ -88,7 +88,7 @@ export const pageQuery = graphql`
         node {
           title
           slug
-          updatedAt(formatString: "d MMMM yyyy")
+          updatedAt(formatString: "d MMM yyyy", locale: "ru-RU")
           featured
           tags {
             slug

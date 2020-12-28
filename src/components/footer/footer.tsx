@@ -13,31 +13,59 @@ export const Footer: React.FC = () => {
     <footer css={[outer, SiteFooter]}>
       <div css={[inner, SiteFooterContent]}>
         <section className="copyright">
-          <Link to="/">Copyright</Link> &copy; {new Date().getFullYear()}{' '}
-          <Link to="/">| Addict.cf title</Link>
+          Copyright &copy; {new Date().getFullYear()}{' '}
+          <Link to="/">| Addict.cf. Блог об аддикции.</Link>
         </section>
         <SiteFooterNav>
-          <Link to="/">Latest Posts</Link>
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <Link to="/pages/about">О проекте</Link>
+          <Link to="/pages/contact">Контакты</Link>
+          <a href="https://www.facebook.com/doktorGrin/" target="_blank" rel="noopener noreferrer">
             Facebook
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            Twitter
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            Svirins
+          <a href="https://www.youtube.com/channel/UCg83jkm7aM3OKTAWMoSpf2A" target="_blank" rel="noopener noreferrer">
+            Youtube
           </a>
           <a href="/rss.xml">RSS</a>
         </SiteFooterNav>
       </div>
+      <Section>
+        <Span>
+          {' '}
+          Made with{' '}
+          <span role="img" aria-labelledby="mixed">
+            👾
+          </span>{' '}
+          by <Svirins href="https://twitter.com/svirins">@svirins</Svirins>
+        </Span>
+      </Section>
     </footer>
   );
 };
 
+const Section = styled.div`
+  margin-top: 10px;
+  text-align: center;
+`;
+
+const Span = styled.span`
+  font-size: 1.25rem;
+  color: #6d6d6b;
+  text-align: center;
+`;
+
+const Svirins = styled.a`
+  font-size: 1.25rem;
+  color: #6d6d6b;
+  :hover {
+    color: #d61354;
+    text-decoration: underline;
+  }
+`;
+
 const SiteFooter = css`
   position: relative;
   padding-top: 20px;
-  padding-bottom: 60px;
+  padding-bottom: 20px;
   color: #fff;
   background: ${setLightness('0.0015', colors.darkgrey)};
 `;
