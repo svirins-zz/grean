@@ -52,12 +52,10 @@ const IndexPage: React.FC<IndexProps> = props => {
             <SiteHeaderContent css={inner} className="site-header-content">
               <SiteTitle className="site-title">{props.data.site.siteMetadata.title}</SiteTitle>
               <SiteDescription>{props.data.site.siteMetadata.description}</SiteDescription>
+              <Search />
             </SiteHeaderContent>
           </ResponsiveHeaderBackground>
         </header>
-        <section css={[outer, SiteMain]}>
-          <Search />
-        </section>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={[inner, Posts]}>
             <div css={[PostFeed]}>

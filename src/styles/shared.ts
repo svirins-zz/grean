@@ -43,6 +43,7 @@ export const SiteTitle = styled.h1`
   font-size: 5rem;
   line-height: 1em;
   font-weight: 600;
+  color: #36a6e2;
 
   @media (max-width: 500px) {
     font-size: 4.2rem;
@@ -56,8 +57,7 @@ export const SiteDescription = styled.h2`
   font-size: 2.1rem;
   line-height: 1.4em;
   font-weight: 400;
-  opacity: 0.8;
-
+  opacity: 1;
   @media (max-width: 500px) {
     font-size: 1.8rem;
   }
