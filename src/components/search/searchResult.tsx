@@ -16,7 +16,7 @@ const HitCount = connectStateResults(({ searchResults }) => {
   const hitCount = searchResults ?? 0;
   return hitCount > 0 ? (
     <div className="HitCount">
-      `${hitCount} result${hitCount === 1 ? '' : 's'}`
+      найдено `${hitCount} совпадение${hitCount === 1 ? '' : '(ий)'}`
     </div>
   ) : null;
 });
@@ -39,10 +39,10 @@ const HitsInIndex = ({ index }) => (
   </Index>
 );
 
-const SearchResult = ({ indices, className }) => (
+const SearchResult = ({ indices, className, show }) => (
   <div className={className}>
     {indices.map(index => (
-      <HitsInIndex index={index} key={index.name} />
+      <HitsInIndex key={index.name} index={index} />
     ))}
     <PoweredBy />
   </div>
@@ -65,7 +65,7 @@ const Popover = css`
 `;
 
 export default styled(SearchResult)`
-  display: ${props => (props.show ? `block` : `none`)};
+  display: ${props => (props.show ? 'block' : 'none')};
   ${Popover}
   .HitCount {
     display: flex;
@@ -95,4 +95,3 @@ export default styled(SearchResult)`
     }
   }
 `;
-

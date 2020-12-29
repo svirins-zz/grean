@@ -1,4 +1,4 @@
-import { Disqus } from 'gatsby-plugin-disqus'
+import { Disqus } from 'gatsby-plugin-disqus';
 import React from 'react';
 
 export const Comments = ({ location, slug }: { location: string; slug: string }): JSX.Element => {

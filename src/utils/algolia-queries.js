@@ -17,6 +17,7 @@ const pageQuery = `{
 function pageToAlgoliaRecord(slug, title, excerpt) {
   return {
     objectID: slug,
+    slug,
     title,
     text: excerpt,
   };
@@ -28,7 +29,7 @@ const queries = [
     transformer: ({ data }) => data.pages.edges.map(({ node }) => pageToAlgoliaRecord(node.slug, node.title, node.body.childMarkdownRemark.excerpt)),
     indexName: 'ADDICT',
     settings: { attributesToSnippet: ['text:20'] },
-    matchFields: ['title', 'text'],
+    matchFields: ['title', 'text', 'slug'],
     skipIndexing: true,
   },
 ];

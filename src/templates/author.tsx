@@ -60,7 +60,7 @@ const Author = ({ data }: AuthorTemplateProps) => {
           </div>
 
           <ResponsiveHeaderBackground
-            backgroundImage={author.profileImage.fixed.src}
+            backgroundImage={author.profileImage.fluid.src}
             css={[outer, SiteHeaderBackground]}
             className="site-header-background"
           >
@@ -136,7 +136,7 @@ export const pageQuery = graphql`
             }
           }
           profileImage {
-            fluid(maxWidth: 2540) {
+            fluid(maxWidth: 2000) {
               ...GatsbyContentfulFluid_withWebp
             }
             fixed {

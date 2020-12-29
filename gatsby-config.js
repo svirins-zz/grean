@@ -24,6 +24,11 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-netlify',
+    'gatsby-plugin-typescript',
+    'gatsby-plugin-emotion',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-react-helmet',
+    'gatsby-plugin-sitemap',
     'gatsby-plugin-resolve-src',
     {
       resolve: 'gatsby-plugin-manifest',
@@ -43,6 +48,7 @@ module.exports = {
         apiKey: process.env.ALGOLIA_ADMIN_KEY,
         indexName: process.env.ALGOLIA_INDEX_NAME,
         queries: require('./src/utils/algolia-queries.js'),
+        chunkSize: 10000,
       },
     },
     {
@@ -97,20 +103,16 @@ module.exports = {
         ],
       },
     },
-    'gatsby-transformer-json',
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
         siteUrl: 'https://addict.cf',
       },
     },
-    'gatsby-plugin-typescript',
-    'gatsby-plugin-emotion',
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-postcss',
       options: {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         postCssPlugins: [require('postcss-color-function'), require('cssnano')()],
       },
     },
@@ -133,6 +135,20 @@ module.exports = {
       resolve: 'gatsby-plugin-disqus',
       options: {
         shortname: 'addict-cf',
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: require('./src/utils/site-metadata-query.js'),
+        feeds: [
+          {
+            serialize: require('./src/utils/serializeFn.js'),
+            query: require('./src/utils/contentful-feed-query.js'),
+            output: '/rss.xml',
+            title: 'RSS Feed для Addict.cf',
+          },
+        ],
       },
     },
   ],

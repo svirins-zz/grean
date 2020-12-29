@@ -1,10 +1,10 @@
 import { Footer } from 'components/footer';
 import { SiteNav, SiteNavMain } from 'components/header';
 import { Seo, Wrapper } from 'components/layout';
-import { PostContent, ReadNext } from 'components/post';
+import { PostContent } from 'components/post';
 import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
-import { lighten, setLightness } from 'polished';
+import { setLightness } from 'polished';
 import React from 'react';
 import { colors } from 'styles/colors';
 import { SiteMain, inner, outer } from 'styles/shared';
@@ -46,7 +46,7 @@ const PageTemplate = ({ data }: PageTemplateProps) => {
   );
 };
 
-// POST QUERY
+// POST PAGE
 export const query = graphql`
   query($slug: String) {
     allContentfulPage(filter: { slug: { eq: $slug } }) {
@@ -57,7 +57,6 @@ export const query = graphql`
           markdown {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 200)
             }
           }
         }

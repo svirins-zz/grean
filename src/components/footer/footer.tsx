@@ -30,12 +30,11 @@ export const Footer: React.FC = () => {
       </div>
       <Section>
         <Span>
-          {' '}
-          Made with{' '}
           <span role="img" aria-labelledby="mixed">
             👾
-          </span>{' '}
-          by <Svirins href="https://twitter.com/svirins">@svirins</Svirins>
+          </span>
+          {' '}Made{' '}by{' '}
+          <Svirins href="https://twitter.com/svirins">@Svirins</Svirins>
         </Span>
       </Section>
     </footer>
@@ -51,15 +50,6 @@ const Span = styled.span`
   font-size: 1.25rem;
   color: #6d6d6b;
   text-align: center;
-`;
-
-const Svirins = styled.a`
-  font-size: 1.25rem;
-  color: #6d6d6b;
-  :hover {
-    color: #d61354;
-    text-decoration: underline;
-  }
 `;
 
 const SiteFooter = css`
@@ -116,5 +106,14 @@ const SiteFooterNav = styled.nav`
     a:first-of-type {
       margin-left: 0;
     }
+  }
+`;
+
+const Svirins = styled.a`
+  font-size: 1.25rem;
+  color: #c0c0c0;
+  :hover {
+    color: #ec3ffc;
+    text-decoration: underline;
   }
 `;

@@ -188,7 +188,7 @@ export interface AuthorListProps {
 export interface SeoProps {
   seoTitle: string;
   seoDescription: string;
-  imageSrc: string;
+  imageSrc?: string;
 }
 
 export interface Socials {

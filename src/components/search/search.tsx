@@ -17,7 +17,7 @@ const theme = {
 
 export const Search = () => {
   const rootRef = createRef();
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState<string>('');
   const [hasFocus, setFocus] = useState(false);
   const searchClient = algoliasearch(
     process.env.ALGOLIA_APP_ID ?? '',
@@ -31,7 +31,7 @@ export const Search = () => {
         <InstantSearch
           searchClient={searchClient}
           indexName={searchIndices[0].name}
-          onSearchStateChange={({ query }) => setQuery(query)}
+          onSearchStateChange={({ query }: {query: string}) => setQuery(query)}
         >
           <SearchBox
             hasFocus={hasFocus}

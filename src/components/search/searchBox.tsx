@@ -54,6 +54,7 @@ export default styled(SearchBox)`
     font-weight: normal;
     user-select: text;
     border-radius: 5px;
+    cursor: text;
     transition: border-color 0.15s linear;
 
     -webkit-appearance: none;

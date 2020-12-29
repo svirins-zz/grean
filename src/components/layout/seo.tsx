@@ -1,3 +1,4 @@
+import fallbackImage from 'assets/img/fallBack.png';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -27,6 +28,7 @@ export const Seo = ({
       }
     `,
   );
+  const image = imageSrc ? imageSrc : fallbackImage;
   const { pathname } = useLocation();
   return (
     <Helmet
@@ -57,7 +59,7 @@ export const Seo = ({
         },
         {
           name: 'og:image',
-          content: imageSrc,
+          content: image,
         },
         {
           name: 'og:image:height',

@@ -43,16 +43,18 @@ export const PostCard: React.FC<PostCardProps> = ({ post, large = false }) => {
         </Link>
       )}
       <PostCardContent className="post-card-content">
-        <Link className="post-card-content-link" css={PostCardContentLink} to={`/${post.slug}`}>
+        <div className="post-card-content-link" >
           <PostCardHeader className="post-card-header">
             {tagsDisplay}
             {isFeatured}
-            <PostCardTitle className="post-card-title">{post.title}</PostCardTitle>
+            <Link css={PostCardContentLink} to={`/${post.slug}`} >
+              <PostCardTitle className="post-card-title">{post.title}</PostCardTitle>
+            </Link>
           </PostCardHeader>
           <PostCardExcerpt className="post-card-excerpt">
             <p>{post.body.childMarkdownRemark.excerpt}</p>
           </PostCardExcerpt>
-        </Link>
+        </div>
         <PostCardMeta className="post-card-meta">
           <AuthorList authors={post.author} tooltip="small" />
           <PostCardBylineContent className="post-card-byline-content">
@@ -171,7 +173,7 @@ const PostCardContentLink = css`
   color: ${colors.darkgrey};
 
   :hover {
-    text-decoration: none;
+    text-decoration: underline;
   }
 `;
 

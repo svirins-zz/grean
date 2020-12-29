@@ -93,7 +93,7 @@ export const pageQuery = graphql`
             }
           }  
           image {
-            fluid(maxWidth: 800) {
+            fluid(maxWidth: 2000) {
               ...GatsbyContentfulFluid_withWebp
             }
             fixed {
