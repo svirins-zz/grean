@@ -6,10 +6,11 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: 'Addict.cf',
+    title: 'Addict.ws',
     description: 'Врачи и психотерапевты об аддикции и методах ее лечения.',
     author: 'dr. Grean',
     siteUrl: 'https://addict.cf',
+    locale: 'ru-RU',
     lang: 'ru',
     keywords: ['Addiction', 'Therapy', 'Recovery', 'Blog'],
     coverImage: 'src/assets/img/hero.jpg',
@@ -30,6 +31,12 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-resolve-src',
+    {
+      resolve: 'gatsby-plugin-mailchimp',
+      options: {
+        endpoint: process.env.MAILCHIMP_ENDPOINT,
+      },
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {

@@ -32,3 +32,4 @@ declare module '*.webp';
 declare module 'commentbox.io';
 declare module 'react-instantsearch-dom';
 declare module 'gatsby-plugin-disqus';
+declare module 'gatsby-plugin-mailchimp';

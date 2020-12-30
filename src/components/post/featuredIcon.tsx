@@ -7,7 +7,7 @@ export const FeaturedIcon = () => {
 };
 
 const Featured = styled.span`
-  background-color: red;
+  background-color: #ff0b00d9;
   color: white;
   font-size: 1.15rem;
   padding: 0 0.4rem;

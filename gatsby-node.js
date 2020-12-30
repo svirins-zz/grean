@@ -6,12 +6,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const postsResult = await graphql(`
   {
-    allContentfulPost(limit: 100, sort: {fields: updatedAt, order: DESC}) 
+    allContentfulPost(limit: 100, sort: {
+      fields: [featured, updatedAt],
+      order: [DESC, ASC]}) 
     {
       edges {
         node {
           title
           slug
+          featured
           updatedAt(formatString: "d MMMM yyyy")
           tags {
             slug
@@ -77,12 +80,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   }`);
   // Handle errors
-  if (postsResult.errors || authorsResult.errors || tagsResult.errors) {
+  if (postsResult.errors || authorsResult.errors || tagsResult.errors || pagesResult.errors) {
     reporter.panicOnBuild('Error while running GraphQL query.');
     return;
   }
 
   const posts = postsResult.data.allContentfulPost.edges;
+
   // Create paginated index
   const indexTemplate = path.resolve('./src/templates/index.tsx');
   const numPages = Math.ceil(posts.length / POSTS_PER_PAGE);
@@ -104,6 +108,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const postTemplate = path.resolve('./src/templates/post.tsx');
   posts.forEach(({ node }, index) => {
+    console.log(node.featured);
     const prev = index === 0 ? null : posts[index - 1].node;
     const next = index === posts.length - 1 ? null : posts[index + 1].node;
     createPage({
@@ -153,7 +158,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       path: `/pages/${node.slug}/`,
       component: pageTemplate,
       context: {
-        author: node.slug,
+        slug: node.slug,
       },
     });
   });

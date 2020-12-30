@@ -9,11 +9,11 @@ import SearchBox from './searchBox';
 import SearchResult from './searchResult';
 import { useClickOutside } from './useClickOutside';
 
-const theme = {
-  foreground: '#050505',
-  background: 'white',
-  faded: '#888',
-};
+// const theme = {
+//   foreground: '#050505',
+//   background: 'white',
+//   faded: '#888',
+// };
 
 export const Search = () => {
   const rootRef = createRef();
@@ -26,24 +26,24 @@ export const Search = () => {
 
   useClickOutside(rootRef, () => setFocus(false));
   return (
-    <ThemeProvider theme={theme}>
-      <div ref={rootRef} css={[SearchRootStyles]}>
-        <InstantSearch
-          searchClient={searchClient}
-          indexName={searchIndices[0].name}
-          onSearchStateChange={({ query }: {query: string}) => setQuery(query)}
-        >
-          <SearchBox
-            hasFocus={hasFocus}
-            onFocus={() => setFocus(true)}
-          />
-          <SearchResult
-            show={query && query.length > 0 && hasFocus}
-            indices={searchIndices}
-          />
-        </InstantSearch>
-      </div>
-    </ThemeProvider>
+    // <ThemeProvider theme={theme}>
+    <div ref={rootRef} css={[SearchRootStyles]}>
+      <InstantSearch
+        searchClient={searchClient}
+        indexName={searchIndices[0].name}
+        onSearchStateChange={({ query }: {query: string}) => setQuery(query)}
+      >
+        <SearchBox
+          hasFocus={hasFocus}
+          onFocus={() => setFocus(true)}
+        />
+        <SearchResult
+          show={query && query.length > 0 && hasFocus}
+          indices={searchIndices}
+        />
+      </InstantSearch>
+    </div>
+    // </ThemeProvider>
   );
 };
 

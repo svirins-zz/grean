@@ -26,8 +26,6 @@ import {
 import { css } from '@emotion/react';
 import { IndexProps } from '@types';
 
-// TODO: infer types from gatsby-typegen
-
 const IndexPage: React.FC<IndexProps> = props => {
   // do additional sort
   return (
@@ -81,7 +79,11 @@ const IndexPage: React.FC<IndexProps> = props => {
 // ALL POSTS QUERY
 export const pageQuery = graphql`
   query($skip: Int!, $limit: Int!) {
-    allContentfulPost(sort: { fields: updatedAt, order: DESC }, skip: $skip, limit: $limit) {
+    allContentfulPost(
+      sort: { fields: [featured, updatedAt], order: [DESC, ASC] }
+      skip: $skip
+      limit: $limit
+    ) {
       edges {
         node {
           title

@@ -195,6 +195,9 @@ const PostCardTitle = styled.h2`
   @media (prefers-color-scheme: dark) {
     color: rgba(255, 255, 255, 0.85);
   }
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const PostCardExcerpt = styled.section`

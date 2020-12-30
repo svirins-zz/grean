@@ -2,12 +2,18 @@ import { Link } from 'gatsby';
 import React from 'react';
 
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const SiteNavLogo = () => {
   return (
-    <Link to="/">
-      <span css={SiteNavLogoStyles}>😵‍💫💊💉⛓ Addict.cf</span>
-    </Link>
+    <>
+      <Emoji role="img" aria-label="addict">
+        ⛓
+      </Emoji>
+      <Link to="/">
+        <span css={SiteNavLogoStyles}>Addict.ws</span>
+      </Link>
+    </>
   );
 };
 
@@ -18,8 +24,8 @@ const SiteNavLogoStyles = css`
   display: inline-block;
   margin-right: 32px;
   padding: 12px 0;
-  color:  #36a6e2;
-  font-size: 1.7rem;
+  color: #36a6e2;
+  font-size: 1.8rem;
   line-height: 1.8rem;
   font-weight: bold;
   letter-spacing: -0.5px;
@@ -35,3 +41,9 @@ const SiteNavLogoStyles = css`
     height: 21px;
   }
 `;
+
+const Emoji = styled.span`
+font-size: 2.3rem;
+padding-right: 0.75rem;`;
+
+// 〽️ 💮☯️✴️🤷🏻😵‍💫💊💉⛓

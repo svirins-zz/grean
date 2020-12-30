@@ -1,41 +1,56 @@
+import addToMailchimp from 'gatsby-plugin-mailchimp';
 import { lighten, saturate } from 'polished';
-import React from 'react';
+import React, { useState } from 'react';
 import { colors } from 'styles/colors';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const SubscribeForm: React.FC = () => {
+  const [result, setResult] = useState(null);
+  const [email, setEmail] = useState('');
+  const handleSubmit = async (e: Event) => {
+    e.preventDefault();
+    const result = await addToMailchimp(email);
+    setResult(result);
+  };
+
+  const handleChange = e => {
+    setEmail(e.target.value);
+  };
+
+  const resultDisplay = result ? (result === 'success' ? 'Успешно' : 'Ошибка') : null;
   return (
     <form
       noValidate
       css={SubscribeFormStyles}
-      action={process.env.MAILCHIMP_ACTION}
       method="post"
       id="mc-embedded-subscribe-form"
       name="mc-embedded-subscribe-form"
       className="subscribe-form"
       target="_blank"
+      onSubmit={handleSubmit}
     >
-      {/* This is required for the form to work correctly  */}
       <FormGroup className="form-group">
         <SubscribeEmail
           className="subscribe-email"
           type="email"
-          name={process.env.MAILCHIMP_NAME}
-          id={process.env.MAILCHIMP_ID}
+          name="email"
           placeholder="youremail@example.com"
+          onChange={handleChange}
         />
       </FormGroup>
-      <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
-        <input type="text" name={process.env.MAILCHIMP_NAME} tabIndex={-1} />
-      </div>
       <SubscribeFormButton type="submit">
         <span>Подписаться!</span>
       </SubscribeFormButton>
+      <Result>{resultDisplay}</Result>
     </form>
   );
 };
+
+const Result = styled.span`
+  color: black
+`;
 
 const SubscribeFormStyles = css`
   display: flex;

@@ -22,9 +22,9 @@ export const ReadNextCard = ({ relatedPosts, currentPageSlug, tags, pageContext 
           {related.map(post => {
             return (
               <li key={post.node.title}>
-                <h4>
+                <H4>
                   <Link to={`/${post.node.slug}`}>{post.node.title}</Link>
-                </h4>
+                </H4>
                 <ReadNextCardMeta className="read-next-card-meta">
                   <p>
                     <time dateTime={post.node.updatedAt.toString()}>{post.node.updatedAt.toString()}</time> - {post.node.body.childMarkdownRemark.timeToRead} мин.
@@ -46,6 +46,12 @@ export const ReadNextCard = ({ relatedPosts, currentPageSlug, tags, pageContext 
     </ReadNextCardArticle>
   );
 };
+
+const H4 = styled.h4`
+:hover {
+  text-decoration: underline;
+}
+`;
 
 const ReadNextCardArticle = styled.article`
   position: relative;
@@ -177,8 +183,8 @@ const ReadNextCardFooter = styled.footer`
 
   a:hover {
     /* border-color: var(--yellow); */
-    border-color: ${colors.yellow};
-    color: ${colors.yellow};
+    border-color:  #36a6e2;
+    color:  #36a6e2;
     text-decoration: none;
   }
 `;

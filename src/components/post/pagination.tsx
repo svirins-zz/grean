@@ -41,6 +41,7 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, numPages })
 
 const navCss = css`
   text-align: center;
+  margin-bottom: 40px;
   div {
     display: inline-block;
   }
@@ -61,9 +62,12 @@ const navCss = css`
     min-width: 50px;
 
     &.active {
-      -webkit-box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)};
+      border: 1px solid #36a6e2;
+      color: #36a6e2;
+      font-weight: bold
+      /* -webkit-box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)};
       -moz-box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)};
-      box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)};
+      box-shadow:inset 3px 0px 0px 0px ${darken(0.05, colors.darkgrey)}; */
     }
 
     &:hover:not(.active) {

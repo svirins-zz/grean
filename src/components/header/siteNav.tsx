@@ -1,3 +1,5 @@
+import { Facebook } from 'components/icons/facebook';
+import { YouTube } from 'components/icons/youtube';
 import { SubscribeModal } from 'components/subscribe';
 import { myContext } from 'context';
 import { Link } from 'gatsby';
@@ -31,16 +33,75 @@ export const SiteNav = () => {
             </ul>
           </SiteNavContent>
         </SiteNavLeft>
-
         <SiteNavRight>
-          <FBButton href="https://www.facebook.com/doktorGrin/">FB</FBButton>
-          <YTButton href="https://www.youtube.com/channel/UCg83jkm7aM3OKTAWMoSpf2A">YT</YTButton>
+          <SocialLinks>
+            <Fb
+              href="https://www.facebook.com/doktorGrin/"
+              target="_blank"
+              title="Facebook"
+              rel="noopener noreferrer"
+            >
+              <Facebook />
+            </Fb>
+            <Yt
+              href="https://www.youtube.com/channel/UCg83jkm7aM3OKTAWMoSpf2A"
+              title="Youtube"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <YouTube />
+            </Yt>
+          </SocialLinks>
           <SubscribeButton onClick={context.showModal}>Подписка</SubscribeButton>
+
         </SiteNavRight>
       </nav>
     </>
   );
 };
+
+const Fb = styled.a`
+  display: inline-block;
+  margin: 0;
+  padding: 10px;
+  opacity: 0.8;
+
+  :hover {
+    opacity: 1;
+  }
+
+  svg {
+    height: 1.8rem;
+    fill: #fff;
+    :hover {
+      fill: #1877f2;
+  }
+  }
+`;
+const Yt = styled.a`
+  display: inline-block;
+  margin: 0;
+  padding: 10px;
+  opacity: 0.8;
+
+  :hover {
+    opacity: 1;
+  }
+
+  svg {
+    height: 2rem;
+    fill: #fff;
+    :hover {
+      fill: #ff0505;
+  }
+  }`;
+
+
+const SocialLinks = styled.div`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+`;
 
 export const SiteNavMain = css`
   position: fixed;
@@ -138,7 +199,7 @@ const NavStyles = css`
 
   li a:hover:before {
     right: 12px;
-    opacity: 0.5;
+    opacity: 1;
   }
 `;
 
@@ -169,39 +230,8 @@ const SubscribeButton = styled.a`
     text-decoration: none;
     opacity: 1;
     cursor: pointer;
+    border: #36a6e2 1px solid;
+    color: #36a6e2;
   }
 `;
 
-const FBButton = styled.a`
-  display: block;
-  padding: 4px 10px;
-  margin: 0 0 0 10px;
-  border: #1877F2 1px solid;
-  color: #1877F2;
-  line-height: 1em;
-  border-radius: 10px;
-  opacity: 0.8;
-
-  :hover {
-    text-decoration: none;
-    opacity: 1;
-    cursor: pointer;
-  }
-`;
-
-const YTButton = styled.a`
-  display: block;
-  padding: 4px 10px;
-  margin: 0 0 0 10px;
-  border: #FF0000 1px solid;
-  color: #FF0000;
-  line-height: 1em;
-  border-radius: 10px;
-  opacity: 0.8;
-
-  :hover {
-    text-decoration: none;
-    opacity: 1;
-    cursor: pointer;
-  }
-`;
