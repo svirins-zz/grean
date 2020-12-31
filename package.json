@@ -1,6 +1,6 @@
 {
-  "name": "addict.cf",
-  "version": "0.2.0",
+  "name": "addicts.ws",
+  "version": "2.2.0",
   "description": "will be done later",
   "keywords": [
     "gatsby",
@@ -102,6 +102,6 @@
     "not dead"
   ],
   "engines": {
-    "node": "14.x"
+    "node": "12.x"
   }
 }
