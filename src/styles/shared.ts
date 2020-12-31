@@ -391,8 +391,18 @@ export const NoImage = css`
   }
 `;
 
-export const Details = styled.div`
-  font-weight: 300;
+export const Details = styled.p`
+  border-bottom: 1px solid ${colors.midgrey};
+  font-weight: 400;
+  color: ${colors.darkgrey};
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-style: italic;
-  color: #363636;
+  :first-letter {
+    text-indent: 2.2.rem;
+    color: black;
+    font-size: 2.2rem;
+  }
 `;

@@ -120,6 +120,7 @@ export interface Author {
 export interface Page {
   title: string;
   slug: string;
+  typeform: string;
   markdown: {
     childMarkdownRemark: {
       htmlAst: JSON;

@@ -175,7 +175,7 @@ export const SubscribeModal = () => {
       <SubscribeOverlayClose onClick={context.closeModal} />
       <SubscribeOverlayContent>
         <SubscribeLogo />
-        <SubscribeOverlayTitle>Подпишитесь на рассылку Addict.cf</SubscribeOverlayTitle>
+        <SubscribeOverlayTitle>Подпишитесь на рассылку Addicts.ws</SubscribeOverlayTitle>
         <SubscribeOverlayDescription>
           И получайте сообщения о новых опубликованных материалах
         </SubscribeOverlayDescription>

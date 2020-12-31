@@ -6,10 +6,10 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: 'Addict.ws',
+    title: 'Addicts.ws',
     description: 'Врачи и психотерапевты об аддикции и методах ее лечения.',
     author: 'dr. Grean',
-    siteUrl: 'https://addict.cf',
+    siteUrl: 'https://addicts.ws',
     locale: 'ru-RU',
     lang: 'ru',
     keywords: ['Addiction', 'Therapy', 'Recovery', 'Blog'],
@@ -40,7 +40,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Addict.cf',
+        name: 'Addicts.ws',
         short_name: 'addict',
         start_url: '/',
         display: 'browser',
@@ -68,7 +68,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-tagmanager',
       options: {
-        id: 'GTM-TQ6RXGS',
+        id: 'GTM-WLHD5K8',
         includeInDevelopment: false,
         defaultDataLayer: { platform: 'gatsby' },
       },
@@ -113,7 +113,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'https://addict.cf',
+        siteUrl: 'https://addicts.ws',
       },
     },
     {
@@ -126,9 +126,9 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'Addict.cf',
-        short_name: 'Addict.cf',
-        description: 'Addict.cf',
+        name: 'Addicts.ws',
+        short_name: 'Addicts.ws',
+        description: 'Addicts.ws',
         start_url: '/',
         lang: 'ru',
         display: 'standalone',
@@ -153,7 +153,7 @@ module.exports = {
             serialize: require('./src/utils/serializeFn.js'),
             query: require('./src/utils/contentful-feed-query.js'),
             output: '/rss.xml',
-            title: 'RSS Feed для Addict.cf',
+            title: 'RSS Feed для Addicts.ws',
           },
         ],
       },

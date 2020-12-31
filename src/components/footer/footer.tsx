@@ -14,7 +14,7 @@ export const Footer: React.FC = () => {
       <div css={[inner, SiteFooterContent]}>
         <section className="copyright">
           Copyright &copy; {new Date().getFullYear()}{' '}
-          <Link to="/">| Addict.cf. Блог об аддикции.</Link>
+          <Link to="/">| Addicts.ws. Блог об аддикции.</Link>
         </section>
         <SiteFooterNav>
           <Link to="/pages/about">О проекте</Link>

@@ -10,7 +10,6 @@ import {
   PostFeed,
   ResponsiveHeaderBackground,
   SiteArchiveHeader,
-  SiteDescription,
   SiteHeader,
   SiteHeaderBackground,
   SiteHeaderContent,
@@ -20,7 +19,9 @@ import {
   inner,
   outer,
 } from 'styles/shared';
+import { makeEndings } from 'utils/makeEndings';
 
+import { css } from '@emotion/react';
 import { TagTemplateProps } from '@types';
 
 const Tags = ({ data }: TagTemplateProps): JSX.Element => {
@@ -47,19 +48,15 @@ const Tags = ({ data }: TagTemplateProps): JSX.Element => {
           >
             <SiteHeaderContent css={inner} className="site-header-content">
               <SiteTitle className="site-title">{tagData.tagName}</SiteTitle>
-              <SiteDescription className="site-description">
-                A collection of {totalCount > 1 && `${totalCount} posts`}
-                {totalCount === 1 && '1 post'}
-                {totalCount === 0 && 'No posts'}
-              </SiteDescription>
+              <div css={[Stats]}>
+                {makeEndings(totalCount)}
+              </div>
             </SiteHeaderContent>
           </ResponsiveHeaderBackground>
         </header>
         <main id="site-main" css={[SiteMain, outer]}>
           <div css={inner}>
-            <Details>
-              {tagData.description.childMarkdownRemark.excerpt}
-            </Details>
+            <Details>{tagData.description.childMarkdownRemark.excerpt}</Details>
             <div css={[PostFeed]}>
               {edges.map(({ node }) => (
                 <PostCard key={node.slug} post={node} />
@@ -78,9 +75,7 @@ export default Tags;
 // TAGS QUERY
 export const pageQuery = graphql`
   query($tag: String) {
-    allContentfulTag(
-      filter: {slug: {eq: $tag}} 
-      ) {
+    allContentfulTag(filter: { slug: { eq: $tag } }) {
       edges {
         node {
           slug
@@ -88,10 +83,10 @@ export const pageQuery = graphql`
           description {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 250)
+              excerpt(format: PLAIN, pruneLength: 500)
               timeToRead
             }
-          }  
+          }
           image {
             fluid(maxWidth: 2000) {
               ...GatsbyContentfulFluid_withWebp
@@ -104,9 +99,9 @@ export const pageQuery = graphql`
       }
     }
     allContentfulPost(
-      sort: {order: DESC, fields: updatedAt},
-      filter: {tags: {elemMatch: {slug: {eq: $tag}}}}
-      ) {
+      sort: { order: DESC, fields: updatedAt }
+      filter: { tags: { elemMatch: { slug: { eq: $tag } } } }
+    ) {
       totalCount
       edges {
         node {
@@ -119,7 +114,7 @@ export const pageQuery = graphql`
             tagName
           }
           hero {
-            fluid(maxWidth: 2540)  {
+            fluid(maxWidth: 2540) {
               ...GatsbyContentfulFluid_withWebp
             }
           }
@@ -143,4 +138,17 @@ export const pageQuery = graphql`
         }
       }
     }
-  }`;
+  }
+`;
+
+const Stats = css`
+  z-index: 10;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin: 0 0 0 1px;
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  white-space: nowrap;
+`;

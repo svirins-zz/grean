@@ -11,7 +11,7 @@ export const SiteNavLogo = () => {
         ⛓
       </Emoji>
       <Link to="/">
-        <span css={SiteNavLogoStyles}>Addict.ws</span>
+        <span css={SiteNavLogoStyles}>Addicts.ws</span>
       </Link>
     </>
   );

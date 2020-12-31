@@ -20,6 +20,7 @@ import {
   inner,
   outer,
 } from 'styles/shared';
+import { makeEndings } from 'utils/makeEndings';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -79,10 +80,8 @@ const Author = ({ data }: AuthorTemplateProps) => {
                     <div className="author-location" css={[HiddenMobile]}>
                       {author.location}
                     </div>
-                    <div className="author-stats" css={[HiddenMobile]}>
-                      {totalCount > 1 && `${totalCount} posts`}
-                      {totalCount === 1 && '1 post'}
-                      {totalCount === 0 && 'No posts'}
+                    <div className="author-stats">
+                      {makeEndings(totalCount)}
                     </div>
                     {socialsDisplay}
                   </div>
@@ -124,7 +123,7 @@ export const pageQuery = graphql`
           personal_info {
             childMarkdownRemark {
               htmlAst
-              excerpt(format: PLAIN, pruneLength: 300)
+              excerpt(format: PLAIN, pruneLength: 500)
             }
           }
           avatar {
@@ -217,9 +216,8 @@ const AuthorMeta = css`
   display: flex;
   align-items: center;
   margin: 0 0 0 1px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 400;
-  letter-spacing: 0.2px;
   text-transform: uppercase;
   white-space: nowrap;
 
@@ -230,7 +228,7 @@ const AuthorMeta = css`
     display: inline-block;
     margin: 0 12px;
     color: #fff;
-    opacity: 0.6;
+    opacity: 0.9;
   }
 
   @media (max-width: 500px) {
@@ -241,7 +239,7 @@ const AuthorMeta = css`
     .author-location,
     .author-stats,
     .author-stats + .author-social-link:first-of-type:before {
-      display: none;
+      
     }
   }
 `;
@@ -260,7 +258,7 @@ const AuthorBio = styled.h2`
   font-size: 2rem;
   line-height: 1.3em;
   font-weight: 400;
-  opacity: 0.8;
+  opacity: 1;
 `;
 
 const AuthHeaderContent = styled.div`
@@ -289,10 +287,10 @@ const AuthorSocialLinkAnchor = styled.a`
  
   font-weight: 600;
 
-  color: #1877f2;
+  color: #004196;
   :hover {
     text-decoration: underline;
-    color:#408bee;
+    color:#116ce2;
     opacity: 1;
   }
 `;

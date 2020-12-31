@@ -10,7 +10,7 @@ import { SubscribeForm } from './subscribeForm';
 export const Subscribe: React.FC = () => {
   return (
     <SubscribeFormSection>
-      <h3 css={SubscribeFormTitle}>Подпишитесь на рассылку Addict.cf</h3>
+      <h3 css={SubscribeFormTitle}>Подпишитесь на рассылку Addicts.ws</h3>
       <p>И получайте сообщения о новых опубликованных материалах</p>
       <SubscribeForm />
     </SubscribeFormSection>

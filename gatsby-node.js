@@ -108,7 +108,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const postTemplate = path.resolve('./src/templates/post.tsx');
   posts.forEach(({ node }, index) => {
-    console.log(node.featured);
     const prev = index === 0 ? null : posts[index - 1].node;
     const next = index === posts.length - 1 ? null : posts[index + 1].node;
     createPage({
