@@ -287,7 +287,7 @@ const AuthorSocialLinkAnchor = styled.a`
  
   font-weight: 600;
 
-  color: #004196;
+  color: #116ce2;
   :hover {
     text-decoration: underline;
     color:#116ce2;

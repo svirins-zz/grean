@@ -10,7 +10,7 @@ import { colors } from 'styles/colors';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { SiteNavLogo } from './siteNavLogo';
+import { SiteNavLogo } from './logo';
 
 export const SiteNav = () => {
   const context = useContext(myContext);
@@ -24,6 +24,9 @@ export const SiteNav = () => {
           <SiteNavContent >
             <ul css={NavStyles} role="menu">
               {/* TODO: mark current nav item - add class nav-current */}
+              <li role="menuitem">
+                <Link to="/">Блог</Link>
+              </li>
               <li role="menuitem">
                 <Link to="/pages/about">О проекте</Link>
               </li>
@@ -96,7 +99,6 @@ const Yt = styled.a`
   }
   }`;
 
-
 const SocialLinks = styled.div`
   flex-shrink: 0;
   display: flex;
@@ -126,8 +128,8 @@ const SiteNavStyles = css`
   align-items: flex-start;
   overflow-y: hidden;
   height: 64px;
-  font-size: 1.3rem;
-`;
+  font-size: 1.6rem;
+  `;
 
 const SiteNavLeft = styled.div`
   flex: 1 0 auto;
@@ -137,7 +139,7 @@ const SiteNavLeft = styled.div`
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   margin-right: 10px;
-  padding: 10px 0 80px;
+  padding: 7px 0 80px;
   font-weight: 500;
   letter-spacing: 0.2px;
   text-transform: none;
@@ -163,6 +165,7 @@ const NavStyles = css`
   margin: 0 0 0 -12px;
   padding: 0;
   list-style: none;
+
   transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
 
   li {
@@ -210,9 +213,8 @@ const SiteNavRight = styled.div`
   justify-content: flex-end;
   padding: 10px 0;
   height: 64px;
-
   @media (max-width: 700px) {
-    display: none;
+    padding-right: 24px;
   }
 `;
 
@@ -225,6 +227,7 @@ const SubscribeButton = styled.a`
   line-height: 1em;
   border-radius: 10px;
   opacity: 0.8;
+  font-size: 1.3rem;
 
   :hover {
     text-decoration: none;
@@ -232,6 +235,10 @@ const SubscribeButton = styled.a`
     cursor: pointer;
     border: #36a6e2 1px solid;
     color: #36a6e2;
+  }
+
+  @media (max-width: 700px) {
+    display: none;
   }
 `;
 

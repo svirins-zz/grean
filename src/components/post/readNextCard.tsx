@@ -2,6 +2,7 @@ import { Link } from 'gatsby';
 import { lighten } from 'polished';
 import React from 'react';
 import { colors } from 'styles/colors';
+import { makeEndings } from 'utils/makeEndings';
 
 import styled from '@emotion/styled';
 import { ReadNextProps } from '@types';
@@ -38,9 +39,7 @@ export const ReadNextCard = ({ relatedPosts, currentPageSlug, tags, pageContext 
       </ReadNextCardContent>
       <ReadNextCardFooter className="read-next-card-footer">
         <Link to={`/tags/${tags[0].slug}/`}>
-          {relatedPosts.totalCount > 1 && `Еще ${relatedPosts.totalCount} постов(а)`}
-          {relatedPosts.totalCount === 1 && '1 пост'}
-          {relatedPosts.totalCount === 0 && 'Нет постов'} →
+          Еще {makeEndings(relatedPosts.totalCount)} →
         </Link>
       </ReadNextCardFooter>
     </ReadNextCardArticle>
