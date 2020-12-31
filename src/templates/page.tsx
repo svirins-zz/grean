@@ -2,7 +2,7 @@ import { Footer } from 'components/footer';
 import { SiteNav, SiteNavMain } from 'components/header';
 import { Seo, Wrapper } from 'components/layout';
 import { PostContent } from 'components/post';
-import { Typeform } from 'components/typeform/typeform';
+// import { Typeform } from 'components/typeform/typeform';
 import { graphql } from 'gatsby';
 import { IndexLayout } from 'layouts';
 import { setLightness } from 'polished';
@@ -38,7 +38,7 @@ const PageTemplate = ({ data }: PageTemplateProps) => {
                 <PostFullTitle className="post-full-title">{page.title}</PostFullTitle>
               </PostFullHeader>
               <PostContent htmlAst={page.markdown.childMarkdownRemark.htmlAst} />
-              {page.typeform && <Typeform url={page.typeform} />}
+              {/* {page.typeform && <Typeform url={page.typeform} />} */}
             </article>
           </div>
         </main>
@@ -56,7 +56,7 @@ export const query = graphql`
         node {
           title
           slug
-          typeform
+          # typeform
           markdown {
             childMarkdownRemark {
               htmlAst
