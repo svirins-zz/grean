@@ -1,6 +1,6 @@
 {
-  "name": "addict.cf",
-  "version": "0.2.0",
+  "name": "addicts.ws",
+  "version": "2.2.0",
   "description": "will be done later",
   "keywords": [
     "gatsby",
@@ -35,7 +35,6 @@
   "dependencies": {
     "@emotion/react": "11.1.4",
     "@emotion/styled": "11.0.0",
-    "@typeform/embed": "^0.31.1",
     "algoliasearch": "^4.8.3",
     "cssnano": "4.1.10",
     "emotion": "11.0.0",
