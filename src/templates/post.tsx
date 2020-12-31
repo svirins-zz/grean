@@ -141,7 +141,7 @@ export const query = graphql`
             tagName
           }
           hero {
-            fluid(maxWidth: 2540) {
+            fluid(maxWidth: 1040) {
               ...GatsbyContentfulFluid_withWebp
             }
             fixed {
