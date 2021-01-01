@@ -1,7 +1,7 @@
 on:
   push:
   schedule:
-    - cron: '25 0 * * *'
+    - cron: '25 0,12 * * *'
 name: Build & Deploy to Production
 
 jobs:
