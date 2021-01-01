@@ -1,8 +1,8 @@
 on:
   push:
-  pull_request:
+  [repository_dispatch]
 
-name: CI fetch.build => vercel
+name: Build & Deploy to Production
 
 jobs:
   build:
