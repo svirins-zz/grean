@@ -32,6 +32,13 @@ module.exports = {
     'gatsby-plugin-sitemap',
     'gatsby-plugin-resolve-src',
     {
+      resolve: 'gatsby-plugin-canonical-urls',
+      options: {
+        siteUrl: 'https://addicts.ws',
+        stripQueryString: true,
+      },
+    },
+    {
       resolve: 'gatsby-plugin-mailchimp',
       options: {
         endpoint: process.env.MAILCHIMP_ENDPOINT,
