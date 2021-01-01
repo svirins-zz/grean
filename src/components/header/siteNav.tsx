@@ -128,7 +128,7 @@ const SiteNavStyles = css`
   align-items: flex-start;
   overflow-y: hidden;
   height: 64px;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   `;
 
 const SiteNavLeft = styled.div`

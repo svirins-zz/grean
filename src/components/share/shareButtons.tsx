@@ -12,22 +12,23 @@ import styled from '@emotion/styled';
 import { ShareButtonsProps } from '@types';
 
 export const ShareButtons = ({ title, url, twitterHandle, tags }: ShareButtonsProps) => {
+  const url_= url;
   return (
     <Wrapper>
       {/* <Title>Поделиться: </Title>
       {' '} */}
       <Button>
-        <FacebookShareButton url={url}>
+        <FacebookShareButton url={url_}>
           <FacebookIcon round size={35} />
         </FacebookShareButton>
       </Button>
       <Button>
-        <TwitterShareButton url={url} title={title} via={twitterHandle} hashtags={tags}>
+        <TwitterShareButton url={url_} title={title} via={twitterHandle} hashtags={tags}>
           <TwitterIcon round size={35} />
         </TwitterShareButton>
       </Button>
       <Button>
-        <VKShareButton url={url} title={title}>
+        <VKShareButton url={url_} title={title}>
           <VKIcon round size={35} />
         </VKShareButton>
       </Button>
@@ -50,9 +51,4 @@ const Wrapper = styled.div`
   } */
   text-align: right;
 `;
-const Title = styled.span`
-  color: black;
-  font-size: 1.5rem;
-  font-weight: 500;
-  
-`;
+
