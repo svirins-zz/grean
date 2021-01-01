@@ -405,4 +405,12 @@ export const Details = styled.p`
     color: black;
     font-size: 2.2rem;
   }
+  @media (prefers-color-scheme: dark) {
+    color: rgba(255, 255, 255, 0.85);
+    :first-letter {
+      text-indent: 2.2.rem;
+      color: white;
+      font-size: 2.2rem;
+    }
+  }
 `;

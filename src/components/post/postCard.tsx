@@ -241,7 +241,7 @@ const PostCardBylineContent = styled.div`
   }
 
   @media (prefers-color-scheme: dark) {
-    a {
+    a, span {
       color: rgba(255, 255, 255, 0.75);
     }
   }
